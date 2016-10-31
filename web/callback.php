@@ -31,14 +31,15 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     if ("@bye" == $event->message->text && "group" == $event->source->type || "room" == $event->source->type) {
     	//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->source->groupId);
     	//$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-    	//if("group" == $event->source->type) {
-    	//	$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->source->groupId);
+    	if("group" == $event->source->type) {
+    		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->source->groupId);
+    		$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     		$response = $bot->leaveGroup($event->source->groupId);
-    		
-    		
-    	//} else if("room" == $event->source->type) {
-    	//	$response = $bot->leaveRoom($event->source->roomId);
-    	//}
+    	} else if("room" == $event->source->type) {
+    		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->source->roomId);
+    		$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    		$response = $bot->leaveRoom($event->source->roomId);
+    	}
     	
     
     } else if ("@join" == $event->message->text) {
