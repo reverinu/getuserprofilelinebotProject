@@ -34,9 +34,9 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     		//$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     		$response = $bot->leaveGroup($event->source->groupId);
     	} else if("room" == $event->source->type) {
-    		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->source->roomId);
-    		$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-    		$response = $bot->leaveRoom($event->source->roomId);
+    		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->source->roomId);
+    		//$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    		$response = $bot->leaveRoom('R9b7dbfd03cbc9c2e4ab3624051c6b011');
     	}
     	
     
