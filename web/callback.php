@@ -1,52 +1,69 @@
-require_once __DIR__ .'/vendor/autoload.php';
+<?php
 
-new LineMessage;
 
-class LineMessage{
 
-  private $token = 'w9SmZJ6zm2ln3DRx5gw6lxNgLi5Ayjx7ftGGpyEsKhM0sGStTEdwNeu7UdSe7H3Mj7ayGjRubK0xHN7onGWxEwL6K8lHyukidy2my3LQT02u+EsRK+Mqsvj4fe0OVCIEYzFMAC+VzUTNjINaAQiRbwdB04t89/1O/w1cDnyilFU=';
-  private $secret = '3095c84a53d38913b6716fb770f3f326';
-  private $profile_array = array(); //プロフィールを格納する配列 displayName:表示名 userId:ユーザ識別子 pictureUrl:画像URL statusMessage:ステータスメッセージ
 
-  private $replyToken;
-  private $userId;
-  private $httpClient;
-  private $bot;
 
-  function __construct(){
+require('../vendor/autoload.php');
 
-    $json_string = file_get_contents('php://input');
-    $jsonObj = json_decode($json_string);
-    $this->userId = $jsonObj->{"events"}[0]->{"source"}->{"userId"};
-    $this->replyToken = $jsonObj->{"events"}[0]->{"replyToken"};
 
-    $this->httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($this->token);
-    $this->bot = new \LINE\LINEBot($this->httpClient, ['channelSecret' => $this->secret]);
 
-    $this->get_profile();
+//POST
 
-  }
+$input = file_get_contents('php://input');
 
-  function get_profile(){
+$json = json_decode($input);
 
-    $response = $this->bot->getProfile($this->userId);
+$event = $json->events[0];
 
-    if ($response->isSucceeded()) {
 
-      $profile = $response->getJSONDecodedBody();
-      $displayName = $profile['displayName'];
-      $userId = $profile['userId'];
-      $pictureUrl = $profile['pictureUrl'];
-      $statusMessage = $profile['statusMessage'];
-      $this->profile_array = array("displayName"=>$displayName,"userId"=>$userId,"pictureUrl"=>$pictureUrl,"statusMessage"=>$statusMessage);
-      $this->reply_message();
+
+$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('w9SmZJ6zm2ln3DRx5gw6lxNgLi5Ayjx7ftGGpyEsKhM0sGStTEdwNeu7UdSe7H3Mj7ayGjRubK0xHN7onGWxEwL6K8lHyukidy2my3LQT02u+EsRK+Mqsvj4fe0OVCIEYzFMAC+VzUTNjINaAQiRbwdB04t89/1O/w1cDnyilFU=');
+
+$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716fb770f3f326']);
+
+
+
+//イベントタイプ判別
+
+if ("message" == $event->type) {            //一般的なメッセージ(文字・イメージ・音声・位置情報・スタンプ含む)
+
+    //テキストメッセージにはオウムで返す
+
+    if ("text" == $event->message->type) {
+
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
+
+    } else {
+
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ごめん、わかんなーい(*´ω｀*)");
+
     }
-  }
 
-  function reply_message(){
+} elseif ("follow" == $event->type) {        //お友達追加時
 
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($this->profile_array["displayName"]."さんこんにちは！");
-    $response = $this->bot->replyMessage($this->replyToken, $textMessageBuilder);   
-  }
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("よろしくー");
+
+} elseif ("join" == $event->type) {           //グループに入ったときのイベント
+
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('こんにちは よろしくー');
+
+} elseif ('beacon' == $event->type) {         //Beaconイベント
+
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('Godanがいんしたお(・∀・) ');
+
+} else {
+
+    //なにもしない
 
 }
+
+
+
+$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+
+syslog(LOG_EMERG, print_r($event->replyToken, true));
+
+syslog(LOG_EMERG, print_r($response, true));
+
+return;
