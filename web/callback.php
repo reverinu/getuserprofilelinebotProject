@@ -22,7 +22,7 @@ $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('w9SmZJ6zm2ln3DRx5gw6l
 
 $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716fb770f3f326']);
 
-$response = $bot->leaveGroup($event->source->groupId);
+
 
 //イベントタイプ判別
 
@@ -34,6 +34,8 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     	//if("group" == $event->source->type) {
     	//	$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->source->groupId);
     		$response = $bot->leaveGroup($event->source->groupId);
+    		
+    		
     	//} else if("room" == $event->source->type) {
     	//	$response = $bot->leaveRoom($event->source->roomId);
     	//}
