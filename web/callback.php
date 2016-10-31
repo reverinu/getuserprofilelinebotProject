@@ -22,7 +22,7 @@ $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('w9SmZJ6zm2ln3DRx5gw6l
 
 $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716fb770f3f326']);
 
-
+$response = $bot->leaveGroup($event->source->groupId);
 
 //イベントタイプ判別
 
