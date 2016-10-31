@@ -29,10 +29,11 @@ $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716
 if ("message" == $event->type) {            //一般的なメッセージ(文字・イメージ・音声・位置情報・スタンプ含む)
 
     if ("@bye" == $event->message->text && "group" == $event->source->type || "room" == $event->source->type) {
-    	$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->source->groupId);
-    	$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    	//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->source->groupId);
+    	//$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     	if("group" == $event->source->type) {
-    		$response = $bot->leaveGroup($event->source->groupId);
+    		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->source->groupId);
+    		$response = $bot->leaveGroup($textMessageBuilder);
     	} else if("room" == $event->source->type) {
     		$response = $bot->leaveRoom($event->source->roomId);
     	}
