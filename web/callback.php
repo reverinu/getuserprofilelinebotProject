@@ -30,11 +30,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
 
     //テキストメッセージにはオウムで返す
 
-    if ("text" == $event->message->type) {
-
-        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
-
-    } else if ("@bye" == $event->message->text && "group" == $event->source->type || "room" == $event->source->type) {
+    if ("@bye" == $event->message->text && "group" == $event->source->type || "room" == $event->source->type) {
     	$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("退出するよ！じゃあね！");
     	$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     	if("group" == $event->source->type) {
@@ -46,6 +42,10 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     	return;
     	
     
+    } else if ("text" == $event->message->type) {
+
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
+
     } else {
 
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ごめん、わかんなーい(*´ω｀*)");
