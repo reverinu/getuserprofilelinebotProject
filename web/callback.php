@@ -40,8 +40,6 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     	//	$response = $bot->leaveRoom($event->source->roomId);
     	//}
     	
-    	return;
-    	
     
     } else if ("@join" == $event->message->text) {
     	$response = $bot->getProfile($event->source->userId);
@@ -81,7 +79,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
 
 
 
-$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+//$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
 syslog(LOG_EMERG, print_r($event->replyToken, true));
 
