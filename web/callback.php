@@ -34,11 +34,11 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     	//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("退出するよ！じゃあね！");
     	//$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     	if("group" == $event->source->type) {
-    		$thisId = $event->source->groupId;
+    		$response = $bot->leaveGroup($event->source->groupId);
     	} else if("room" == $event->source->type) {
-    		$thisId = $event->source->roomId;
+    		$response = $bot->leaveRoom($event->source->roomId);
     	}
-    	$response = $bot->leaveRoom($thisId);
+    	
     	return;
     	
     
