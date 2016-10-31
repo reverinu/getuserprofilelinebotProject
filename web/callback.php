@@ -43,11 +43,11 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     	return;
     	
     
-    } else if ("@profile" == $event->message->text) {
+    } else if ("@join" == $event->message->text) {
     	$response = $bot->getProfile($event->source->userId);
     	if ($response->isSucceeded()) {
     		$profile = $response->getJSONDecodedBody();
-    		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($profile['displayName']);
+    		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($profile['displayName'] . "はゲームに参加したよ！");
     		$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 		}
     	
