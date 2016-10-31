@@ -31,12 +31,12 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     //テキストメッセージにはオウムで返す
 
     if ("@bye" == $event->message->text && "group" == $event->source->type || "room" == $event->source->type) {
-    	//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("退出するよ！じゃあね！");
-    	//$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    	$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("退出するよ！じゃあね！");
+    	$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     	if("group" == $event->source->type) {
-    		$thisId = $event->source->groupid;
+    		$thisId = $event->source->groupId;
     	} else if("room" == $event->source->type) {
-    		$thisId = $event->source->roomid;
+    		$thisId = $event->source->roomId;
     	}
     	$response = $bot->leaveRoom($thisId);
     	return;
