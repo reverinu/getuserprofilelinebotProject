@@ -58,6 +58,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
     		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder([
     			"type" => "template",
+    			"thumbnailImageUrl" => "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg",
     			"altText" => "はろはろー",
     			"template" => [
     				"type" => "buttons",
@@ -88,6 +89,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
     		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder([
     			"type" => "template",
+    			"thumbnailImageUrl" => "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg",
     			"altText" => "はろはろー",
     			"template" => [
     				"type" => "buttons",
