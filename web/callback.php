@@ -43,8 +43,8 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
         $button_message = new TemplateMessageBuilder("ひげがここにボタンで表示されてるよ", $button);
 */
 
-        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("はなげ");
-        //$response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ぬ");
+        $response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
       } else if("room" == $event->source->type) {
 
     	}
@@ -71,7 +71,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
 
 
 
-$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+//$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
 syslog(LOG_EMERG, print_r($event->replyToken, true));
 
