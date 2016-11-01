@@ -37,7 +37,10 @@ if ("@join" == $event->message->text) {
 
     $button = new ButtonTemplateBuilder("ひげ", "ひげげ", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action, $action1, $action2]);
     $button_message = new TemplateMessageBuilder("ひげがここにボタンで表示されてるよ", $button);
-    $response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $button_message);
+
+
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("はなげ");
+    $response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
   }
 } else {
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ごめん、わかんなーい(*´ω｀*)");
