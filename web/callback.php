@@ -55,7 +55,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
         //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
         
         if("group" == $event->source->type) {
-    		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
+    		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\TextMessageBuilder($event->message->text);
     		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\ButtonTemplateBuilder([
     			"type" => "template",
     			"altText" => "はろはろー",
@@ -87,7 +87,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     		$response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
     	} else if("room" == $event->source->type) {
     		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
-    		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\ButtonTemplateBuilder([
+    		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder([
     			"type" => "template",
     			"altText" => "はろはろー",
     			"template" => [
