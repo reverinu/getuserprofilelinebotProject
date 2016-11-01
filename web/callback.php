@@ -28,7 +28,7 @@ if ("@join" == $event->message->text) {
     		$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 		}
 
-} else if ("text" == $event->message->type) {// テキストを受け取ったら
+} elseif ("text" == $event->message->type) {// テキストを受け取ったら
   if("group" == $event->source->type) {
     //groupの話
     $action = new MessageTemplateActionBuilder("NU", "nu")
@@ -41,10 +41,9 @@ if ("@join" == $event->message->text) {
 
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("はなげ");
     $response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
-  }
-} else {
+  } else {
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ごめん、わかんなーい(*´ω｀*)");
-}
+  }
 
 } elseif ("follow" == $event->type) {        //お友達追加時
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("よろしくー");
