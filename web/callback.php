@@ -94,7 +94,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			    'Content-Type: application/json; charser=UTF-8',
-			    'Authorization: Bearer ' . $accessToken
+			    'Authorization: Bearer ' . 'w9SmZJ6zm2ln3DRx5gw6lxNgLi5Ayjx7ftGGpyEsKhM0sGStTEdwNeu7UdSe7H3Mj7ayGjRubK0xHN7onGWxEwL6K8lHyukidy2my3LQT02u+EsRK+Mqsvj4fe0OVCIEYzFMAC+VzUTNjINaAQiRbwdB04t89/1O/w1cDnyilFU='
 			    ));
 			$result = curl_exec($ch);
 			curl_close($ch);
@@ -142,7 +142,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			    'Content-Type: application/json; charser=UTF-8',
-			    'Authorization: Bearer ' . $accessToken
+			    'Authorization: Bearer ' . 'w9SmZJ6zm2ln3DRx5gw6lxNgLi5Ayjx7ftGGpyEsKhM0sGStTEdwNeu7UdSe7H3Mj7ayGjRubK0xHN7onGWxEwL6K8lHyukidy2my3LQT02u+EsRK+Mqsvj4fe0OVCIEYzFMAC+VzUTNjINaAQiRbwdB04t89/1O/w1cDnyilFU='
 			    ));
 			$result = curl_exec($ch);
 			curl_close($ch);
