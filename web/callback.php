@@ -56,14 +56,10 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
         
         if("group" == $event->source->type) {
     		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
-    		$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-    		$response3 = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
-    		$response = $bot->leaveGroup($event->source->groupId);
+    		$response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
     	} else if("room" == $event->source->type) {
     		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
-    		$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-    		$response3 = $bot->pushMessage('C56e234e2a4de4a584436e5b303f774ac', $textMessageBuilder);
-    		$response = $bot->leaveRoom('R9b7dbfd03cbc9c2e4ab3624051c6b011');
+    		$response = $bot->pushMessage('C56e234e2a4de4a584436e5b303f774ac', $textMessageBuilder);
     	}
 
     } else {
