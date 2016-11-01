@@ -44,7 +44,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
 */
 
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("はなげ");
-        $response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
+        //$response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
       } else if("room" == $event->source->type) {
 
     	}
