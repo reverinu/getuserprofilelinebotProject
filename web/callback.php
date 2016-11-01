@@ -55,8 +55,8 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
         //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
         
         if("group" == $event->source->type) {
-    		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\TextMessageBuilder($event->message->text);
-    		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\ButtonTemplateBuilder([
+    		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
+    		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder([
     			"type" => "template",
     			"altText" => "はろはろー",
     			"template" => [
