@@ -32,11 +32,11 @@ if ("@join" == $event->message->text) {
     //groupの話
     $actions = [];
     $action = new MessageTemplateActionBuilder("NU", "nu")
-    $actions[] = $action;
+    $actions[0] = $action;
     $action = new MessageTemplateActionBuilder("NO", "no")
-    $actions[] = $action;
+    $actions[1] = $action;
     $action = new MessageTemplateActionBuilder("NE", "ne")
-    $actions[] = $action;
+    $actions[2] = $action;
 
     $buttons = new ButtonTemplateBuilder("ひげ", "ひげげ", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$actions]);
     $buttons_message = new TemplateMessageBuilder("ひげがここにボタンで表示されてるよ", $buttons);
