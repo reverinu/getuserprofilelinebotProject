@@ -55,10 +55,63 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
         //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
         
         if("group" == $event->source->type) {
-    		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
+    		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
+    		$textMessageBuilder = [
+    			"type" => "template",
+    			"altText" => "はろはろー",
+    			"template" => [
+    				"type" => "buttons",
+    				"title" => "めにゅー",
+    				"text" => "めにゅーだよ！",
+    				"actions" => [
+    					[
+    						"type" => "message",
+    						"label" => "まる１",
+    						"text" => "@1"
+    					],
+    					[
+    						"type" => "message",
+    						"label" => "まる２",
+    						"text" => "@2"
+    					],
+    					[
+    						"type" => "message",
+    						"label" => "まる３",
+    						"text" => "@3"
+    					]
+    				]
+    			]
+    		]
+    		
     		$response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
     	} else if("room" == $event->source->type) {
-    		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
+    		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
+    		$textMessageBuilder = [
+    			"type" => "template",
+    			"altText" => "はろはろー",
+    			"template" => [
+    				"type" => "buttons",
+    				"title" => "めにゅー",
+    				"text" => "めにゅーだよ！",
+    				"actions" => [
+    					[
+    						"type" => "message",
+    						"label" => "まる１",
+    						"text" => "@1"
+    					],
+    					[
+    						"type" => "message",
+    						"label" => "まる２",
+    						"text" => "@2"
+    					],
+    					[
+    						"type" => "message",
+    						"label" => "まる３",
+    						"text" => "@3"
+    					]
+    				]
+    			]
+    		]
     		$response = $bot->pushMessage('C56e234e2a4de4a584436e5b303f774ac', $textMessageBuilder);
     	}
 
