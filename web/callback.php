@@ -56,7 +56,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
         
         if("group" == $event->source->type) {
     		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
-    		/*$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder([
+    		$textMessageBuilder = [
     			"type" => "template",
     			"altText" => "はろはろー",
     			"template" => [
@@ -82,14 +82,13 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     					]
     				]
     			]
-    		])
-    		*/
-    		$actionBuilders = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("ぬ！", "nu");
-    		$buttonsMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("めにゅー", "めにゅーだよ！", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", $actionBuilders);
-    		$response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $buttonsMessageBuilder);
+    		];
+    		//$actionBuilders = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("ぬ！", "nu");
+    		//$buttonsMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("めにゅー", "めにゅーだよ！", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", $actionBuilders);
+    		$response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
     	} else if("room" == $event->source->type) {
     		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
-    		/*$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder([
+    		$textMessageBuilder = [
     			"type" => "template",
     			"altText" => "はろはろー",
     			"template" => [
@@ -115,12 +114,11 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     					]
     				]
     			]
-    		])
-    		*/
+    		];
     		
-    		$actionBuilders = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("ぬ！", "nu");
-    		$buttonsMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("めにゅー", "めにゅーだよ！", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", $actionBuilders);
-    		$response = $bot->pushMessage('C56e234e2a4de4a584436e5b303f774ac', $buttonsMessageBuilder);
+    		//$actionBuilders = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("ぬ！", "nu");
+    		//$buttonsMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("めにゅー", "めにゅーだよ！", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", $actionBuilders);
+    		$response = $bot->pushMessage('C56e234e2a4de4a584436e5b303f774ac', $textMessageBuilder);
     	}
 
     } else {
