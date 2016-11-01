@@ -33,18 +33,18 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     } else if ("text" == $event->message->type) {
 
       if("group" == $event->source->type) {
-        /*
-        //groupの話
-        $action = new MessageTemplateActionBuilder("NU", "nu");
-        $action1 = new MessageTemplateActionBuilder("NO", "no");
-        $action2 = new MessageTemplateActionBuilder("NE", "ne");
 
-        $button = new ButtonTemplateBuilder("ひげ", "ひげげ", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action, $action1, $action2]);
-        $button_message = new TemplateMessageBuilder("ひげがここにボタンで表示されてるよ", $button);
-*/
+        //groupの話
+        $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("NU", "nu");
+        $action1 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("NO", "no");
+        $action2 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("NE", "ne");
+
+        $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("ひげ", "ひげげ", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0, $action1, $action2]);
+        $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("ひげがここにボタンで表示されてるよ", $button);
+
 
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ぬ");
-        $response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
+        $response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $button_message);
       } else if("room" == $event->source->type) {
 
     	}
