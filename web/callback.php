@@ -31,7 +31,8 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     if ("@bye" == $event->message->text && ("group" == $event->source->type || "room" == $event->source->type)) {
     	if("group" == $event->source->type) {
     		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->source->groupId);
-    		//$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    		$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    		$response3 = $bot->pushMessage($event->source->groupId, $textMessageBuilder);
     		$response = $bot->leaveGroup($event->source->groupId);
     	} else if("room" == $event->source->type) {
     		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->source->roomId);
@@ -50,7 +51,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     	
     } else if ("text" == $event->message->type) {
 
-        //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
 
     } else {
 
