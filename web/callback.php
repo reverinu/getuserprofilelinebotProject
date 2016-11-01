@@ -33,6 +33,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     } else if ("text" == $event->message->type) {
 
       if("group" == $event->source->type) {
+        /*
         //groupの話
         $action = new MessageTemplateActionBuilder("NU", "nu");
         $action1 = new MessageTemplateActionBuilder("NO", "no");
@@ -40,7 +41,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
 
         $button = new ButtonTemplateBuilder("ひげ", "ひげげ", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action, $action1, $action2]);
         $button_message = new TemplateMessageBuilder("ひげがここにボタンで表示されてるよ", $button);
-
+*/
 
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("はなげ");
         $response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
