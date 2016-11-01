@@ -29,7 +29,18 @@ if ("@join" == $event->message->text) {
 		}
 
   } else if ("text" == $event->message->type) {// テキストを受け取ったら
+    //groupの話
+    $actions = [];
+    $action = new MessageTemplateActionBuilder("NU", "nu")
+    $actions[] = $action;
+    $action = new MessageTemplateActionBuilder("NO", "no")
+    $actions[] = $action;
+    $action = new MessageTemplateActionBuilder("NE", "ne")
+    $actions[] = $action;
 
+    $buttons = new ButtonTemplateBuilder("ひげ", "ひげげ", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", $actions);
+    $buttons_message = new TemplateMessageBuilder("ひげがここにボタンで表示されてるよ", $buttons);
+    $response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $buttons_message);
   } else {
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ごめん、わかんなーい(*´ω｀*)");
   }
