@@ -38,7 +38,7 @@ if ("@join" == $event->message->text) {
     $action = new MessageTemplateActionBuilder("NE", "ne")
     $actions[] = $action;
 
-    $buttons = new ButtonTemplateBuilder("ひげ", "ひげげ", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", $actions);
+    $buttons = new ButtonTemplateBuilder("ひげ", "ひげげ", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$actions]);
     $buttons_message = new TemplateMessageBuilder("ひげがここにボタンで表示されてるよ", $buttons);
     $response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $buttons_message);
   } else {
