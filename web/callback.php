@@ -104,6 +104,14 @@ function DoActionEnd($message_text){
 
   }
 }
+//DoActionNightで役職行動のPostBack来たらこれを使う
+function CheckRolling(){
+  //誰かが役職行動とるとカウント＋１とtrueにする、役職のカウントと参加人数を照合して同数になったらgameMode+1と全体チャットにその旨しを伝える
+}
+//DoActionNoonで投票のPostBack来たらこれを使う
+function CheckVoting(){
+  //誰かが投票するとカウント＋１とtrueと投票された人に＋１にする、投票のカウントと参加人数を照合して同数になったらgameMode+1と投票結果開示する
+}
 
 
 
