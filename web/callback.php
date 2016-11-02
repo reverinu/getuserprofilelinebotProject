@@ -38,7 +38,16 @@ $GAMEMODE_NOON = 3;//昼時間
 $GAMEMODE_END = 4;//投票結果開示
 
 $gameMode = $GAMEMODE_BEFORE_THE_START;//テーブル参照してＲｏｗがあれば次行で引っ張ってくる
-
+//全てに共通するメッセージイベント
+function DoActionAll($message_text){
+  if ("@help" == $message_text) {
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ヘルプだよ");
+    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+  } else if ("@rule" == $message_text) {
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
+    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+  }
+}
 
 if("message" == $event->type){
   DoActionAll("@help");
@@ -59,16 +68,7 @@ return;
 
 // 以下関数群
 
-//全てに共通するメッセージイベント
-function DoActionAll($message_text){
-  if ("@help" == $message_text) {
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ヘルプだよ");
-    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-  } else if ("@rule" == $message_text) {
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
-    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-  }
-}
+
 
 
 
