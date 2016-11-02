@@ -55,6 +55,8 @@ if("message" == $event->type){
   }
 } else if ("join" == $event->type){
   DoActionJoin();
+} else if ("leave" == $event->type) {
+  DoActionLeave();
 }
 return;
 
@@ -112,6 +114,12 @@ function DoActionEnd($message_text){
 function DoActionJoin(){
   global $bot, $event;
   $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！\n\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n\nってコメントしてね！");
+  $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+}
+//
+function DoActionLeave(){
+  global $bot, $event;
+  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ばいばーい！\nまたやりたくなったら入れてねー！");
   $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 }
 //DoActionNightで役職行動のPostBack来たらこれを使う
