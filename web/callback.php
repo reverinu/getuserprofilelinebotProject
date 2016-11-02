@@ -37,7 +37,7 @@ $GAMEMODE_NIGHT = 2;//夜時間
 $GAMEMODE_NOON = 3;//昼時間
 $GAMEMODE_END = 4;//投票結果開示
 
-$gameMode = $GAMEMODE_BEFORE_THE_START;//テーブル参照してＲｏｗがあれば次行で引っ張ってくる
+$gameMode = $GAMEMODE_BEFORE_THE_START;//テーブル参照してＲｏｗがあれば（部屋が生成されていれば）次行で引っ張ってくる
 
 
 if("message" == $event->type){
@@ -105,11 +105,11 @@ function DoActionEnd($message_text){
   }
 }
 //DoActionNightで役職行動のPostBack来たらこれを使う
-function CheckRolling(){
+function ProcessRolling(){
   //誰かが役職行動とるとカウント＋１とtrueにする、役職のカウントと参加人数を照合して同数になったらgameMode+1と全体チャットにその旨しを伝える
 }
 //DoActionNoonで投票のPostBack来たらこれを使う
-function CheckVoting(){
+function ProcessVoting(){
   //誰かが投票するとカウント＋１とtrueと投票された人に＋１にする、投票のカウントと参加人数を照合して同数になったらgameMode+1と投票結果開示する
 }
 
