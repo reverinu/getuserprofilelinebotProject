@@ -1,12 +1,12 @@
 データベース
 ・グループ
-gameRoomNum(Int) gameRoomId(String) gameMode(Int) numOfPeople(Int) numOfRolls(Int) numOfVotes(Int)
+gameRoomNum(Int) gameRoomId(String) gameMode(Int) numOfPeople(Int) numOfRoles(Int) numOfVotes(Int)
 ・個人
-userId(String) userName(String) gameRoomNum(Int) rollNum(Int) votedNum(Int) isRolling(Bool) isVoting(Boll)
+userId(String) userName(String) gameRoomNum(Int) rollNum(Int) votedNum(Int) isRoling(Bool) isVoting(Boll)
 ・ゲームモード
 gameMode(Int) modeName(String)
 ・役職
-rollNum(Int) rollName(String)
+roleNum(Int) roleName(String)
 
 
 初期値
@@ -21,9 +21,9 @@ numOfVotes = 0
 ・個人
 userId = null
 userName = null
-rollNum = 0
+roleNum = 0
 votedNum = 0
-isRolling = false
+isRoleing = false
 isVoting = false
 
 ・ゲームモード
@@ -35,7 +35,7 @@ gameMode  	modeName
 4		END
 
 ・役職
-rollNum		rollName
+roleNum		roleName
 0		無し
 1		村人
 2		占い師

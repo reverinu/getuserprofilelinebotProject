@@ -15,8 +15,6 @@
 require('../vendor/autoload.php');
 
 
-
-
 //POST
 
 $input = file_get_contents('php://input');
@@ -39,7 +37,9 @@ $GAMEMODE_END = 4;//投票結果開示
 
 $gameMode = $GAMEMODE_BEFORE_THE_START;//テーブル参照してＲｏｗがあれば（部屋が生成されていれば）次行で引っ張ってくる
 
-
+////////////////////////////
+//メインループ
+////////////////////////////
 if("message" == $event->type){
   DoActionAll($event->message->text);
   if ($GAMEMODE_BEFORE_THE_START == $gameMode){
@@ -94,12 +94,12 @@ function DoActionWaiting($message_text){
 //NightのDoAction,メッセージを見てアクションする
 function DoActionNight($message_text){
   global $bot, $event;
-  //PostBackでif分けする（役職行動）
+  //messageでif分けする（役職行動）
 }
 //NoonのDoAction,メッセージを見てアクションする
 function DoActionNoon($message_text){
   global $bot, $event;
-  //PostBackでif分けする(投票)
+  //messageでif分けする(投票)
 }
 //EndのDoAction,メッセージを見てアクションする
 function DoActionEnd($message_text){
@@ -116,14 +116,14 @@ function DoActionJoin(){
   $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！\n\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n\nってコメントしてね！");
   $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 }
-//
+//部屋から退出させられるときの処理
 function DoActionLeave(){
   global $bot, $event;
   $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ばいばーい！\nまたやりたくなったら入れてねー！");
   $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 }
 //DoActionNightで役職行動のPostBack来たらこれを使う
-function ProcessRolling(){
+function ProcessRoling(){
   //誰かが役職行動とるとカウント＋１とtrueにする、役職のカウントと参加人数を照合して同数になったらgameMode+1と全体チャットにその旨しを伝える
 }
 //DoActionNoonで投票のPostBack来たらこれを使う
