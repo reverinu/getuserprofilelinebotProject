@@ -5,7 +5,6 @@
 
 
 require('../vendor/autoload.php');
-use \LINE\LINEBot\HTTPClient;
 
 
 
@@ -14,13 +13,9 @@ use \LINE\LINEBot\HTTPClient;
 $input = file_get_contents('php://input');
 $json = json_decode($input);
 $event = $json->events[0];
-$httpClient = new CurlHTTPClient('w9SmZJ6zm2ln3DRx5gw6lxNgLi5Ayjx7ftGGpyEsKhM0sGStTEdwNeu7UdSe7H3Mj7ayGjRubK0xHN7onGWxEwL6K8lHyukidy2my3LQT02u+EsRK+Mqsvj4fe0OVCIEYzFMAC+VzUTNjINaAQiRbwdB04t89/1O/w1cDnyilFU=');
+$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('w9SmZJ6zm2ln3DRx5gw6lxNgLi5Ayjx7ftGGpyEsKhM0sGStTEdwNeu7UdSe7H3Mj7ayGjRubK0xHN7onGWxEwL6K8lHyukidy2my3LQT02u+EsRK+Mqsvj4fe0OVCIEYzFMAC+VzUTNjINaAQiRbwdB04t89/1O/w1cDnyilFU=');
 $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716fb770f3f326']);
 
-
-////////////////////////////
-データベースと接続する
-////////////////////////////
 
 
 //イベントタイプ判別
@@ -74,9 +69,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
 } else {
 }
 
-////////////////////////////
-データベースとの接続を終了する
-////////////////////////////
+
 
 //$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 

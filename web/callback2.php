@@ -29,7 +29,7 @@ $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716
 if ("message" == $event->type) {            //一般的なメッセージ(文字・イメージ・音声・位置情報・スタンプ含む)
 
     if ("@bye" == $event->message->text && ("group" == $event->source->type || "room" == $event->source->type)) {
-    	/*if("group" == $event->source->type) {
+    	if("group" == $event->source->type) {
     		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
     		$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     		$response3 = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
@@ -39,9 +39,9 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     		$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     		$response3 = $bot->pushMessage('C56e234e2a4de4a584436e5b303f774ac', $textMessageBuilder);
     		$response = $bot->leaveRoom('R9b7dbfd03cbc9c2e4ab3624051c6b011');
-    	}*/
-    	
-    
+    	}
+
+
     } else if ("@join" == $event->message->text) {
     	$response = $bot->getProfile($event->source->userId);
     	if ($response->isSucceeded()) {
@@ -49,11 +49,11 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
     		$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($profile['displayName'] . "はゲームに参加したよ！");
     		$response2 = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 		}
-    	
+
     } else if ("text" == $event->message->type) {
 
         //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
-        
+
         if("group" == $event->source->type) {
     		//$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event->message->text);
     		$response_format_text = [
@@ -98,7 +98,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
 			    ));
 			$result = curl_exec($ch);
 			curl_close($ch);
-    		
+
     		//$actionBuilders = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("ぬ！", "nu");
     		//$buttonsMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("めにゅー", "めにゅーだよ！", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", $actionBuilders);
     		//$response = $bot->pushMessage('R9b7dbfd03cbc9c2e4ab3624051c6b011', $textMessageBuilder);
@@ -146,8 +146,8 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
 			    ));
 			$result = curl_exec($ch);
 			curl_close($ch);
-    		
-    		
+
+
     		//$actionBuilders = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("ぬ！", "nu");
     		//$buttonsMessageBuilder = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("めにゅー", "めにゅーだよ！", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", $actionBuilders);
     		//$response = $bot->pushMessage('C56e234e2a4de4a584436e5b303f774ac', $textMessageBuilder);
