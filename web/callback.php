@@ -43,22 +43,22 @@ $gameMode = $GAMEMODE_BEFORE_THE_START;//テーブル参照してＲｏｗがあ
 if("message" == $event->type){
   DoActionAll($event->message->text);
   if ($gameMode == $GAMEMODE_BEFORE_THE_START){
-
+    DoActionBefore($event->message->text);
   } else if ($gameMode == $GAMEMODE_WAITING) {
-
+    DoActionWaiting($event->message->text);
   } else if ($gameMode == $GAMEMODE_NIGHT) {
-
+    DoActionNight($event->message->text);
   } else if ($gameMode == $GAMEMODE_NOON) {
-
+    DoActionNoon($event->message->text);
   } else if ($gameMode == $GAMEMODE_END){
-
+    DoActionEnd($event->message->text);
   }
 }
 return;
 
 
 // 以下関数群
-//全てに共通するメッセージイベント
+//全てに共通するDoAction,メッセージを見てアクションする
 function DoActionAll($message_text){
   global $bot, $event;
   if ("@help" == $message_text) {
@@ -69,7 +69,41 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   }
 }
+//BeforeのDoAction,メッセージを見てアクションする
+function DoActionBefore($message_text){
+  global $bot, $event;
+  if ("@game" == $message_text) {
+    // ルームナンバー発行、テーブルにＲｏｗを生成する、gameModeを移行する
+  }
+}
+//WaitingのDoAction,メッセージを見てアクションする
+function DoActionWaiting($message_text){
+  global $bot, $event;
+  if ("ルームナンバー" == $message_text) {
 
+  } else if ("@start" == $message_text) {
+
+  }
+}
+//NightのDoAction,メッセージを見てアクションする
+function DoActionNight($message_text){
+  global $bot, $event;
+  //PostBackでif分けする（役職行動）
+}
+//NoonのDoAction,メッセージを見てアクションする
+function DoActionNoon($message_text){
+  global $bot, $event;
+  //PostBackでif分けする(投票)
+}
+//EndのDoAction,メッセージを見てアクションする
+function DoActionEnd($message_text){
+  global $bot, $event;
+  if ("@newgame" == $message_text) {
+
+  } else if ("@end" == $message_text) {
+
+  }
+}
 
 
 
