@@ -41,7 +41,7 @@ $gameMode = $GAMEMODE_BEFORE_THE_START;//テーブル参照してＲｏｗがあ
 
 
 if("message" == $event->type){
-  DoActionAll("@help");
+  DoActionAll($event->message->text);
   if ($gameMode == $GAMEMODE_BEFORE_THE_START){
 
   } else if ($gameMode == $GAMEMODE_WAITING) {
@@ -60,12 +60,13 @@ return;
 // 以下関数群
 //全てに共通するメッセージイベント
 function DoActionAll($message_text){
+  global $bot, $event;
   if ("@help" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ヘルプだよ");
-    $response = $GLOBALS['bot']->replyMessage($GLOBALS['event']->replyToken, $textMessageBuilder);
+    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   } else if ("@rule" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
-    $response = $GLOBALS['bot']->replyMessage($GLOBALS['event']->replyToken, $textMessageBuilder);
+    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   }
 }
 
