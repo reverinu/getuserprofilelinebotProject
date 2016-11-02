@@ -42,15 +42,15 @@ $gameMode = $GAMEMODE_BEFORE_THE_START;//テーブル参照してＲｏｗがあ
 
 if("message" == $event->type){
   DoActionAll($event->message->text);
-  if ($gameMode == $GAMEMODE_BEFORE_THE_START){
+  if ($GAMEMODE_BEFORE_THE_START == $gameMode){
     DoActionBefore($event->message->text);
-  } else if ($gameMode == $GAMEMODE_WAITING) {
+  } else if ($GAMEMODE_WAITING == $gameMode) {
     DoActionWaiting($event->message->text);
-  } else if ($gameMode == $GAMEMODE_NIGHT) {
+  } else if ($GAMEMODE_NIGHT == $gameMode) {
     DoActionNight($event->message->text);
-  } else if ($gameMode == $GAMEMODE_NOON) {
+  } else if ($GAMEMODE_NOON == $gameMode) {
     DoActionNoon($event->message->text);
-  } else if ($gameMode == $GAMEMODE_END){
+  } else if ($GAMEMODE_END == $gameMode){
     DoActionEnd($event->message->text);
   }
 } else if ("join" == $event->type){
@@ -83,8 +83,10 @@ function DoActionWaiting($message_text){
   global $bot, $event;
   if ("ルームナンバー" == $message_text) {
 
+  } else if ("@member" == $message_text) {
+    // 現在参加者のみ表示
   } else if ("@start" == $message_text) {
-
+    // 参加者一覧を表示してからゲーム開始
   }
 }
 //NightのDoAction,メッセージを見てアクションする
