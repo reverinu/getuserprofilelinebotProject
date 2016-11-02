@@ -62,10 +62,10 @@ return;
 function DoActionAll($message_text){
   if ("@help" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ヘルプだよ");
-    $response = $GLOBALS['bot']->replyMessage($GLOBALS['$event']->replyToken, $textMessageBuilder);
+    $response = $GLOBALS['bot']->replyMessage($GLOBALS['event']->replyToken, $textMessageBuilder);
   } else if ("@rule" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
-    $response = $GLOBALS['bot']->replyMessage($GLOBALS['$event']->replyToken, $textMessageBuilder);
+    $response = $GLOBALS['bot']->replyMessage($GLOBALS['event']->replyToken, $textMessageBuilder);
   }
 }
 
