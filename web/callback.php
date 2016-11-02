@@ -60,8 +60,9 @@ if("message" == $event->type){
 }
 return;
 
-
-// 以下関数群
+////////////////////////////
+//関数群
+////////////////////////////
 //全てに共通するDoAction,メッセージを見てアクションする
 function DoActionAll($message_text){
   global $bot, $event;
