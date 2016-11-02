@@ -40,10 +40,10 @@ $GAMEMODE_END = 4;//投票結果開示
 $gameMode = $GAMEMODE_BEFORE_THE_START;//テーブル参照してＲｏｗがあれば次行で引っ張ってくる
 
 if("message" == $event->type){
-  if ("@help" == $message_text) {
+  if ("@help" == $event->message->text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ヘルプだよ");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-  } else if ("@rule" == $message_text) {
+  } else if ("@rule" == $event->message->text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   }
@@ -60,7 +60,7 @@ if("message" == $event->type){
 
   }
 }
-
+return;
 
 // 以下関数群
 
@@ -133,8 +133,6 @@ function DoActionAll($message_text){
 //
 // //$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 //
-syslog(LOG_EMERG, print_r($event->replyToken, true));
-
-syslog(LOG_EMERG, print_r($response, true));
-
-return;
+//syslog(LOG_EMERG, print_r($event->replyToken, true));
+//
+//syslog(LOG_EMERG, print_r($response, true));
