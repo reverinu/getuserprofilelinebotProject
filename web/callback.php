@@ -30,18 +30,7 @@ $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716
 //データベースと接続する場所
 ////////////////////////////
 
-// 以下関数群
 
-//全てに共通するメッセージイベント
-function DoActionAll($message_text){
-  if ("@help" == $message_text) {
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ヘルプだよ");
-    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-  } else if ("@rule" == $message_text) {
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
-    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-  }
-}
 $GAMEMODE_BEFORE_THE_START = 0;//@start前
 $GAMEMODE_WAITING = 1;//@start後
 $GAMEMODE_NIGHT = 2;//夜時間
@@ -51,7 +40,14 @@ $GAMEMODE_END = 4;//投票結果開示
 $gameMode = $GAMEMODE_BEFORE_THE_START;//テーブル参照してＲｏｗがあれば次行で引っ張ってくる
 
 if("message" == $event->type){
-  DoActionAll($event->message->text);
+  if ("@help" == $message_text) {
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ヘルプだよ");
+    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+  } else if ("@rule" == $message_text) {
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
+    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+  }
+  //DoActionAll($event->message->text);
   if ($gameMode == $GAMEMODE_BEFORE_THE_START){
 
   } else if ($gameMode == $GAMEMODE_WAITING) {
@@ -66,7 +62,18 @@ if("message" == $event->type){
 }
 
 
+// 以下関数群
 
+//全てに共通するメッセージイベント
+function DoActionAll($message_text){
+  if ("@help" == $message_text) {
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ヘルプだよ");
+    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+  } else if ("@rule" == $message_text) {
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
+    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+  }
+}
 
 //
 // //イベントタイプ判別
