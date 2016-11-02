@@ -53,6 +53,8 @@ if("message" == $event->type){
   } else if ($gameMode == $GAMEMODE_END){
     DoActionEnd($event->message->text);
   }
+} else if ("join" == $event->type){
+  DoActionJoin();
 }
 return;
 
@@ -103,6 +105,11 @@ function DoActionEnd($message_text){
   } else if ("@end" == $message_text) {
 
   }
+}
+//部屋に入ったときに諸々発言
+function DoActionJoin(){
+  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！\n\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n\nってコメントしてね！");
+  $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 }
 //DoActionNightで役職行動のPostBack来たらこれを使う
 function ProcessRolling(){
