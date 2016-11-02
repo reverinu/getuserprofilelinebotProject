@@ -1,11 +1,19 @@
 <?php
 
 
-
+// データベース
+// ・グループ
+// gameRoomNum(Int) gameRoomId(String) gameMode(Int) numOfPeople(Int) numOfRolls(Int) numOfVotes(Int)
+// ・個人
+// userId(String) userName(String) gameRoomNum(Int) rollNum(Int) votedNum(Int) isRolling(Bool) isVoting(Boll)
+// ・ゲームモード
+// gameMode(Int) modeName(String)
+// ・役職
+// rollNum(Int) rollName(String)
 
 
 require('../vendor/autoload.php');
-use \LINE\LINEBot\HTTPClient;
+
 
 
 
@@ -14,13 +22,34 @@ use \LINE\LINEBot\HTTPClient;
 $input = file_get_contents('php://input');
 $json = json_decode($input);
 $event = $json->events[0];
-$httpClient = new CurlHTTPClient('w9SmZJ6zm2ln3DRx5gw6lxNgLi5Ayjx7ftGGpyEsKhM0sGStTEdwNeu7UdSe7H3Mj7ayGjRubK0xHN7onGWxEwL6K8lHyukidy2my3LQT02u+EsRK+Mqsvj4fe0OVCIEYzFMAC+VzUTNjINaAQiRbwdB04t89/1O/w1cDnyilFU=');
+$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('w9SmZJ6zm2ln3DRx5gw6lxNgLi5Ayjx7ftGGpyEsKhM0sGStTEdwNeu7UdSe7H3Mj7ayGjRubK0xHN7onGWxEwL6K8lHyukidy2my3LQT02u+EsRK+Mqsvj4fe0OVCIEYzFMAC+VzUTNjINaAQiRbwdB04t89/1O/w1cDnyilFU=');
 $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716fb770f3f326']);
 
 
 ////////////////////////////
-データベースと接続する
+//データベースと接続する場所
 ////////////////////////////
+
+
+$GAMEMODE_BEFORE_THE_START = 0;//@start前
+$GAMEMODE_WAITING = 1;//@start後
+$GAMEMODE_NIGHT = 2;//夜時間
+$GAMEMODE_NOON = 3;//昼時間
+$GAMEMODE_END = 4;//投票結果開示
+
+$gameMode = $GAMEMODE_BEFORE_THE_START;//テーブル参照してＲｏｗがあれば次行で引っ張ってくる
+
+if ($gameMode == $GAMEMODE_BEFORE_THE_START){
+
+} else if ($gameMode == $GAMEMODE_WAITING) {
+
+} else if ($gameMode == $GAMEMODE_NIGHT) {
+
+} else if ($gameMode == $GAMEMODE_NOON) {
+
+} else if ($gameMode == $GAMEMODE_END){
+
+}
 
 
 //イベントタイプ判別
@@ -75,7 +104,7 @@ if ("message" == $event->type) {            //一般的なメッセージ(文字
 }
 
 ////////////////////////////
-データベースとの接続を終了する
+//データベースとの接続を終了する場所
 ////////////////////////////
 
 //$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);

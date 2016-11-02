@@ -1,0 +1,45 @@
+データベース
+・グループ
+gameRoomNum(Int) gameRoomId(String) gameMode(Int) numOfPeople(Int) numOfRolls(Int) numOfVotes(Int)
+・個人
+userId(String) userName(String) gameRoomNum(Int) rollNum(Int) votedNum(Int) isRolling(Bool) isVoting(Boll)
+・ゲームモード
+gameMode(Int) modeName(String)
+・役職
+rollNum(Int) rollName(String)
+
+
+初期値
+・グループ
+gameRoomNum = null
+gameRoomId = null
+gameMode = 0
+numOfPeople = 0
+numOfRolls = 0
+numOfVotes = 0
+
+・個人
+userId = null
+userName = null
+rollNum = 0
+votedNum = 0
+isRolling = false
+isVoting = false
+
+・ゲームモード
+gameMode  	modeName
+0		BEFORE_THE_START
+1		WAITING
+2		NIGHT
+3		NOON
+4		END
+
+・役職
+rollNum		rollName
+0		無し
+1		村人
+2		占い師
+3		怪盗
+4		人狼
+5		狂人
+(6		吊人)
