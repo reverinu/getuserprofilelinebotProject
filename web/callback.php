@@ -59,6 +59,11 @@ $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716
 ////////////////////////////
 //データベースと接続する場所
 ////////////////////////////
+$server = 'us-cdbr-iron-east-04.cleardb.net';
+$username = 'b8613072c41507';
+$password = 'a207894a';
+$db = 'heroku_e0a333c38f14545';
+$link = mysqli_connect($server, $username, $password, $db);
 
 
 $GAMEMODE_BEFORE_THE_START = 0;//@start前
@@ -103,6 +108,12 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   } else if ("@rule" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
+    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+  } else if ("@db" == $message_text) {
+    $result = mysqli_query($link, "select * from user where id = 3;");
+    $row = mysqli_fetch_row($result);
+    $id = $row[0];
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($id);
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   }
 }
