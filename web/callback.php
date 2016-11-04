@@ -84,17 +84,15 @@ if ("group" == $event->source->type) {
   $gameRoomId = $event->source->roomId;
 }
 $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
-if ($result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'")) {
-  // $row = mysqli_fetch_row($result);
-  // $game_room_num = $row[0];
-  // $game_room_num = mysqli_real_escape_string($link, $game_room_num);
-  // $result = mysqli_query($link, "select * from game_room where game_room_num = '$game_room_num'");
-  $row = mysqli_fetch_row($result);
+$result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'")
+$row = mysqli_fetch_row($result);
+if(null != $row){
   $game_mode = $row[2];
   $gameMode = $game_mode;
 } else {
   $gameMode = $GAMEMODE_BEFORE_THE_START;
 }
+
 
 if("message" == $event->type){
   DoActionAll($event->message->text);
