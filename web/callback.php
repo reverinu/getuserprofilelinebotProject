@@ -137,7 +137,7 @@ function DoActionBefore($message_text){
   if("group" == $event->source->type || "room" == $event->source->type){
     if ("@game" == $message_text) {
       // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
-      $roomNumber = 100;// 仮
+      $roomNumber = 101;// 仮
       $roomNumber = mysqli_real_escape_string($link, $roomNumber);
       if ("group" == $event->source->type){
         $gameRoomId = $event->source->groupId;
