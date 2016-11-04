@@ -153,7 +153,7 @@ function DoActionBefore($message_text){
 }
 //WaitingのDoAction,メッセージを見てアクションする
 function DoActionWaiting($message_text){
-  global $bot, $event, $link;
+  global $bot, $event, $link, $result;
   if("group" == $event->source->type || "room" == $event->source->type){
     if ("@member" == $message_text) {
       // 現在参加者のみ表示
