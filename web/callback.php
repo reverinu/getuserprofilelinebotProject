@@ -223,8 +223,8 @@ function ProcessVoting(){
 ////////////////////////////
 //データベースとの接続を終了する場所
 ////////////////////////////
-mysqli_free_result($result);
-mysqli_close($link);
+//mysqli_free_result($result);
+//mysqli_close($link);
 
 
 
