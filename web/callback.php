@@ -121,10 +121,15 @@ function DoActionAll($message_text){
 //BeforeのDoAction,メッセージを見てアクションする
 function DoActionBefore($message_text){
   global $bot, $event, $link;
+
   if ("@game" == $message_text) {
     // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
-    $gameRoomId =
-    $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values (100, "."".", 'WAITING', 0, 0, 0);");
+    if ("group" == $event->source->type){
+      $gameRoomId = $event->source->groupId;
+    } else if ("room" == $event->source->type) {
+      $gameRoomId = $event->source->roomId;
+    }
+    $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values (100, ".$gameRoomId.", 'WAITING', 0, 0, 0);");
   }
 }
 //WaitingのDoAction,メッセージを見てアクションする
