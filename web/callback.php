@@ -80,22 +80,22 @@ $GAMEMODE_END = "END";//投票結果開示
 $gameMode = $GAMEMODE_BEFORE_THE_START;
 // グループIDもしくはルームIDが取得できる$event->source->groupId or $event->source->roomId
 // それをテーブルで検索してあればそこのレコードのGAMEMODEを$gamemodeに代入。無ければ$gameMode = $GAMEMODE_BEFORE_THE_START;ってif文を作ってほしい
-if ("group" == $event->source->type) {
-  $gameRoomId = $event->source->groupId;
-} else if ("room" == $event->source->type) {
-  $gameRoomId = $event->source->roomId;
-}
-$gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
-$result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
-if (null != $result) {
-  $row = mysqli_fetch_row($result);
-  $game_room_num = $row[0];
-  $game_room_num = mysqli_real_escape_string($link, $game_room_num);
-  $result = mysqli_query($link, "select * from game_room where game_room_num = '$game_room_num'");
-  $row = mysqli_fetch_row($result);
-  $game_mode = $row[2];
-  $gameMode = $game_mode;
-}
+// if ("group" == $event->source->type) {
+//   $gameRoomId = $event->source->groupId;
+// } else if ("room" == $event->source->type) {
+//   $gameRoomId = $event->source->roomId;
+// }
+// $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
+// $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
+// if (null != $result) {
+//   $row = mysqli_fetch_row($result);
+//   $game_room_num = $row[0];
+//   $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+//   $result = mysqli_query($link, "select * from game_room where game_room_num = '$game_room_num'");
+//   $row = mysqli_fetch_row($result);
+//   $game_mode = $row[2];
+//   $gameMode = $game_mode;
+// }
 
 if("message" == $event->type){
   DoActionAll($event->message->text);
