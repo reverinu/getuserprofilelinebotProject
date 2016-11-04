@@ -1,12 +1,12 @@
 データベース
-・グループ
+・gameRoom
 gameRoomNum(Int) gameRoomId(String) gameMode(String) numOfPeople(Int) numOfRoles(Int) numOfVotes(Int)
-・個人
-userId(String) userName(String) gameRoomNum(Int) role(String) votedNum(Int) isRoling(Bool) isVoting(Boll)
+・user
+userId(String) userName(String) gameRoomNum(Int) role(String) votedNum(Int) isRoling(Bool) isVoting(Bool)
 
 
 初期値
-・グループ
+・gameRoom
 gameRoomNum = null
 gameRoomId = null
 gameMode = "BEFORE_THE_START"
@@ -14,7 +14,7 @@ numOfPeople = 0
 numOfRoles = 0
 numOfVotes = 0
 
-・個人
+・user
 userId = null
 userName = null
 role = "無し"
