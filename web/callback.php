@@ -65,13 +65,15 @@ $db = 'heroku_e0a333c38f14545';
 $link = mysqli_connect($server, $username, $password, $db);
 
 
-$GAMEMODE_BEFORE_THE_START = 0;//@start前
-$GAMEMODE_WAITING = 1;//@start後
-$GAMEMODE_NIGHT = 2;//夜時間
-$GAMEMODE_NOON = 3;//昼時間
-$GAMEMODE_END = 4;//投票結果開示
+$GAMEMODE_BEFORE_THE_START = "BEFORE_THE_START";//@game前
+$GAMEMODE_WAITING = "WAITING";//@game後
+$GAMEMODE_NIGHT = "NIGHT";//夜時間
+$GAMEMODE_NOON = "NOON";//昼時間
+$GAMEMODE_END = "END";//投票結果開示
 
-$gameMode = $GAMEMODE_BEFORE_THE_START;//テーブル参照してＲｏｗがあれば（部屋が生成されていれば）次行で引っ張ってくる
+$gameMode = $GAMEMODE_BEFORE_THE_START;
+// グループIDもしくはルームIDが取得できる$event->source->groupId or $event->source->roomId
+// それをテーブルで検索してあればそこのレコードのGAMEMODEを$gamemodeに代入。無ければ$gameMode = $GAMEMODE_BEFORE_THE_START;ってif文を作ってほしい
 
 ////////////////////////////
 //メインループ
@@ -118,9 +120,11 @@ function DoActionAll($message_text){
 }
 //BeforeのDoAction,メッセージを見てアクションする
 function DoActionBefore($message_text){
-  global $bot, $event;
+  global $bot, $event, $link;
   if ("@game" == $message_text) {
-    // ルームナンバー発行、テーブルにＲｏｗを生成する、gameModeを移行する
+    // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
+    $gameRoomId =
+    $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values (100, "."".", 'WAITING', 0, 0, 0);");
   }
 }
 //WaitingのDoAction,メッセージを見てアクションする
