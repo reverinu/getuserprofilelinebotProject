@@ -133,7 +133,7 @@ function DoActionAll($message_text){
 }
 //BeforeのDoAction,メッセージを見てアクションする
 function DoActionBefore($message_text){
-  global $bot, $event, $link;
+  global $bot, $event, $link, $result;
   if("group" == $event->source->type || "room" == $event->source->type){
     if ("@game" == $message_text) {
       // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
@@ -162,8 +162,20 @@ function DoActionWaiting($message_text){
     }
   } else {
 
-    if ("ルームナンバー" == $message_text) {
-
+    $gameRoomNum = mysqli_real_escape_string($link, $message_text);
+    //個人チャット内
+    if ($result = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum'") {
+      $row = mysqli_fetch_row($result);
+      if(null != $row){
+        $response = $bot->getProfile($event->source->userId);
+        if ($response->isSucceeded()) {
+          $profile = $response->getJSONDecodedBody();
+          $user_name = mysqli_real_escape_string($link, $profile['displayName']);
+          $user_id = mysqli_real_escape_string($link, $event->source->userId);
+          $room_num = mysqli_real_escape_string($link, $row[0]);
+          $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('$user_id', '$user_name', '$room_num', '無し', 0, 'false', 'false');");
+        }
+      }
     }
   }
 }
@@ -206,6 +218,14 @@ function ProcessRoling(){
 function ProcessVoting(){
   //誰かが投票するとカウント＋１とtrueと投票された人に＋１にする、投票のカウントと参加人数を照合して同数になったらgameMode+1と投票結果開示する
 }
+
+
+
+////////////////////////////
+//データベースとの接続を終了する場所
+////////////////////////////
+mysqli_free_result($result);
+mysqli_close($link);
 
 
 
