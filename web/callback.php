@@ -161,6 +161,7 @@ function DoActionWaiting($message_text){
       // 参加者一覧を表示してからゲーム開始
     }
   } else {
+
     if ("ルームナンバー" == $message_text) {
 
     }
