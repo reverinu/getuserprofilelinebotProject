@@ -89,8 +89,6 @@ if($result = mysqli_query($link, "select * from game_room where game_room_id = '
   if(null != $row){
     $game_mode = $row[2];
     $gameMode = $game_mode;
-  } else {
-    $gameMode = $GAMEMODE_BEFORE_THE_START;
   }
 }
 
