@@ -130,8 +130,8 @@ function DoActionAll($message_text){
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($gameMode);
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   } else if ("@del" == $message_text) {// デバッグ用
-    $result = mysqli_query($link,”TRUNCATE TABLE game_room”);
-    $result = mysqli_query($link,”TRUNCATE TABLE user”);
+    $result = mysqli_query($link,"TRUNCATE TABLE game_room");
+    $result = mysqli_query($link,"TRUNCATE TABLE user");
   } else if ("user" == $event->source->type) {// 一時的にこっち。最終的にはuser情報からテーブル持ってきて以下略
     $gameRoomNum = mysqli_real_escape_string($link, $message_text);
     //個人チャット内
