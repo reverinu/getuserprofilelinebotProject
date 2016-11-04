@@ -125,6 +125,8 @@ function DoActionBefore($message_text){
   if ("@game" == $message_text) {
     // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
     if ("group" == $event->source->type){
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
+      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
       $gameRoomId = $event->source->groupId;
       $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values (100, ".$gameRoomId.", 'WAITING', 0, 0, 0);");
     } else if ("room" == $event->source->type) {
