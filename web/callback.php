@@ -153,7 +153,7 @@ function DoActionBefore($message_text){
 }
 //WaitingのDoAction,メッセージを見てアクションする
 function DoActionWaiting($message_text){
-  global $bot, $event;
+  global $bot, $event, $link;
   if("group" == $event->source->type || "room" == $event->source->type){
     if ("@member" == $message_text) {
       // 現在参加者のみ表示
@@ -161,7 +161,6 @@ function DoActionWaiting($message_text){
       // 参加者一覧を表示してからゲーム開始
     }
   } else {
-
     $gameRoomNum = mysqli_real_escape_string($link, $message_text);
     //個人チャット内
     if ($result = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum'") {
