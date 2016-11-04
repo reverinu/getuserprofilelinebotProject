@@ -134,29 +134,36 @@ function DoActionAll($message_text){
 //BeforeのDoAction,メッセージを見てアクションする
 function DoActionBefore($message_text){
   global $bot, $event, $link;
-
-  if ("@game" == $message_text) {
-    // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
-    if ("group" == $event->source->type){
-      $gameRoomId = $event->source->groupId;
+  if("group" == $event->source->type || "room" == $event->source->type){
+    if ("@game" == $message_text) {
+      // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
+      $roomNumber = 100;// 仮
+      $roomNumber = mysqli_real_escape_string($link, $roomNumber);
+      if ("group" == $event->source->type){
+        $gameRoomId = $event->source->groupId;
+      } else if ("room" == $event->source->type) {
+        $gameRoomId = $event->source->roomId;
+      }
       $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
-      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values (100, '$gameRoomId', 'WAITING', 0, 0, 0);");
-    } else if ("room" == $event->source->type) {
-      $gameRoomId = $event->source->roomId;
-      $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
-      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values (100, '$gameRoomId', 'WAITING', 0, 0, 0);");
+      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0);");
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームNumberを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！");
+      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     }
   }
 }
 //WaitingのDoAction,メッセージを見てアクションする
 function DoActionWaiting($message_text){
   global $bot, $event;
-  if ("ルームナンバー" == $message_text) {
+  if("group" == $event->source->type || "room" == $event->source->type){
+    if ("@member" == $message_text) {
+      // 現在参加者のみ表示
+    } else if ("@start" == $message_text) {
+      // 参加者一覧を表示してからゲーム開始
+    }
+  } else {
+    if ("ルームナンバー" == $message_text) {
 
-  } else if ("@member" == $message_text) {
-    // 現在参加者のみ表示
-  } else if ("@start" == $message_text) {
-    // 参加者一覧を表示してからゲーム開始
+    }
   }
 }
 //NightのDoAction,メッセージを見てアクションする
