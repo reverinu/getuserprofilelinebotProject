@@ -3,13 +3,45 @@
 
 // データベース
 // ・グループ
-// gameRoomNum(Int) gameRoomId(String) gameMode(Int) numOfPeople(Int) numOfRolls(Int) numOfVotes(Int)
+// gameRoomNum(Int) gameRoomId(String) gameMode(String) numOfPeople(Int) numOfRoles(Int) numOfVotes(Int)
 // ・個人
-// userId(String) userName(String) gameRoomNum(Int) rollNum(Int) votedNum(Int) isRolling(Bool) isVoting(Boll)
+// userId(String) userName(String) gameRoomNum(Int) role(String) votedNum(Int) isRoling(Bool) isVoting(Boll)
+//
+//
+// 初期値
+// ・グループ
+// gameRoomNum = null
+// gameRoomId = null
+// gameMode = "BEFORE_THE_START"
+// numOfPeople = 0
+// numOfRoles = 0
+// numOfVotes = 0
+//
+// ・個人
+// userId = null
+// userName = null
+// role = "無し"
+// votedNum = 0
+// isRoleing = false
+// isVoting = false
+//
 // ・ゲームモード
-// gameMode(Int) modeName(String)
+// modeName
+// BEFORE_THE_START
+// WAITING
+// NIGHT
+// NOON
+// END
+//
 // ・役職
-// rollNum(Int) rollName(String)
+// role
+// 無し
+// 村人
+// 占い師
+// 怪盗
+// 人狼
+// 狂人
+// 吊人
 
 
 require('../vendor/autoload.php');
