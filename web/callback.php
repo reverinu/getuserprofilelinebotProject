@@ -75,7 +75,7 @@ $GAMEMODE_END = "END";//投票結果開示
 ////////////////////////////
 //メインループ
 ////////////////////////////
-
+$gameMode = $GAMEMODE_BEFORE_THE_START;
 // グループIDもしくはルームIDが取得できる$event->source->groupId or $event->source->roomId
 // それをテーブルで検索してあればそこのレコードのGAMEMODEを$gamemodeに代入。無ければ$gameMode = $GAMEMODE_BEFORE_THE_START;ってif文を作ってほしい
 if ("group" == $event->source->type) {
@@ -84,14 +84,16 @@ if ("group" == $event->source->type) {
   $gameRoomId = $event->source->roomId;
 }
 $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
-$result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'")
-$row = mysqli_fetch_row($result);
-if(null != $row){
-  $game_mode = $row[2];
-  $gameMode = $game_mode;
-} else {
-  $gameMode = $GAMEMODE_BEFORE_THE_START;
+if($result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'")){
+  $row = mysqli_fetch_row($result);
+  if(null != $row){
+    $game_mode = $row[2];
+    $gameMode = $game_mode;
+  } else {
+    $gameMode = $GAMEMODE_BEFORE_THE_START;
+  }
 }
+
 
 
 if("message" == $event->type){
