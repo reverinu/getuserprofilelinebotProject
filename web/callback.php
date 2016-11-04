@@ -71,13 +71,26 @@ $GAMEMODE_NIGHT = "NIGHT";//夜時間
 $GAMEMODE_NOON = "NOON";//昼時間
 $GAMEMODE_END = "END";//投票結果開示
 
-$gameMode = $GAMEMODE_BEFORE_THE_START;
-// グループIDもしくはルームIDが取得できる$event->source->groupId or $event->source->roomId
-// それをテーブルで検索してあればそこのレコードのGAMEMODEを$gamemodeに代入。無ければ$gameMode = $GAMEMODE_BEFORE_THE_START;ってif文を作ってほしい
 
 ////////////////////////////
 //メインループ
 ////////////////////////////
+
+
+$gameMode = $GAMEMODE_BEFORE_THE_START;
+// グループIDもしくはルームIDが取得できる$event->source->groupId or $event->source->roomId
+// それをテーブルで検索してあればそこのレコードのGAMEMODEを$gamemodeに代入。無ければ$gameMode = $GAMEMODE_BEFORE_THE_START;ってif文を作ってほしい
+$result = mysqli_query($link, "select * from game_room where game_room_num");
+if (null != $result) {
+  $row = mysqli_fetch_row($result);
+  $game_room_num = $row[0];
+  $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+  $result = mysqli_query($link, "select * from game_room where game_room_num = '$game_room_num'");
+  $row = mysqli_fetch_row($result);
+  $game_mode = $row[2];
+  $gameMode = $game_mode;
+}
+
 if("message" == $event->type){
   DoActionAll($event->message->text);
   if ($GAMEMODE_BEFORE_THE_START == $gameMode){
@@ -103,18 +116,15 @@ return;
 ////////////////////////////
 //全てに共通するDoAction,メッセージを見てアクションする
 function DoActionAll($message_text){
-  global $bot, $event, $link;
+  global $bot, $event, $link, $gameMode;
   if ("@help" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ヘルプ]\n@gameをグループチャットでコメントすることでゲーム開始前待機時間に移行します。そしてグループチャットがゲームルームとして認識され、ルームナンバーが発行されます。\nルームナンバーをそのままコピーして個人チャットで私にコメントすれば参加者として認識されます。\nゲーム開始前待機時間では、@memberをコメントすることで現在の参加者を見ることが出来ます。参加者が揃ったら@startしてください。ゲームが始まり夜時間へと移行します。\n夜時間では個人チャットに送られる私のコメントに従って行動してください。村人、狂人、人狼、吊人も了解ボタンを押してください。全員の行動が終われば自動的に議論時間へと移行します。\n議論時間の初めに個人チャットに投票ボタンをコメントします。ゲームルームで議論をし、投票する相手を決め投票してください。全員の投票が終われば自動的に投票結果、勝敗が開示され、ゲームが終了します。\nもう一度同じメンバーでやりたい場合は@newgameを、終わりたい、メンバーを追加したい場合は@endをゲームルームでコメントしてください。\n\n※ゲーム中に私をゲームルームから削除するとゲームがリセットされます");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   } else if ("@rule" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-  } else if ("@db" == $message_text) {//デバッグ用
-    $result = mysqli_query($link, "select * from user where id = 3;");
-    $row = mysqli_fetch_row($result);
-    $id = $row[0];
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($id);
+  } else if ("@debug" == $message_text) {//デバッグ用
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($gameMode);
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   }
 }
@@ -131,7 +141,7 @@ function DoActionBefore($message_text){
     } else if ("room" == $event->source->type) {
       $gameRoomId = $event->source->roomId;
       $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
-      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values (100, " . $gameRoomId . ", 'WAITING', 0, 0, 0);");
+      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values (100, '$gameRoomId', 'WAITING', 0, 0, 0);");
     }
   }
 }
