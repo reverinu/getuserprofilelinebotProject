@@ -161,7 +161,7 @@ function DoActionWaiting($message_text){
       // 参加者一覧を表示してからゲーム開始
     }
   } else {
-    // $gameRoomNum = mysqli_real_escape_string($link, $message_text);
+    $gameRoomNum = mysqli_real_escape_string($link, $message_text);
     // //個人チャット内
     // if ($result = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum'") {
     //   $row = mysqli_fetch_row($result);
