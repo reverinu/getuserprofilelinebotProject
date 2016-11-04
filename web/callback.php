@@ -129,6 +129,24 @@ function DoActionAll($message_text){
   } else if ("@debug" == $message_text) {//デバッグ用
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($gameMode);
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+  } else if ("user" == $event->source->type) {
+    $gameRoomNum = mysqli_real_escape_string($link, $message_text);
+    //個人チャット内
+    if ($result = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum';")) {
+      $row = mysqli_fetch_row($result);
+      if(null != $row){
+        $response = $bot->getProfile($event->source->userId);
+        if ($response->isSucceeded()) {
+          $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("rurururuururururur!!");
+          $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+          $profile = $response->getJSONDecodedBody();
+          $user_name = mysqli_real_escape_string($link, $profile['displayName']);
+          $user_id = mysqli_real_escape_string($link, $event->source->userId);
+          $room_num = mysqli_real_escape_string($link, $row[0]);
+          $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('$user_id', '$user_name', '$room_num', '無し', 0, 'false', 'false');");
+        }
+      }
+    }
   }
 }
 //BeforeのDoAction,メッセージを見てアクションする
@@ -153,28 +171,12 @@ function DoActionBefore($message_text){
 }
 //WaitingのDoAction,メッセージを見てアクションする
 function DoActionWaiting($message_text){
-  global $bot, $event, $link, $result;
+  global $bot, $event, $link;
   if("group" == $event->source->type || "room" == $event->source->type){
     if ("@member" == $message_text) {
       // 現在参加者のみ表示
     } else if ("@start" == $message_text) {
       // 参加者一覧を表示してからゲーム開始
-    }
-  } else {
-    $gameRoomNum = mysqli_real_escape_string($link, $message_text);
-    //個人チャット内
-    if ($result = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum';")) {
-      $row = mysqli_fetch_row($result);
-      if(null != $row){
-        $response = $bot->getProfile($event->source->userId);
-        if ($response->isSucceeded()) {
-          $profile = $response->getJSONDecodedBody();
-          $user_name = mysqli_real_escape_string($link, $profile['displayName']);
-          $user_id = mysqli_real_escape_string($link, $event->source->userId);
-          $room_num = mysqli_real_escape_string($link, $row[0]);
-          $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('$user_id', '$user_name', '$room_num', '無し', 0, 'false', 'false');");
-        }
-      }
     }
   }
 }
