@@ -163,7 +163,7 @@ function DoActionWaiting($message_text){
   } else {
     $gameRoomNum = mysqli_real_escape_string($link, $message_text);
     //個人チャット内
-    if ($result = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum'") {
+    if ($result = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum';") {
     //   $row = mysqli_fetch_row($result);
     //   if(null != $row){
     //     $response = $bot->getProfile($event->source->userId);
