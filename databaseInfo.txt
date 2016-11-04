@@ -1,8 +1,8 @@
 データベース
-・gameRoom
-gameRoomNum(Int) gameRoomId(String) gameMode(String) numOfPeople(Int) numOfRoles(Int) numOfVotes(Int)
+・game_room
+game_room_num(Int) game_room_id(String) game_mode(String) num_of_people(Int) num_of_roles(Int) num_of_votes(Int)
 ・user
-userId(String) userName(String) gameRoomNum(Int) role(String) votedNum(Int) isRoling(Bool) isVoting(Bool)
+user_id(String) user_name(String) game_room_num(Int) role(String) voted_num(Int) is_roling(Bool) is_voting(Bool)
 
 
 初期値

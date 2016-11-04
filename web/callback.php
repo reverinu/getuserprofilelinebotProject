@@ -2,11 +2,10 @@
 
 
 // データベース
-// ・グループ
-// gameRoomNum(Int) gameRoomId(String) gameMode(String) numOfPeople(Int) numOfRoles(Int) numOfVotes(Int)
-// ・個人
-// userId(String) userName(String) gameRoomNum(Int) role(String) votedNum(Int) isRoling(Bool) isVoting(Boll)
-//
+// ・game_room
+// game_room_num(Int) game_room_id(String) game_mode(String) num_of_people(Int) num_of_roles(Int) num_of_votes(Int)
+// ・user
+// user_id(String) user_name(String) game_room_num(Int) role(String) voted_num(Int) is_roling(Bool) is_voting(Bool)
 //
 // 初期値
 // ・グループ
@@ -109,7 +108,7 @@ function DoActionAll($message_text){
   } else if ("@rule" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-  } else if ("@db" == $message_text) {
+  } else if ("@db" == $message_text) {//デバッグ用
     $result = mysqli_query($link, "select * from user where id = 3;");
     $row = mysqli_fetch_row($result);
     $id = $row[0];
