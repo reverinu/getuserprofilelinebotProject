@@ -337,8 +337,8 @@ function HandOut($num_of_people){
         $user_id[$i] = $row[1];
         //$user_id = mysqli_real_escape_string($link, $user_id);
         //$result = mysqli_query($link, "update user set role = '$role' where user_id = '$user_id'");
-        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($role[$i] . "だよ！\n" . $user_id[$i]);
-        $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $textMessageBuilder);
+        //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($role[$i] . "だよ！\n" . $user_id[$i]);
+        //$response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $textMessageBuilder);
         $i++;
       }
 
