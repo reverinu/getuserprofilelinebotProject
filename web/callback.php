@@ -341,7 +341,7 @@ function HandOut($num_of_people){
         $role = mysqli_real_escape_string($link, $role);
         $user_id = $row[1];
         $user_id = mysqli_real_escape_string($link, $user_id);
-        $result = mysqli_query($link, "update user set role = '$role' where user = '$user_id'");
+        $result = mysqli_query($link, "update user set role = '$role' where user_id = '$user_id'");
         $i++;
       }
 
