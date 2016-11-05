@@ -157,7 +157,7 @@ function DoActionAll($message_text){
     // $button_message = CreateButtons($people);
     // $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $button_message);
 
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($PEOPLE3[1]);
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($PEOPLE3[1] . "だよ");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
