@@ -153,10 +153,8 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    // $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
-    // $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "人狼", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
-    // $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は人狼\n(「@ok」とコメントしてください)", $button);
-    $button_message = CreateButtons(PEOPLE3[0]);
+    $people = PEOPLE3[0];
+    $button_message = CreateButtons($people);
     $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $button_message);
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
@@ -334,19 +332,20 @@ function HandOut($num_of_people){
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
-      $button_message = CreateButtons(PEOPLE3[0]);
+      $people = PEOPLE3[0];
+      $button_message = CreateButtons($people);
       $response = $bot->pushMessage($user_id, $button_message);
-      sleep(1);
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 1, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
-      $button_message = CreateButtons(PEOPLE3[1]);
+      $people = PEOPLE3[1];
+      $button_message = CreateButtons($people);
       $response = $bot->pushMessage($user_id, $button_message);
-      sleep(1);
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 2, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
-      $button_message = CreateButtons(PEOPLE3[2]);
+      $people = PEOPLE3[2];
+      $button_message = CreateButtons($people);
       $response = $bot->pushMessage($user_id, $button_message);
       //ここまで
 
