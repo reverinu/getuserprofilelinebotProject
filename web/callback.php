@@ -65,10 +65,10 @@ $db = 'heroku_e0a333c38f14545';
 $link = mysqli_connect($server, $username, $password, $db);
 
 
-$PEOPLE3 = array("村人","占い師","怪盗","人狼","人狼");
-$PEOPLE4 = array("村人","村人","占い師","怪盗","人狼","人狼");
-$PEOPLE5 = array("村人","村人","占い師","怪盗","人狼","人狼","狂人");
-$PEOPLE6 = array("村人","村人","村人","占い師","怪盗","人狼","人狼","狂人");
+$PEOPLE3 = array('村人','占い師','怪盗','人狼','人狼');
+$PEOPLE4 = array('村人','村人','占い師','怪盗','人狼','人狼');
+$PEOPLE5 = array('村人','村人','占い師','怪盗','人狼','人狼','狂人');
+$PEOPLE6 = array('村人','村人','村人','占い師','怪盗','人狼','人狼','狂人');
 
 $GAMEMODE_BEFORE_THE_START = "BEFORE_THE_START";//@game前
 $GAMEMODE_WAITING = "WAITING";//@game後
@@ -224,8 +224,8 @@ function DoActionWaiting($message_text){
       if(null != $row){
         $room_num = $row[0];
         $room_num = mysqli_real_escape_string($link, $room_num);
-        $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya', '逃亡者1', '$room_num', '無し', 0, 'false', 'false');");
-        $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya', '逃亡者2', '$room_num', '無し', 0, 'false', 'false');");
+        $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya1', '逃亡者1', '$room_num', '無し', 0, 'false', 'false');");
+        $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya2', '逃亡者2', '$room_num', '無し', 0, 'false', 'false');");
       }
 
       Cast();
