@@ -131,10 +131,10 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   } else if ("@debug" == $message_text) {//デバッグ用
     $result = mysqli_query($link, "select * from user where '$gameRoomId'");
-    while($row = mysqli_fetch_row($result)){
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[3]);
-      $response = $bot->pushMessage($event->source->groupId, $textMessageBuilder);
-    }
+    $row = mysqli_fetch_row($result);
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[3]);
+    $response = $bot->pushMessage($event->source->groupId, $textMessageBuilder);
+
 
 
     //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($gameMode);
