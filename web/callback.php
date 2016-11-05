@@ -92,7 +92,7 @@ $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
 if($result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId';")){
   $row = mysqli_fetch_row($result);
   if(null != $row){
-    $game_mode = $row[2];
+    $game_mode = $row[3];
     $gameMode = $game_mode;
   }
 }
@@ -132,10 +132,10 @@ function DoActionAll($message_text){
   } else if ("@debug" == $message_text) {//デバッグ用
     $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
     $row = mysqli_fetch_row($result);
-    $game_room_num = $row[0];
+    $game_room_num = $row[1];
     $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
     while($row = mysqli_fetch_row($result)){
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[3]);
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[4]);
       $response = $bot->pushMessage($event->source->groupId, $textMessageBuilder);
     }
 
@@ -163,7 +163,7 @@ function DoActionAll($message_text){
               $profile = $response->getJSONDecodedBody();
               $user_name = mysqli_real_escape_string($link, $profile['displayName']);
               $user_id = mysqli_real_escape_string($link, $event->source->userId);
-              $room_num = mysqli_real_escape_string($link, $row[0]);
+              $room_num = mysqli_real_escape_string($link, $row[1]);
               $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('$user_id', '$user_name', '$room_num', '無し', 0, 'false', 'false');");
               $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($user_name . "はゲームに参加したよ！");
               $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
@@ -211,13 +211,13 @@ function DoActionWaiting($message_text){
       $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
       $row = mysqli_fetch_row($result);
       if(null != $row){
-        $num_of_people = $row[3];
-        $game_room_num = $row[0];
+        $num_of_people = $row[4];
+        $game_room_num = $row[1];
         $game_room_num = mysqli_real_escape_string($link, $game_room_num);
         $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
         $memberListText = "";
         while($row = mysqli_fetch_row($result)){
-          $memberListText .= $row[1] . "\n";
+          $memberListText .= $row[2] . "\n";
         }
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧(" . $num_of_people . ")\n" . $memberListText);
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
@@ -232,7 +232,7 @@ function DoActionWaiting($message_text){
       $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
       $row = mysqli_fetch_row($result);
       if(null != $row){
-        $room_num = $row[0];
+        $room_num = $row[1];
         $room_num = mysqli_real_escape_string($link, $room_num);
         $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya1', '逃亡者1', '$room_num', '無し', 0, 'false', 'false');");
         $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya2', '逃亡者2', '$room_num', '無し', 0, 'false', 'false');");
@@ -287,7 +287,7 @@ function Cast(){
   $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
   $row = mysqli_fetch_row($result);
   if(null != $row){
-    $num_of_people = $row[3];
+    $num_of_people = $row[4];
     HandOut($num_of_people);
   }
 }
@@ -298,7 +298,7 @@ function HandOut($num_of_people){
   $row = mysqli_fetch_row($result);
   if(null != $row){
 
-    $game_room_num = $row[0];
+    $game_room_num = $row[1];
     if(3 == $num_of_people){
 
       shuffle($PEOPLE3);
