@@ -311,7 +311,7 @@ function HandOut($num_of_people){
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($role);
         $response = $bot->pushMessage($event->source->groupId, $textMessageBuilder);
 
-        $result = mysqli_query($link, "update user, (select * from user where game_room_num = '$game_room_num' limit 1 offset '$offset_num' as role2) a set a.role2 = '$role'");
+        $result = mysqli_query($link, "update (select role from user where game_room_num = '$game_room_num' limit 1 offset '$offset_num') as sub_role set sub_role = '$role'");
       }
 
     } else if(4 == $num_of_people){
