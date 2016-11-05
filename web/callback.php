@@ -65,7 +65,7 @@ $db = 'heroku_e0a333c38f14545';
 $link = mysqli_connect($server, $username, $password, $db);
 
 
-$PEOPLE3 = array('村人','占い師','怪盗','人狼','人狼');
+$PEOPLE3 = array('村人','占い師','怪盗','人狼','狂人');
 $PEOPLE4 = array('村人','村人','占い師','怪盗','人狼','人狼');
 $PEOPLE5 = array('村人','村人','占い師','怪盗','人狼','人狼','狂人');
 $PEOPLE6 = array('村人','村人','村人','占い師','怪盗','人狼','人狼','狂人');
