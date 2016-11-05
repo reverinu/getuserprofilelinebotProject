@@ -292,14 +292,15 @@ function HandOut($num_of_people){
     if(3 == $num_of_people){
 
       shuffle($PEOPLE3);
-      /*
+
       for(i=0; i < 5; i++){
         $offset_num = i;
         $offset_num = mysqli_real_escape_string($link, $offset_num);
+        /*
         $PEOPLE3[i] = mysqli_real_escape_string($link, $PEOPLE3[i]);
         $result = mysqli_query($link, "update user set role = '$PEOPLE3[i]' where game_room_num = '$game_room_num' limit 1 offset '$offset_num'");
-      }
-      */
+      */}
+
     } else if(4 == $num_of_people){
       shuffle($PEOPLE4);
     } else if(5 == $num_of_people){
