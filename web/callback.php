@@ -132,7 +132,7 @@ function DoActionAll($message_text){
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
     $result = mysqli_query($link,"TRUNCATE TABLE user");
-  } else if ("user" == $event->source->type) {// 一時的にこっち。最終的にはuser情報からテーブル持ってきて以下略
+  } else if ("user" == $event->source->type) {// 一時的にこっち。最終的にはuser情報からテーブル持ってきて以下略（これだとゲーム中に途中参加できてしまう）
     $gameRoomNum = mysqli_real_escape_string($link, $message_text);
     $userId = mysqli_real_escape_string($link, $event->source->userId);
     if($result = mysqli_query($link, "select * from user where user_id = '$userId'")){
@@ -168,7 +168,7 @@ function DoActionBefore($message_text){
     if ("@game" == $message_text) {
       // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
       while(true){
-        $gameRoomNum = mt_rand(1,3);
+        $gameRoomNum = mt_rand(100,999);
         $gameRoomNum = mysqli_real_escape_string($link, $gameRoomNum);
         $rnj = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum'");
         $row = mysqli_fetch_row($rnj);
@@ -176,7 +176,6 @@ function DoActionBefore($message_text){
           break;
         }
       }
-
       $roomNumber = mysqli_real_escape_string($link, $gameRoomNum);
       if ("group" == $event->source->type){
         $gameRoomId = $event->source->groupId;
@@ -212,6 +211,9 @@ function DoActionWaiting($message_text){
       }
     } else if ("@start" == $message_text) {
       // 参加者一覧を表示してからゲーム開始
+      $result = mysqli_query($link, "update game_room set game_mode = 'NIGHT' where game_room_num = '$gameRoomId'");
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ゲーム開始]\nワオーーーーン・・・\n\n\n狼の遠吠えが聞こえてくる。\n夜時間です。各自、個人チャットで行動してください");
+      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     }
   }
 }
