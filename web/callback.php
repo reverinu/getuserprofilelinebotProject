@@ -290,8 +290,9 @@ function HandOut($num_of_people){
 
     $game_room_num = $row[0];
     if(3 == $num_of_people){
-      /*
+
       shuffle($PEOPLE3);
+      /*
       for(i=0; i < 5; i++){
         $offset_num = i;
         $offset_num = mysqli_real_escape_string($link, $offset_num);
