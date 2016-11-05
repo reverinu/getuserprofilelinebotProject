@@ -154,7 +154,6 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    $people = array($PEOPLE3[0]);
     $button_message = CreateButtons($PEOPLE3[0]);
     $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $button_message);
   } else if ("@del" == $message_text) {// デバッグ用
@@ -380,6 +379,10 @@ function CreateButtons($role){
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "狂人", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
     return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は狂人\n(「@ok」とコメントしてください)", $button);
   }
+
+  $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
+  $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "無しｗ（if文スルー）", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
+  return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は無しｗ（if文スルー）\n(「@ok」とコメントしてください)", $button);
 }
 
 
