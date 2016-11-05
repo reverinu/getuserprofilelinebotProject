@@ -363,9 +363,10 @@ function CreateButtons($role){
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "村人", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
     return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は村人\n(「@ok」とコメントしてください)", $button);
   } else if('占い師' == $role){
-    $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($role . "了解", "@OK");
+    $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@OK");
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "占い師", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
     $button_message1 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は占い師\n(「@ok」とコメントしてください)", $button);
+    $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は占い師\n(「@ng」とコメントしてください)", $button);
     // $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
     // $row = mysqli_fetch_row($result);
     // $game_room_num = $row[1];
@@ -380,10 +381,10 @@ function CreateButtons($role){
     // }
     // $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1], $action[2], $action[3]]);
     // $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[0] . "/占い@" . $user_names[1] . "/占い@" . $user_names[2] . "/占い@" . $user_names[3] . ")", $button);
-    // $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
-    // $message->add($button_message1);
-    // $message->add($button_message2);
-    return $button_message1;
+    $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+    $message->add($button_message1);
+    $message->add($button_message2);
+    return $message;
 
   } else if('怪盗' == $role){
     $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "");
