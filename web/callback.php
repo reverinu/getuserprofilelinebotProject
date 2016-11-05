@@ -133,7 +133,7 @@ function DoActionAll($message_text){
     while($result = mysqli_query($link, "select * from user where '$gameRoomId'")){
       $row = mysqli_fetch_row($result);
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[3]);
-      $response = $bot->pushMessage($gameRoomId, $textMessageBuilder);
+      $response = $bot->pushMessage($event->source->groupId, $textMessageBuilder);
     }
     //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($gameMode);
     //$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
