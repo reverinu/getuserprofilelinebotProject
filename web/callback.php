@@ -139,9 +139,6 @@ function DoActionAll($message_text){
       $response = $bot->pushMessage($event->source->groupId, $textMessageBuilder);
     }
 
-
-
-
     //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($gameMode);
     //$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
@@ -310,6 +307,10 @@ function HandOut($num_of_people){
         $offset_num = $i;
         $offset_num = mysqli_real_escape_string($link, $offset_num);
         $role = mysqli_real_escape_string($link, $PEOPLE3[$i]);
+
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($role);
+        $response = $bot->pushMessage($event->source->groupId, $textMessageBuilder);
+        
         $result = mysqli_query($link, "update user set role = '$role' where game_room_num = '$game_room_num' limit 1 offset '$offset_num'");
       }
 
