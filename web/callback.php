@@ -148,7 +148,7 @@ function DoActionAll($message_text){
     $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
     $row = mysqli_fetch_row($result);
     $game_room_num = $row[1];
-    $result = mysqli_query($link, "select * from user where where game_room_num = '$game_room_num' limit 0, 1");
+    $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1");
     $row = mysqli_fetch_row($result);
     $user_id = $row[1];
     $response = $bot->pushMessage($user_id, $textMessageBuilder);
