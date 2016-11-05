@@ -341,12 +341,10 @@ function HandOut($num_of_people){
       for ($i = 0; $i < $row2[0]; $i++) {
         $role = $PEOPLE3[$i];
         $role = mysqli_real_escape_string($link, $role);
-        $user_id = $row[0];
+        $user_id = $row[$i];
         $user_id = mysqli_real_escape_string($link, $user_id);
         $result = mysqli_query($link, "update user set role = '$role' where user_id = '$user_id'");
       }
-
-
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($i . "だよ！");
       $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $textMessageBuilder);
 
