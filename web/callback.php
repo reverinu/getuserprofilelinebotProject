@@ -191,7 +191,7 @@ function DoActionBefore($message_text){
 }
 //WaitingのDoAction,メッセージを見てアクションする
 function DoActionWaiting($message_text){
-  global $bot, $event, $link, $gameRoomId;
+  global $bot, $event, $link, $gameRoomId, $GAMEMODE_NIGHT;
   if("group" == $event->source->type || "room" == $event->source->type){
     if ("@member" == $message_text) {
       // 現在参加者のみ表示
@@ -211,7 +211,8 @@ function DoActionWaiting($message_text){
       }
     } else if ("@start" == $message_text) {
       // 参加者一覧を表示してからゲーム開始
-      $result = mysqli_query($link, "update game_room set game_mode = 'NIGHT' where game_room_num = '$gameRoomId'");
+      $GAMEMODE_NIGHT = mysqli_real_escape_string($link, $GAMEMODE_NIGHT);
+      $result = mysqli_query($link, "update game_room set game_mode = '$GAMEMODE_NIGHT' where game_room_num = '$gameRoomId'");
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ゲーム開始]\nワオーーーーン・・・\n\n\n狼の遠吠えが聞こえてくる。\n夜時間です。各自、個人チャットで行動してください");
       $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     }
