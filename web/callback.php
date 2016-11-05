@@ -329,12 +329,12 @@ function HandOut($num_of_people){
 
       shuffle($PEOPLE3);
 
-      $result = mysqli_query($link, "select user_id from user where game_room_num = '$game_room_num'");
+      $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
       $i = 0;
       while($row = mysqli_fetch_row($result)){
         $role = $PEOPLE3[$i];
         $role = mysqli_real_escape_string($link, $role);
-        $user_id = $row[0][$i];
+        $user_id = $row[1];
         $user_id = mysqli_real_escape_string($link, $user_id);
         $result = mysqli_query($link, "update user set role = '$role' where user_id = '$user_id'");
         $i++;
