@@ -361,6 +361,7 @@ function HandOut($num_of_people){
 }
 // 役職によってButtonの形状が異なる
 function CreateButtons($role){
+  global $PEOPLE3, $PEOPLE4, $PEOPLE5, $PEOPLE6;
   if(in_array('村人', $role)){
     $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "村人", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
