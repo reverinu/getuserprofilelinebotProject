@@ -190,6 +190,7 @@ function DoActionWaiting($message_text){
       $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
       $row = mysqli_fetch_row($result);
       if(null != $row){
+        $num_of_people = $row[4];
         $game_room_num = $row[0];
         $game_room_num = mysqli_real_escape_string($link, $game_room_num);
         $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
@@ -197,7 +198,7 @@ function DoActionWaiting($message_text){
         while($row = mysqli_fetch_row($result)){
           $memberListText .= $row[1] . "\n";
         }
-        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧\n" . $memberListText);
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧(" . $num_of_people . ")\n" . $memberListText);
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
       }
     } else if ("@start" == $message_text) {
