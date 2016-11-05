@@ -364,25 +364,22 @@ function HandOut($num_of_people){
       $user_id[4] = mysqli_real_escape_string($link, $user_id[4]);
       $result = mysqli_query($link, "update user set role = '$role[4]' where user_id = '$user_id[4]'");
 
-      sleep(0.1);
       //これがボタンに置き換わる
-      $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1;");
-      $row = mysqli_fetch_row($result);
-      $user_id = $row[1];
+      // $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1;");
+      // $row = mysqli_fetch_row($result);
+      // $user_id = $row[1];
       $button_message = CreateButtons($PEOPLE3[0]);
-      $response = $bot->pushMessage($user_id, $button_message);
-      sleep(0.1);
-      $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 1, 1;");
-      $row = mysqli_fetch_row($result);
-      $user_id = $row[1];
+      $response = $bot->pushMessage($user_id[0], $button_message);
+      // $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 1, 1;");
+      // $row = mysqli_fetch_row($result);
+      // $user_id = $row[1];
       $button_message = CreateButtons($PEOPLE3[1]);
-      $response = $bot->pushMessage($user_id, $button_message);
-      sleep(0.1);
-      $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 2, 1;");
-      $row = mysqli_fetch_row($result);
-      $user_id = $row[1];
+      $response = $bot->pushMessage($user_id[1], $button_message);
+      // $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 2, 1;");
+      // $row = mysqli_fetch_row($result);
+      // $user_id = $row[1];
       $button_message = CreateButtons($PEOPLE3[2]);
-      $response = $bot->pushMessage($user_id, $button_message);
+      $response = $bot->pushMessage($user_id[2], $button_message);
       //ここまで
 
     } else if(4 == $num_of_people){
