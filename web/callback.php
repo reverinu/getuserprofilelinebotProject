@@ -122,7 +122,7 @@ return;
 ////////////////////////////
 //全てに共通するDoAction,メッセージを見てアクションする
 function DoActionAll($message_text){
-  global $bot, $event, $link, $gameMode;
+  global $bot, $event, $link, $gameMode, $gameRoomId;
   if ("@help" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ヘルプ]\n@gameをグループチャットでコメントすることでゲーム開始前待機時間に移行します。そしてグループチャットがゲームルームとして認識され、ルームナンバーが発行されます。\nルームナンバーをそのままコピーして個人チャットで私にコメントすれば参加者として認識されます。\nゲーム開始前待機時間では、@memberをコメントすることで現在の参加者を見ることが出来ます。参加者が揃ったら@startしてください。ゲームが始まり夜時間へと移行します。\n夜時間では個人チャットに送られる私のコメントに従って行動してください。村人、狂人、人狼、吊人も了解ボタンを押してください。全員の行動が終われば自動的に議論時間へと移行します。\n議論時間の初めに個人チャットに投票ボタンをコメントします。ゲームルームで議論をし、投票する相手を決め投票してください。全員の投票が終われば自動的に投票結果、勝敗が開示され、ゲームが終了します。\nもう一度同じメンバーでやりたい場合は@newgameを、終わりたい、メンバーを追加したい場合は@endをゲームルームでコメントしてください。\n\n※ゲーム中に私をゲームルームから削除するとゲームがリセットされます");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
@@ -130,8 +130,14 @@ function DoActionAll($message_text){
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   } else if ("@debug" == $message_text) {//デバッグ用
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($gameMode);
-    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    while($result = mysqli_query($link, "select * from user where '$gameRoomId'")){
+      $row = mysqli_fetch_row($result);
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[3]);
+      $response = $bot->pushMessage($gameRoomId, $textMessageBuilder);
+    }
+    //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($gameMode);
+    //$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
     $result = mysqli_query($link,"TRUNCATE TABLE user");
