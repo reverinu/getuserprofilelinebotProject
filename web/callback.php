@@ -333,10 +333,10 @@ function HandOut($num_of_people){
       $i = 0;
       while($row = mysqli_fetch_row($result)){
         $role = $PEOPLE3[$i];
-        $role = mysqli_real_escape_string($link, $role);
+        //$role = mysqli_real_escape_string($link, $role);
         $user_id = $row[1];
-        $user_id = mysqli_real_escape_string($link, $user_id);
-        $result = mysqli_query($link, "update user set role = '$role' where user_id = '$user_id'");
+        //$user_id = mysqli_real_escape_string($link, $user_id);
+        //$result = mysqli_query($link, "update user set role = '$role' where user_id = '$user_id'");
         $i++;
       }
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($i . "だよ！");
