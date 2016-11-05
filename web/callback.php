@@ -228,7 +228,7 @@ function DoActionWaiting($message_text){
         $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya2', '逃亡者2', '$room_num', '無し', 0, 'false', 'false');");
       }
 
-      Cast();
+      //Cast();
     }
   }
 }
@@ -271,6 +271,7 @@ function ProcessRoling(){
 function ProcessVoting(){
   //誰かが投票するとカウント＋１とtrueと投票された人に＋１にする、投票のカウントと参加人数を照合して同数になったらgameMode+1と投票結果開示する
 }
+/*
 function Cast(){
   global $link, $gameRoomId;
   $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
@@ -303,7 +304,7 @@ function HandOut($num_of_people){
     }
   }
 }
-
+*/
 
 ////////////////////////////
 //データベースとの接続を終了する場所
