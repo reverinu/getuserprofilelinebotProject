@@ -70,6 +70,8 @@ $PEOPLE4 = array('村人','村人','占い師','怪盗','人狼','人狼');
 $PEOPLE5 = array('村人','村人','占い師','怪盗','人狼','人狼','狂人');
 $PEOPLE6 = array('村人','村人','村人','占い師','怪盗','人狼','人狼','狂人');
 
+$PEOPLE3[0] = "村人";
+
 $GAMEMODE_BEFORE_THE_START = "BEFORE_THE_START";//@game前
 $GAMEMODE_WAITING = "WAITING";//@game後
 $GAMEMODE_NIGHT = "NIGHT";//夜時間
@@ -157,7 +159,7 @@ function DoActionAll($message_text){
     // $button_message = CreateButtons($people);
     // $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $button_message);
 
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($PEOPLE3[1] . "だよ");
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($PEOPLE3[0] . "だよ");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
