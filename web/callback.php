@@ -148,7 +148,7 @@ function DoActionAll($message_text){
     $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId';");
     $row = mysqli_fetch_row($result);
     $game_room_num = $row[1];
-    $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1;");
+    $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 2, 1;");
     $row = mysqli_fetch_row($result);
     $user_id = $row[1];
     $response = $bot->pushMessage($user_id, $textMessageBuilder);
@@ -309,6 +309,7 @@ function HandOut($num_of_people){
   if(null != $row){
 
     $game_room_num = $row[1];
+    $game_room_num = mysqli_real_escape_string($link, $game_room_num);
     if(3 == $num_of_people){
 
       shuffle($PEOPLE3);
