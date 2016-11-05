@@ -145,7 +145,7 @@ function DoActionAll($message_text){
             $response = $bot->getProfile($event->source->userId);
             if ($response->isSucceeded()) {
 
-              $result = mysqli_query($link, "update game_room set num_of_people = num_of_people + 1 where game_room_num = '$gameRoomNum'");
+              $result = mysqli_query($link, "update game_room set num_of_people = num_of_people+1 where game_room_num = '$gameRoomNum'");
 
               $profile = $response->getJSONDecodedBody();
               $user_name = mysqli_real_escape_string($link, $profile['displayName']);
