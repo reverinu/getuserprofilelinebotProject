@@ -380,9 +380,7 @@ function CreateButtons($role){
     return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は狂人\n(「@ok」とコメントしてください)", $button);
   }
 
-  $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
-  $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "無しｗ（if文スルー）", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
-  return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は無しｗ（if文スルー）\n(「@ok」とコメントしてください)\n" . $role, $button);
+  return $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("$role : " . $role . "だよ");
 }
 
 
