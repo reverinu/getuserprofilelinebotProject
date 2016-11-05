@@ -87,6 +87,16 @@ if ("group" == $event->source->type) {
   $gameRoomId = $event->source->groupId;
 } else if ("room" == $event->source->type) {
   $gameRoomId = $event->source->roomId;
+} else if ("user" == $event->source->type) {
+  $user_id = $event->source->userId;
+  $user_id = mysqli_real_escape_string($link, $user_id);
+  $result = mysqli_query($link, "select * from user where user_id = '$user_id'");
+  $row = mysqli_fetch_row($result);
+  $game_room_num = $row[3];
+  $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+  $result = mysqli_query($link, "select * from game_room where game_room_num = '$game_room_num'");
+  $row = mysqli_fetch_row($result);
+  $gameRoomId = $row[2];
 }
 $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
 if($result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId';")){
@@ -315,13 +325,6 @@ function HandOut($num_of_people){
         $result = mysqli_query($link, "update user set role = '$role' where user = '$user_id'");
         $i++;
       }
-
-
-
-      $role = $PEOPLE3[0];
-      $role = mysqli_real_escape_string($link, $role);
-      $result = mysqli_query($link, "update user set  = '$role' where role = (select role from (select * from user) where game_room_num = '$game_room_num' limit 0, 1);");
-      $result = mysqli_query($link, "update user set (select role from (select * from user) where game_room_num = '$game_room_num' limit 0, 1) = '$role';");
 
       //これがボタンに置き換わる
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1;");
