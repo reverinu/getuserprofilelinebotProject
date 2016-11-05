@@ -153,8 +153,7 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    $people = PEOPLE3[0];
-    $button_message = CreateButtons('村人');
+    $button_message = CreateButtons($PEOPLE3[0]);
     $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $button_message);
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
@@ -332,20 +331,17 @@ function HandOut($num_of_people){
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
-      $people = PEOPLE3[0];
-      $button_message = CreateButtons($people);
+      $button_message = CreateButtons($PEOPLE3[0]);
       $response = $bot->pushMessage($user_id, $button_message);
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 1, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
-      $people = PEOPLE3[1];
-      $button_message = CreateButtons($people);
+      $button_message = CreateButtons($PEOPLE3[1]);
       $response = $bot->pushMessage($user_id, $button_message);
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 2, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
-      $people = PEOPLE3[2];
-      $button_message = CreateButtons($people);
+      $button_message = CreateButtons($PEOPLE3[2]);
       $response = $bot->pushMessage($user_id, $button_message);
       //ここまで
 
