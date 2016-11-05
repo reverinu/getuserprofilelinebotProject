@@ -144,6 +144,9 @@ function DoActionAll($message_text){
           if(null != $row){
             $response = $bot->getProfile($event->source->userId);
             if ($response->isSucceeded()) {
+
+              $result = mysqli_query($link, "update game_room set num_of_people = num_of_people + 1 where game_room_num = '$gameRoomNum'");
+
               $profile = $response->getJSONDecodedBody();
               $user_name = mysqli_real_escape_string($link, $profile['displayName']);
               $user_id = mysqli_real_escape_string($link, $event->source->userId);
@@ -180,10 +183,23 @@ function DoActionBefore($message_text){
 }
 //WaitingのDoAction,メッセージを見てアクションする
 function DoActionWaiting($message_text){
-  global $bot, $event, $link;
+  global $bot, $event, $link, $gameRoomId;
   if("group" == $event->source->type || "room" == $event->source->type){
     if ("@member" == $message_text) {
       // 現在参加者のみ表示
+      $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
+      $row = mysqli_fetch_row($result);
+      if(null != $row){
+        $game_room_num = $row[0];
+        $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+        $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
+        $memberListText = "";
+        while($row = mysqli_fetch_row($result)){
+          $memberListText .= $row[0] . "\n";
+        }
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧\n" . $memberListText);
+        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+      }
     } else if ("@start" == $message_text) {
       // 参加者一覧を表示してからゲーム開始
     }
