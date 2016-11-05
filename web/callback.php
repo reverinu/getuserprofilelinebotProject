@@ -212,7 +212,7 @@ function DoActionWaiting($message_text){
     } else if ("@start" == $message_text) {
       // 参加者一覧を表示してからゲーム開始
       $GAMEMODE_NIGHT = mysqli_real_escape_string($link, $GAMEMODE_NIGHT);
-      $result = mysqli_query($link, "update game_room set game_mode = '$GAMEMODE_NIGHT' where game_room_num = '$gameRoomId'");
+      $result = mysqli_query($link, "update game_room set game_mode = '$GAMEMODE_NIGHT' where game_room_id = '$gameRoomId'");
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ゲーム開始]\nワオーーーーン・・・\n\n\n狼の遠吠えが聞こえてくる。\n夜時間です。各自、個人チャットで行動してください");
       $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     }
