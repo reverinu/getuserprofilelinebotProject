@@ -335,17 +335,19 @@ function HandOut($num_of_people){
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
       $button_message = CreateButtons(PEOPLE3[0]);
-      $response = $bot->pushMessage($user_id, $button_message);
+      $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $button_message);
+
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 1, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
       $button_message = CreateButtons(PEOPLE3[1]);
-      $response = $bot->pushMessage($user_id, $button_message);
+      $response = $bot->pushMessage("Uab54cf610c0368b116049332cb72ae49", $button_message);
+
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 2, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
       $button_message = CreateButtons(PEOPLE3[2]);
-      $response = $bot->pushMessage($user_id, $button_message);
+      $response = $bot->pushMessage("Ua61b3f1425c3deafee2bd30e1ea1baaf", $button_message);
       //ここまで
 
     } else if(4 == $num_of_people){
