@@ -344,6 +344,8 @@ function HandOut($num_of_people){
         $result = mysqli_query($link, "update user set role = '$role' where user_id = '$user_id'");
         $i++;
       }
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($i . "だよ！");
+      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
       //これがボタンに置き換わる
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1;");
