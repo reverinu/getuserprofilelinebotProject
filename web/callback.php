@@ -370,7 +370,7 @@ function CreateButtons($role){
     $row = mysqli_fetch_row($result);
     $game_room_num = $row[1];
     $game_room_num = mysqli_real_escape_string($link, $game_room_num);
-    $result = mysqli_query($link, "select * from user where role = "村人" and role = "怪盗" and role = "人狼" and role = "狂人"");
+    $result = mysqli_query($link, "select * from user where role = '村人' and role = '怪盗' and role = '人狼' and role = '狂人'");
     $i = 0;
     while($row = mysqli_fetch_row($result)){
       $user_name = $row[2];
