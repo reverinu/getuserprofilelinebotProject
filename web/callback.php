@@ -243,8 +243,8 @@ function DoActionWaiting($message_text){
       if(null != $row){
         $room_num = $row[1];
         $room_num = mysqli_real_escape_string($link, $room_num);
-        $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya', '逃亡者1', '$room_num', '無し', 0, 'false', 'false');");
-        $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya', '逃亡者2', '$room_num', '無し', 0, 'false', 'false');");
+        $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya1', '逃亡者1', '$room_num', '無し', 0, 'false', 'false');");
+        $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya2', '逃亡者2', '$room_num', '無し', 0, 'false', 'false');");
       }
 
       Cast();
