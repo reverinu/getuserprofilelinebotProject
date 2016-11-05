@@ -130,15 +130,20 @@ function DoActionAll($message_text){
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   } else if ("@debug" == $message_text) {//デバッグ用
-    $result = mysqli_query($link, "select * from user where '$gameRoomId'");
+    $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
     $row = mysqli_fetch_row($result);
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[3]);
-    //$response = $bot->pushMessage($event->source->groupId, $textMessageBuilder);
+    $game_room_num = $row[0];
+    $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
+    while($row = mysqli_fetch_row($result)){
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[3]);
+      $response = $bot->pushMessage($event->source->groupId, $textMessageBuilder);
+    }
+
 
 
 
     //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($gameMode);
-    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    //$response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
