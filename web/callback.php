@@ -271,7 +271,7 @@ function DoActionNight($message_text){
       } else if ("怪盗" == $row[0]){
         CreateKaitoButton();
       } else {
-        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("行動完了。しばらくお待ちください。");
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[0] . "行動完了。しばらくお待ちください。");
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
       }
     }
