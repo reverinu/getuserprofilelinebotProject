@@ -167,8 +167,15 @@ function DoActionBefore($message_text){
   if("group" == $event->source->type || "room" == $event->source->type){
     if ("@game" == $message_text) {
       // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
-      $roomNumber = 101;// 仮
-      $roomNumber = mysqli_real_escape_string($link, $roomNumber);
+
+      while(null == $row){
+        $gameRoomNum = mt_rand(1,2);
+        $gameRoomNum = mysqli_real_escape_string($link, $gameRoomNum);
+        $rnj = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum'");
+        $row = mysqli_fetch_row($rnj);
+      }
+
+      $roomNumber = mysqli_real_escape_string($link, $gameRoomNum);
       if ("group" == $event->source->type){
         $gameRoomId = $event->source->groupId;
       } else if ("room" == $event->source->type) {
@@ -176,7 +183,7 @@ function DoActionBefore($message_text){
       }
       $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
       $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0);");
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームNumberを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！");
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームナンバーを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！");
       $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     }
   }
