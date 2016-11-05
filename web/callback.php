@@ -154,7 +154,7 @@ function DoActionAll($message_text){
 
   } else if ("@debug2" == $message_text) {
     $people = PEOPLE3[0];
-    $button_message = CreateButtons($people);
+    $button_message = CreateButtons('村人');
     $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $button_message);
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
