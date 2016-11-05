@@ -383,7 +383,7 @@ function CreateButtons($role){
     $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
     $message->add($button_message1);
     $message->add($button_message2);
-    return $message;
+    return $button_message1;
 
   } else if('怪盗' == $role){
     $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "");
