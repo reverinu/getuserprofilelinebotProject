@@ -326,8 +326,8 @@ function HandOut($num_of_people){
         $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit '$offset_num', 1;");
         $row = mysqli_fetch_row($result);
         $user_id = $row[1];
-        if ($i < 3) {
-          $response = $bot->pushMessage($user_id, $textMessageBuilder);
+        if ($i < $num_of_people) {
+          $response = $bot->pushMessage($gameRoomId, $textMessageBuilder);
         }
         //ここまで
 
