@@ -343,25 +343,25 @@ function HandOut($num_of_people){
       }
 
 
-      for($t = 0; $t < $i; $t++){
-        $role[$t] = mysqli_real_escape_string($link, $role[$t]);
-        $user_id[$t] = mysqli_real_escape_string($link, $role[$t]);
-        $result = mysqli_query($link, "update user set role = '$role[$t]' where user_id = '$user_id[$t]'");
-      }
+      // for($t = 0; $t < $i; $t++){
+      //   $role_tmp = mysqli_real_escape_string($link, $role[$t]);
+      //   $user_id[$t] = mysqli_real_escape_string($link, $user_id[$t]);
+      //   $result = mysqli_query($link, "update user set role = '$role[$t]' where user_id = '$user_id[$t]'");
+      // }
       $role[0] = mysqli_real_escape_string($link, $role[0]);
-      $user_id[0] = mysqli_real_escape_string($link, $role[0]);
+      $user_id[0] = mysqli_real_escape_string($link, $user_id[0]);
       $result = mysqli_query($link, "update user set role = '$role[0]' where user_id = '$user_id[0]'");
       $role[1] = mysqli_real_escape_string($link, $role[1]);
-      $user_id[1] = mysqli_real_escape_string($link, $role[1]);
+      $user_id[1] = mysqli_real_escape_string($link, $user_id[1]);
       $result = mysqli_query($link, "update user set role = '$role[1]' where user_id = '$user_id[1]'");
       $role[2] = mysqli_real_escape_string($link, $role[2]);
-      $user_id[2] = mysqli_real_escape_string($link, $role[2]);
+      $user_id[2] = mysqli_real_escape_string($link, $user_id[2]);
       $result = mysqli_query($link, "update user set role = '$role[2]' where user_id = '$user_id[2]'");
       $role[3] = mysqli_real_escape_string($link, $role[3]);
-      $user_id[3] = mysqli_real_escape_string($link, $role[3]);
+      $user_id[3] = mysqli_real_escape_string($link, $user_id[3]);
       $result = mysqli_query($link, "update user set role = '$role[3]' where user_id = '$user_id[3]'");
       $role[4] = mysqli_real_escape_string($link, $role[4]);
-      $user_id[4] = mysqli_real_escape_string($link, $role[4]);
+      $user_id[4] = mysqli_real_escape_string($link, $user_id[4]);
       $result = mysqli_query($link, "update user set role = '$role[4]' where user_id = '$user_id[4]'");
 
 
