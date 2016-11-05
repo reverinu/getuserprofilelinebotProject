@@ -321,18 +321,26 @@ function HandOut($num_of_people){
         //$role = mysqli_real_escape_string($link, $PEOPLE3[$i]);
         //$result = mysqli_query($link, "update user set (select role from (select * from user) where game_room_num = '$game_room_num' limit '$offset_num', 1) = '$role';");
 
-        //これがボタンに置き換わる
-        $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit '$offset_num', 1;");
-        $row = mysqli_fetch_row($result);
-        $user_id = $row[1];
-        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($user_id . "なんだが");
-        if ($i < $num_of_people) {
-          $response = $bot->pushMessage($gameRoomId, $textMessageBuilder);
-        }
-        //ここまで
-
-
       }
+
+      //これがボタンに置き換わる
+      $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1;");
+      $row = mysqli_fetch_row($result);
+      $user_id = $row[1];
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($user_id . "なんだが");
+      $response = $bot->pushMessage($gameRoomId, $textMessageBuilder);
+      $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 1, 1;");
+      $row = mysqli_fetch_row($result);
+      $user_id = $row[1];
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($user_id . "なんだが");
+      $response = $bot->pushMessage($gameRoomId, $textMessageBuilder);
+      $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 2, 1;");
+      $row = mysqli_fetch_row($result);
+      $user_id = $row[1];
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($user_id . "なんだが");
+      $response = $bot->pushMessage($gameRoomId, $textMessageBuilder);
+
+      //ここまで
 
     } else if(4 == $num_of_people){
       shuffle($PEOPLE4);
