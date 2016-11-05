@@ -345,7 +345,7 @@ function HandOut($num_of_people){
         $i++;
       }
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($i . "だよ！");
-      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+      $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $textMessageBuilder);
 
       //これがボタンに置き換わる
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1;");
