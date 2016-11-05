@@ -337,17 +337,18 @@ function HandOut($num_of_people){
         $user_id[$i] = $row[1];
         //$user_id = mysqli_real_escape_string($link, $user_id);
         //$result = mysqli_query($link, "update user set role = '$role' where user_id = '$user_id'");
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($role[$i] . "だよ！\n" . $user_id[$i]);
+        $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $textMessageBuilder);
         $i++;
       }
 
+
       for($t = 0; $t < $i; $t++){
-        $t_esc = mysqli_real_escape_string($link, $t);
-        $role[$t_esc] = mysqli_real_escape_string($link, $role[$t_esc]);
-        $user_id[$t_esc] = mysqli_real_escape_string($link, $role[$t_esc]);
-        $result = mysqli_query($link, "update user set role = '$role[$t_esc]' where user_id = '$user_id[$t_esc]'");
+        $role[$t] = mysqli_real_escape_string($link, $role[$t]);
+        $user_id[$t] = mysqli_real_escape_string($link, $role[$t]);
+        $result = mysqli_query($link, "update user set role = '$role[$t]' where user_id = '$user_id[$t]'");
       }
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($i . "だよ！");
-      $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $textMessageBuilder);
+
 
       //これがボタンに置き換わる
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1;");
