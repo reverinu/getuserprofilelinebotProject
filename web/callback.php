@@ -156,7 +156,7 @@ function DoActionAll($message_text){
     // $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
     // $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "人狼", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
     // $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は人狼\n(「@ok」とコメントしてください)", $button);
-    $button_message = CreateButtons("村人");
+    $button_message = CreateButtons(PEOPLE3[0]);
     $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $button_message);
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
@@ -335,19 +335,19 @@ function HandOut($num_of_people){
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
       $button_message = CreateButtons(PEOPLE3[0]);
-      $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $button_message);
-
+      $response = $bot->pushMessage($user_id, $button_message);
+      sleep(1);
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 1, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
       $button_message = CreateButtons(PEOPLE3[1]);
-      $response = $bot->pushMessage("Uab54cf610c0368b116049332cb72ae49", $button_message);
-
+      $response = $bot->pushMessage($user_id, $button_message);
+      sleep(1);
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 2, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
       $button_message = CreateButtons(PEOPLE3[2]);
-      $response = $bot->pushMessage("Ua61b3f1425c3deafee2bd30e1ea1baaf", $button_message);
+      $response = $bot->pushMessage($user_id, $button_message);
       //ここまで
 
     } else if(4 == $num_of_people){
