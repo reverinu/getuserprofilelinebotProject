@@ -145,10 +145,10 @@ function DoActionAll($message_text){
   } else if ("@debug2" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("seikou");
 
-    $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
+    $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId';");
     $row = mysqli_fetch_row($result);
     $game_room_num = $row[1];
-    $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1");
+    $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1;");
     $row = mysqli_fetch_row($result);
     $user_id = $row[1];
     $response = $bot->pushMessage($user_id, $textMessageBuilder);
@@ -158,7 +158,7 @@ function DoActionAll($message_text){
   } else if ("user" == $event->source->type) {// 一時的にこっち。最終的にはuser情報からテーブル持ってきて以下略（これだとゲーム中に途中参加できてしまう）
     $gameRoomNum = mysqli_real_escape_string($link, $message_text);
     $userId = mysqli_real_escape_string($link, $event->source->userId);
-    if($result = mysqli_query($link, "select * from user where user_id = '$userId'")){
+    if($result = mysqli_query($link, "select * from user where user_id = '$userId';")){
       $row = mysqli_fetch_row($result);
       if(null == $row){// 中身が空なら実行
         //個人チャット内
@@ -168,7 +168,7 @@ function DoActionAll($message_text){
             $response = $bot->getProfile($event->source->userId);
             if ($response->isSucceeded()) {
 
-              $result = mysqli_query($link, "update game_room set num_of_people = num_of_people+1 where game_room_num = '$gameRoomNum'");
+              $result = mysqli_query($link, "update game_room set num_of_people = num_of_people+1 where game_room_num = '$gameRoomNum';");
 
               $profile = $response->getJSONDecodedBody();
               $user_name = mysqli_real_escape_string($link, $profile['displayName']);
@@ -294,7 +294,7 @@ function ProcessVoting(){
 
 function Cast(){
   global $link, $gameRoomId;
-  $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
+  $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId';");
   $row = mysqli_fetch_row($result);
   if(null != $row){
     $num_of_people = $row[4];
@@ -304,7 +304,7 @@ function Cast(){
 
 function HandOut($num_of_people){
   global $bot, $event, $link, $PEOPLE3, $PEOPLE4, $PEOPLE5, $PEOPLE6, $gameRoomId;
-  $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
+  $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId';");
   $row = mysqli_fetch_row($result);
   if(null != $row){
 
@@ -317,15 +317,16 @@ function HandOut($num_of_people){
         $offset_num = $i;
         $offset_num = mysqli_real_escape_string($link, $offset_num);
         $role = mysqli_real_escape_string($link, $PEOPLE3[$i]);
-        $result = mysqli_query($link, "update user set (select role from (select * from user) where game_room_num = '$game_room_num' limit '$offset_num', 1) = '$role'");
-        //$result = mysqli_query($link, "update (select * from user where game_room_num = '$game_room_num' limit '$offset_num', 1) as sub_role set sub_role.role = '$role'");
+        //$result = mysqli_query($link, "update user set (select role from (select * from user) where game_room_num = '$game_room_num' limit '$offset_num', 1) = '$role';");
 
         //これがボタンに置き換わる
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($role);
-        $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit '$offset_num', 1");
+        $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit '$offset_num', 1;");
         $row = mysqli_fetch_row($result);
         $user_id = $row[1];
-        $response = $bot->pushMessage($user_id, $textMessageBuilder);
+        if ($i < 3) {
+          $response = $bot->pushMessage($user_id, $textMessageBuilder);
+        }
         //ここまで
 
 
