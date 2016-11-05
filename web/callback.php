@@ -314,16 +314,21 @@ function HandOut($num_of_people){
       shuffle($PEOPLE3);
 
       for($i=0; $i < 5; $i++){
-        $offset_num = $i-1;
+        $offset_num = $i;
         $offset_num = mysqli_real_escape_string($link, $offset_num);
         $role = mysqli_real_escape_string($link, $PEOPLE3[$i]);
         $result = mysqli_query($link, "update user set (select role from (select * from user) where game_room_num = '$game_room_num' limit '$offset_num', 1) = '$role'");
         //$result = mysqli_query($link, "update (select * from user where game_room_num = '$game_room_num' limit '$offset_num', 1) as sub_role set sub_role.role = '$role'");
+
+        //これがボタンに置き換わる
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($role);
-        $result = mysqli_query($link, "select * from user where where game_room_num = '$game_room_num' limit '$offset_num', 1");
+        $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit '$offset_num', 1");
         $row = mysqli_fetch_row($result);
         $user_id = $row[1];
         $response = $bot->pushMessage($user_id, $textMessageBuilder);
+        //ここまで
+
+
       }
 
     } else if(4 == $num_of_people){
