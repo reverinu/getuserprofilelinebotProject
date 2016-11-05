@@ -258,8 +258,24 @@ function DoActionWaiting($message_text){
 }
 //NightのDoAction,メッセージを見てアクションする
 function DoActionNight($message_text){
-  global $bot, $event;
+  global $bot, $event, $link;
   //messageでif分けする（役職行動）
+  if("user" == $event->source->type) {
+    if("@ok" == $message_text){
+      $userId = $event->source->userId;
+      $userId = mysqli_real_escape_string($link, $userId);
+      $result = mysqli_query($link, "select role from user where user_id = '$userId';");
+      $row = mysqli_fetch_row($result);
+      if("占い師" == $row[0]){
+        CreateUranaiButton();
+      } else if ("怪盗" == $row[0]){
+        CreateKaitoButton();
+      } else {
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("行動完了。しばらくお待ちください。");
+        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+      }
+    }
+  }
 }
 //NoonのDoAction,メッセージを見てアクションする
 function DoActionNoon($message_text){
@@ -363,35 +379,31 @@ function CreateButtons($role){
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "村人", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
     return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は村人\n(「@ok」とコメントしてください)", $button);
   } else if('占い師' == $role){
-    $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@OK");
+    $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "占い師", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
-    $button_message1 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は占い師\n(「@ok」とコメントしてください)", $button);
-    $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
-    $row = mysqli_fetch_row($result);
-    $game_room_num = $row[1];
-    $game_room_num = mysqli_real_escape_string($link, $game_room_num);
-    $result = mysqli_query($link, "select * from user where role != '占い師' and game_room_num = '$game_room_num'");
-    $i = 0;
-    while($row = mysqli_fetch_row($result)){
-      $user_name = $row[2];
-      $user_names[$i] = $user_name;
-      $action[$i] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($user_name, "占い@" . $user_name);
-      $i++;
-    }
-    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1], $action[2]]);
-    $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[0] . "/占い@" . $user_names[1] . "/占い@" . $user_names[2] . "/占い@" . $user_names[3] . ")", $button);
-    $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
-    $message->add($button_message1);
-    $message->add($button_message2);
-    return $message;
-
+    return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は占い師\n(「@ok」とコメントしてください)", $button);
+    // $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
+    // $row = mysqli_fetch_row($result);
+    // $game_room_num = $row[1];
+    // $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+    // $result = mysqli_query($link, "select * from user where role != '占い師' and game_room_num = '$game_room_num'");
+    // $i = 0;
+    // while($row = mysqli_fetch_row($result)){
+    //   $user_name = $row[2];
+    //   $user_names[$i] = $user_name;
+    //   $action[$i] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($user_name, "占い@" . $user_name);
+    //   $i++;
+    // }
+    // $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1], $action[2]]);
+    // $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[0] . "/占い@" . $user_names[1] . "/占い@" . $user_names[2] . "/占い@" . $user_names[3] . ")", $button);
+    // $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+    // $message->add($button_message1);
+    // $message->add($button_message2);
+    // return $button_message;
   } else if('怪盗' == $role){
     $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "");
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "怪盗", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
-    $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は怪盗\n(「@ok」とコメントしてください)", $button);
-
-
-    return;
+    return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は怪盗\n(「@ok」とコメントしてください)", $button);
   } else if('人狼' == $role){
     $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "人狼", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
@@ -401,6 +413,12 @@ function CreateButtons($role){
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "狂人", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
     return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は狂人\n(「@ok」とコメントしてください)", $button);
   }
+}
+function CreateUranaiButton(){
+
+}
+
+function CreateKaitoButton(){
 
 }
 
