@@ -375,15 +375,15 @@ function CreateButtons($role){
     // while($row = mysqli_fetch_row($result)){
     //   $user_name = $row[2];
     //   $user_names[$i] = $user_name;
-    //   $action[$i] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($user_name, "uranai@" . $user_name);
+    //   $action[$i] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($user_name, "占い@" . $user_name);
     //   $i++;
     // }
     // $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1], $action[2], $action[3]]);
-    // $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(uranai@" . $user_names[0] . "/uranai@" . $user_names[1] . "/uranai@" . $user_names[2] . "/uranai@" . $user_names[3] . ")", $button);
+    // $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[0] . "/占い@" . $user_names[1] . "/占い@" . $user_names[2] . "/占い@" . $user_names[3] . ")", $button);
     // $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
     // $message->add($button_message1);
     // $message->add($button_message2);
-    return $button_message2;
+    return $button_message1;
 
   } else if('怪盗' == $role){
     $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "");
