@@ -153,7 +153,8 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    $button_message = CreateButtons($PEOPLE3[0]);
+    $people = array($PEOPLE3[0]);
+    $button_message = CreateButtons($people);
     $response = $bot->pushMessage("Uaa3a852ad12ceb1b4daca873a8462260", $button_message);
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
