@@ -65,6 +65,11 @@ $db = 'heroku_e0a333c38f14545';
 $link = mysqli_connect($server, $username, $password, $db);
 
 
+$PEOPLE3 = array("村人","占い師","怪盗","人狼","人狼");
+$PEOPLE4 = array("村人","村人","占い師","怪盗","人狼","人狼");
+$PEOPLE5 = array("村人","村人","占い師","怪盗","人狼","人狼","狂人");
+$PEOPLE6 = array("村人","村人","村人","占い師","怪盗","人狼","人狼","狂人");
+
 $GAMEMODE_BEFORE_THE_START = "BEFORE_THE_START";//@game前
 $GAMEMODE_WAITING = "WAITING";//@game後
 $GAMEMODE_NIGHT = "NIGHT";//夜時間
@@ -91,8 +96,6 @@ if($result = mysqli_query($link, "select * from game_room where game_room_id = '
     $gameMode = $game_mode;
   }
 }
-
-
 
 if("message" == $event->type){
   DoActionAll($event->message->text);
@@ -215,6 +218,17 @@ function DoActionWaiting($message_text){
       $result = mysqli_query($link, "update game_room set game_mode = '$GAMEMODE_NIGHT' where game_room_id = '$gameRoomId'");
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ゲーム開始]\nワオーーーーン・・・\n\n\n狼の遠吠えが聞こえてくる。\n夜時間です。各自、個人チャットで行動してください");
       $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+      // 逃亡者生成
+      $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
+      $row = mysqli_fetch_row($result);
+      if(null != $row){
+        $room_num = $row[0];
+        $room_num = mysqli_real_escape_string($link, $room_num);
+        $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya', '逃亡者1', '$room_num', '無し', 0, 'false', 'false');");
+        $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya', '逃亡者2', '$room_num', '無し', 0, 'false', 'false');");
+      }
+
+      Cast();
     }
   }
 }
@@ -257,7 +271,38 @@ function ProcessRoling(){
 function ProcessVoting(){
   //誰かが投票するとカウント＋１とtrueと投票された人に＋１にする、投票のカウントと参加人数を照合して同数になったらgameMode+1と投票結果開示する
 }
-
+function Cast(){
+  global $link, $gameRoomId;
+  $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
+  $row = mysqli_fetch_row($result);
+  if(null != $row){
+    $num_of_people = $row[3];
+    HandOut($num_of_people);
+  }
+}
+function HandOut($num_of_people){
+  global $bot, $event, $link, $PEOPLE3, $PEOPLE4, $PEOPLE5, $PEOPLE6, $gameRoomId;
+  $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
+  $row = mysqli_fetch_row($result);
+  if(null != $row){
+    $game_room_num = $row[0];
+    if(3 == $num_of_people){
+      shuffle($PEOPLE3);
+      for(i=0; i < 5; i++){
+        $offset_num = i;
+        $offset_num = mysqli_real_escape_string($link, $offset_num);
+        $PEOPLE3[i] = mysqli_real_escape_string($link, $PEOPLE3[i]);
+        $result = mysqli_query($link, "update user set role = '$PEOPLE3[i]' where game_room_num = '$game_room_num' limit 1 offset '$offset_num'");
+      }
+    } else if(4 == $num_of_people){
+      shuffle($PEOPLE4);
+    } else if(5 == $num_of_people){
+      shuffle($PEOPLE5);
+    } else if(6 == $num_of_people){
+      shuffle($PEOPLE6);
+    }
+  }
+}
 
 
 ////////////////////////////
