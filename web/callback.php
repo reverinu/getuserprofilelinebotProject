@@ -65,7 +65,7 @@ $db = 'heroku_e0a333c38f14545';
 $link = mysqli_connect($server, $username, $password, $db);
 
 
-$PEOPLE3 = array('村人','占い師','怪盗','人狼','狂人');
+$PEOPLE3 = array('村人','占い師','怪盗','人狼','人狼');
 $PEOPLE4 = array('村人','村人','占い師','怪盗','人狼','人狼');
 $PEOPLE5 = array('村人','村人','占い師','怪盗','人狼','人狼','狂人');
 $PEOPLE6 = array('村人','村人','村人','占い師','怪盗','人狼','人狼','狂人');
@@ -364,18 +364,20 @@ function HandOut($num_of_people){
       $user_id[4] = mysqli_real_escape_string($link, $user_id[4]);
       $result = mysqli_query($link, "update user set role = '$role[4]' where user_id = '$user_id[4]'");
 
-
+      sleep(0.1);
       //これがボタンに置き換わる
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 0, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
       $button_message = CreateButtons($PEOPLE3[0]);
       $response = $bot->pushMessage($user_id, $button_message);
+      sleep(0.1);
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 1, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
       $button_message = CreateButtons($PEOPLE3[1]);
       $response = $bot->pushMessage($user_id, $button_message);
+      sleep(0.1);
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num' limit 2, 1;");
       $row = mysqli_fetch_row($result);
       $user_id = $row[1];
