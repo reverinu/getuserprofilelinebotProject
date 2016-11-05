@@ -278,17 +278,19 @@ function Cast(){
   $row = mysqli_fetch_row($result);
   if(null != $row){
     $num_of_people = $row[3];
-    //HandOut($num_of_people);
+    HandOut($num_of_people);
   }
 }
-/*
+
 function HandOut($num_of_people){
   global $bot, $event, $link, $PEOPLE3, $PEOPLE4, $PEOPLE5, $PEOPLE6, $gameRoomId;
   $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
   $row = mysqli_fetch_row($result);
   if(null != $row){
+
     $game_room_num = $row[0];
     if(3 == $num_of_people){
+      /*
       shuffle($PEOPLE3);
       for(i=0; i < 5; i++){
         $offset_num = i;
@@ -296,6 +298,7 @@ function HandOut($num_of_people){
         $PEOPLE3[i] = mysqli_real_escape_string($link, $PEOPLE3[i]);
         $result = mysqli_query($link, "update user set role = '$PEOPLE3[i]' where game_room_num = '$game_room_num' limit 1 offset '$offset_num'");
       }
+      */
     } else if(4 == $num_of_people){
       shuffle($PEOPLE4);
     } else if(5 == $num_of_people){
@@ -305,7 +308,7 @@ function HandOut($num_of_people){
     }
   }
 }
-*/
+
 
 
 ////////////////////////////
