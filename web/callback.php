@@ -304,14 +304,14 @@ function HandOut($num_of_people){
       shuffle($PEOPLE3);
 
       for($i=0; $i < 5; $i++){
-        $offset_num = $i;
+        $offset_num = $i-1;
         $offset_num = mysqli_real_escape_string($link, $offset_num);
         $role = mysqli_real_escape_string($link, $PEOPLE3[$i]);
 
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($role);
         $response = $bot->pushMessage($event->source->groupId, $textMessageBuilder);
-        
-        $result = mysqli_query($link, "update user set role = '$role' where game_room_num = '$game_room_num' limit 1 offset '$offset_num'");
+
+        $result = mysqli_query($link, "update user, (select * from user where game_room_num = '$game_room_num' limit 1 offset '$offset_num' as role2) a set a.role2 = '$role'");
       }
 
     } else if(4 == $num_of_people){
