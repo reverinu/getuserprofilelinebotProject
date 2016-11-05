@@ -195,7 +195,7 @@ function DoActionWaiting($message_text){
         $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
         $memberListText = "";
         while($row = mysqli_fetch_row($result)){
-          $memberListText .= $row[0] . "\n";
+          $memberListText .= $row[1] . "\n";
         }
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧\n" . $memberListText);
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
