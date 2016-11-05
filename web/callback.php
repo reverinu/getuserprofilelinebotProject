@@ -143,7 +143,7 @@ function DoActionAll($message_text){
   } else if ("@debug" == $message_text) {//デバッグ用
     $result = mysqli_query($link, "select user_id from user where game_room_num = '$game_room_num'");
     $row = mysqli_fetch_row($result);
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[1]);
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[0]);
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
@@ -334,7 +334,7 @@ function HandOut($num_of_people){
       for ($i = 0; $i < $row2[0]; $i++) {
         $role = $PEOPLE3[$i];
         $role = mysqli_real_escape_string($link, $role);
-        $user_id = $row[$i];
+        $user_id = $row[0];
         $user_id = mysqli_real_escape_string($link, $user_id);
         $result = mysqli_query($link, "update user set role = '$role' where user_id = '$user_id'");
       }
