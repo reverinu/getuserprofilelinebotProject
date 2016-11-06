@@ -460,7 +460,7 @@ function DoActionEnd($message_text){
 //部屋に入ったときに諸々発言
 function DoActionJoin(){
   global $bot, $event;
-  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！\n\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n\nってコメントしてね！");
+  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！(３～５人対応)\n\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n\nってコメントしてね！");
   $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 }
 //部屋から退出させられるときの処理
