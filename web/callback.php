@@ -44,6 +44,7 @@
 
 
 require('../vendor/autoload.php');
+require('../web/CarouselModel.php');
 
 
 //POST
@@ -149,28 +150,10 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    // $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
-    // $row = mysqli_fetch_row($result);
-    // $game_room_id = $row[0];
-    // $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[議論開始]\n朝になりました\n\n\nこの中に狼が潜んでいるかもしれません。\n議論を始めてください。");
-    // $response = $bot->pushMessage($game_room_id, $textMessageBuilder);
-    $result = mysqli_query($link, "select num_of_people from game_room where game_room_num = '$game_room_num'");
+    $result = mysqli_query($link, "select game_room_num from user order by id desc limit 1");
     $row = mysqli_fetch_row($result);
-    $num_of_people = $row[0];
-    $result = mysqli_query($link, "select num_of_roles from game_room where game_room_num = '$game_room_num'");
-    $row = mysqli_fetch_row($result);
-    $num_of_roles = $row[0];
-
-    if($num_of_people == $num_of_roles){
-      $GAMEMODE_NOON = mysqli_real_escape_string($link, $GAMEMODE_NOON);
-      $result = mysqli_query($link, "update game_room set gameMode = '$GAMEMODE_NOON' where game_room_num = '$game_room_num'");
-
-      $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
-      $row = mysqli_fetch_row($result);
-      $game_room_id = $row[0];
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[議論開始]\n朝になりました\n\n\nこの中に狼が潜んでいるかもしれません。\n議論を始めてください。");
-      $response = $bot->pushMessage($game_room_id, $textMessageBuilder);
-    }
+    error_log(print_r($row,true));
+    CarouselModel::sendCarousel($row[0],$link,$bot);
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
     $result = mysqli_query($link,"TRUNCATE TABLE user");
@@ -304,10 +287,6 @@ function DoActionNight($message_text){
           $result = mysqli_query($link, "update game_room set num_of_roles = num_of_roles+1 where game_room_num = '$game_room_num'");
         }
       } else {
-        // $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
-        // $row = mysqli_fetch_row($result);
-        // $game_room_num = $row[0];
-        // $game_room_num = mysqli_real_escape_string($link, $game_room_num);
         $result = mysqli_query($link, "select user_name from user where game_room_num = '$game_room_num'");
 
         $uranai = "";
@@ -364,10 +343,6 @@ function DoActionNight($message_text){
           }
         }
       }
-      // $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
-      // $row = mysqli_fetch_row($result);
-      // $game_room_num = $row[0];
-      // $game_room_num = mysqli_real_escape_string($link, $game_room_num);
       $result = mysqli_query($link, "select num_of_people from game_room where game_room_num = '$game_room_num'");
       $row = mysqli_fetch_row($result);
       $num_of_people = $row[0];
@@ -384,6 +359,12 @@ function DoActionNight($message_text){
         $game_room_id = $row[0];
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[議論開始]\n朝になりました\n\n\nこの中に狼が潜んでいるかもしれません。\n議論を始めてください。");
         $response = $bot->pushMessage($game_room_id, $textMessageBuilder);
+
+        // カルーセル
+        $result = mysqli_query($link, "select game_room_num from user order by id desc limit 1");
+        $row = mysqli_fetch_row($result);
+        error_log(print_r($row,true));
+        CarouselModel::sendCarousel($row[0],$link,$bot);
       }
     }
 
