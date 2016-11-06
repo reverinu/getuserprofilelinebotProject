@@ -298,7 +298,9 @@ function DoActionNight($message_text){
           }
         }
         if($isExist){
-          if("占い@" . $uranai == $message_text){
+          $result = mysqli_query($link, "select user_id from user_temp where role = '占い師'");
+          $row = mysqli_fetch_row($result);
+          if("占い@" . $uranai == $message_text && $userId == $row[0]){
             $uranai = mysqli_real_escape_string($link, $uranai);
             $result = mysqli_query($link, "select role from user_temp where user_name = '$uranai'");
             $text = "占い結果\n";
@@ -310,7 +312,10 @@ function DoActionNight($message_text){
 
             $result = mysqli_query($link, "update user set is_roling = 1 where user_id = '$userId'");
           }
-          if("怪盗@" . $kaito == $message_text){
+
+          $result = mysqli_query($link, "select user_id from user_temp where role = '怪盗'");
+          $row = mysqli_fetch_row($result);
+          if("怪盗@" . $kaito == $message_text && $userId == $row[0]){
             $result = mysqli_query($link, "select role from user where user_id = '$userId'");
             $row = mysqli_fetch_row($result);
             $myself = $row[0];
