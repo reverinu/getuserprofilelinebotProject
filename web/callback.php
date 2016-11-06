@@ -151,7 +151,7 @@ function DoActionAll($message_text){
   } else if ("@debug2" == $message_text) {
     // $button_message = CreateButtons('占い師');
     // $response = $bot->replyMessage($event->replyToken, $button_message);
-    $button_message = CreateKaitoButton($event->source->userId);
+    $button_message = CreateUranaiButton($event->source->userId);
     $response = $bot->pushMessage($event->source->userId, $button_message);
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
