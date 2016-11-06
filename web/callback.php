@@ -258,9 +258,10 @@ function DoActionNight($message_text){
   global $bot, $event, $link;
   //messageでif分けする（役職行動）
   if("user" == $event->source->type) {
+    $userId = $event->source->userId;
+    $userId = mysqli_real_escape_string($link, $userId);
     if("@ok" == $message_text){
-      $userId = $event->source->userId;
-      $userId = mysqli_real_escape_string($link, $userId);
+
       $result = mysqli_query($link, "select role from user where user_id = '$userId';");
       $row = mysqli_fetch_row($result);
       if("占い師" == $row[0]){
