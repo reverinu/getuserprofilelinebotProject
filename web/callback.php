@@ -319,7 +319,7 @@ function DoActionNight($message_text){
             $result = mysqli_query($link, "update game_room set num_of_roles = num_of_roles+1 where game_room_num = '$game_room_num'");
           }
 
-          $result = mysqli_query($link, "select user_id from user_temp where role = '怪盗'");
+          $result = mysqli_query($link, "select user_id from user where role = '怪盗'");
           $row = mysqli_fetch_row($result);
           if("怪盗@" . $kaito == $message_text && $userId == $row[0]){
             $result = mysqli_query($link, "select role from user where user_id = '$userId'");
