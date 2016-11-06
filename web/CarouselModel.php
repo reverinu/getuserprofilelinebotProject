@@ -60,7 +60,7 @@ class CarouselModel
                     $imgurl = $bot->getProfile($userid)->getJSONDecodedBody()["pictureUrl"];
 //$imgurl."jpeg"
                     $senderlist[] = $userid;
-                    $col = new CarouselColumnTemplateBuilder('投票してください(投票@投票したい人の名前)', $username,"https://pbs.twimg.com/profile_images/459921170251264000/ax4FMwXA.jpeg", [
+                    $col = new CarouselColumnTemplateBuilder('投票先指定', $username,"https://pbs.twimg.com/profile_images/459921170251264000/ax4FMwXA.jpeg", [
                         new MessageTemplateActionBuilder('投票', '投票@' . $username)
                     ]);
                     $CarouselColumnTemplates[] = $col;
@@ -69,7 +69,7 @@ class CarouselModel
 
             $carouselTemplateBuilder = new CarouselTemplateBuilder($CarouselColumnTemplates);
             //CarouselColumnTemplateBuilderの配列
-            $templateMessage = new TemplateMessageBuilder('投票してください', $carouselTemplateBuilder);
+            $templateMessage = new TemplateMessageBuilder('投票してください(投票@投票したい人のLINEネーム)', $carouselTemplateBuilder);
             $response = $bot->pushMessage(key($userList[$i]), $templateMessage);
             error_log("response : " . print_r($response,true) );
 
