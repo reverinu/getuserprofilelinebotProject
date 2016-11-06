@@ -69,7 +69,6 @@ $link = mysqli_connect($server, $username, $password, $db);
 $PEOPLE3 = array('村人','占い師','怪盗','人狼','人狼');
 $PEOPLE4 = array('村人','村人','占い師','怪盗','人狼','人狼');
 $PEOPLE5 = array('村人','村人','占い師','怪盗','人狼','人狼','狂人');
-$PEOPLE6 = array('村人','村人','村人','占い師','怪盗','人狼','人狼','狂人');
 
 
 $GAMEMODE_BEFORE_THE_START = "BEFORE_THE_START";//@game前
@@ -492,7 +491,7 @@ function Cast(){
 }
 
 function HandOut($num_of_people){
-  global $bot, $event, $link, $PEOPLE3, $PEOPLE4, $PEOPLE5, $PEOPLE6, $gameRoomId;
+  global $bot, $event, $link, $PEOPLE3, $PEOPLE4, $PEOPLE5, $gameRoomId;
   $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId';");
   $row = mysqli_fetch_row($result);
   if(null != $row){
@@ -531,16 +530,69 @@ function HandOut($num_of_people){
 
     } else if(4 == $num_of_people){
       shuffle($PEOPLE4);
+      $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
+      $i = 0;
+      while($row = mysqli_fetch_row($result)){
+        $role[$i] = $PEOPLE3[$i];
+        $user_id[$i] = $row[1];
+        $i++;
+      }
+      $result = mysqli_query($link, "update user set role = '$role[0]' where user_id = '$user_id[0]'");
+      $result = mysqli_query($link, "update user set role = '$role[1]' where user_id = '$user_id[1]'");
+      $result = mysqli_query($link, "update user set role = '$role[2]' where user_id = '$user_id[2]'");
+      $result = mysqli_query($link, "update user set role = '$role[3]' where user_id = '$user_id[3]'");
+      $result = mysqli_query($link, "update user set role = '$role[4]' where user_id = '$user_id[4]'");
+      $result = mysqli_query($link, "update user set role = '$role[5]' where user_id = '$user_id[5]'");
+
+      $result = mysqli_query($link, "insert into user_temp select * from user");
+
+      //これがボタンに置き換わる
+      $button_message = CreateButtons($PEOPLE3[0]);
+      $response = $bot->pushMessage($user_id[0], $button_message);
+      $button_message = CreateButtons($PEOPLE3[1]);
+      $response = $bot->pushMessage($user_id[1], $button_message);
+      $button_message = CreateButtons($PEOPLE3[2]);
+      $response = $bot->pushMessage($user_id[2], $button_message);
+      $button_message = CreateButtons($PEOPLE3[3]);
+      $response = $bot->pushMessage($user_id[3], $button_message);
+      //ここまで
     } else if(5 == $num_of_people){
       shuffle($PEOPLE5);
-    } else if(6 == $num_of_people){
-      shuffle($PEOPLE6);
+      $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
+      $i = 0;
+      while($row = mysqli_fetch_row($result)){
+        $role[$i] = $PEOPLE3[$i];
+        $user_id[$i] = $row[1];
+        $i++;
+      }
+      $result = mysqli_query($link, "update user set role = '$role[0]' where user_id = '$user_id[0]'");
+      $result = mysqli_query($link, "update user set role = '$role[1]' where user_id = '$user_id[1]'");
+      $result = mysqli_query($link, "update user set role = '$role[2]' where user_id = '$user_id[2]'");
+      $result = mysqli_query($link, "update user set role = '$role[3]' where user_id = '$user_id[3]'");
+      $result = mysqli_query($link, "update user set role = '$role[4]' where user_id = '$user_id[4]'");
+      $result = mysqli_query($link, "update user set role = '$role[5]' where user_id = '$user_id[5]'");
+      $result = mysqli_query($link, "update user set role = '$role[6]' where user_id = '$user_id[6]'");
+
+      $result = mysqli_query($link, "insert into user_temp select * from user");
+
+      //これがボタンに置き換わる
+      $button_message = CreateButtons($PEOPLE3[0]);
+      $response = $bot->pushMessage($user_id[0], $button_message);
+      $button_message = CreateButtons($PEOPLE3[1]);
+      $response = $bot->pushMessage($user_id[1], $button_message);
+      $button_message = CreateButtons($PEOPLE3[2]);
+      $response = $bot->pushMessage($user_id[2], $button_message);
+      $button_message = CreateButtons($PEOPLE3[3]);
+      $response = $bot->pushMessage($user_id[3], $button_message);
+      $button_message = CreateButtons($PEOPLE3[4]);
+      $response = $bot->pushMessage($user_id[4], $button_message);
+      //ここまで
     }
   }
 }
 // 役職によってButtonの形状が異なる
 function CreateButtons($role){
-  global $link, $PEOPLE3, $PEOPLE4, $PEOPLE5, $PEOPLE6, $gameRoomId;
+  global $link, $PEOPLE3, $PEOPLE4, $PEOPLE5, $gameRoomId;
   if('村人' == $role){
     $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "村人", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
