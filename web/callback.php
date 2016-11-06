@@ -367,7 +367,7 @@ function DoActionNight($message_text){
 }
 //NoonのDoAction,メッセージを見てアクションする
 function DoActionNoon($message_text){
-  global $bot, $event, $link;
+  global $bot, $event, $link, $game_room_num;
   //messageでif分けする(投票)
   if("user" == $event->source->type){
     $userId = $event->source->userId;
@@ -383,16 +383,41 @@ function DoActionNoon($message_text){
         }
       }
       $user_name = mysqli_real_escape_string($link, $user_name);
-      $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
-      $row = mysqli_fetch_row($result);
-      $game_room_num = $row[0];
-      $game_room_num = mysqli_real_escape_string($link, $game_room_num);
       $result = mysqli_query($link, "update user set is_voting = 1 where user_id = '$userId'");
       $result = mysqli_query($link, "update user set voted_num = voted_num+1 where user_name = '$user_name'");
       $result = mysqli_query($link, "update game_room set num_of_votes = num_of_votes+1 where game_room_num = '$game_room_num'");
 
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($user_name . "に投票しました。");
       $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    }
+
+    $result = mysqli_query($link, "select num_of_people from game_room where game_room_num = '$game_room_num'");
+    $row = mysqli_fetch_row($result);
+    $num_of_people = $row[0];
+    $result = mysqli_query($link, "select num_of_votes from game_room where game_room_num = '$game_room_num'");
+    $row = mysqli_fetch_row($result);
+    $num_of_votes = $row[0];
+
+    if($num_of_people == $num_of_votes){
+      $GAMEMODE_END = mysqli_real_escape_string($link, $GAMEMODE_END);
+      $result = mysqli_query($link, "update game_room set game_mode = '$GAMEMODE_END' where game_room_num = '$game_room_num'");
+
+
+      $result = mysqli_query($link, "select user_name , role , voted_num from user where game_room_num = '$game_room_num'");
+
+      $text = "投票結果開示\n";
+      while($row = mysqli_fetch_row($result)){
+        $text .= $row[0] . "は" . $row[1] . "(" . $row[2] . "票)\n";
+      }
+
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
+
+
+      $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
+      $row = mysqli_fetch_row($result);
+      $game_room_id = $row[0];
+      $response = $bot->pushMessage($game_room_id, $textMessageBuilder);
+
     }
   }
 }
