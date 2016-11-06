@@ -158,7 +158,7 @@ function DoActionAll($message_text){
 
     $text = "吊られた人\n";
     while($row = mysqli_fetch_row($result)){
-      $text .= $user_name . ":" . $role . "\n";
+      $text .= $row[0] . ":" . $row[1] . "\n";
     }
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
