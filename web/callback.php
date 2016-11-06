@@ -259,7 +259,7 @@ function DoActionNight($message_text){
   if("user" == $event->source->type) {
     $userId = $event->source->userId;
     $userId = mysqli_real_escape_string($link, $userId);
-    $result = mysqli_query($link, "select is_roling where user_id = '$userId'");
+    $result = mysqli_query($link, "select is_roling from user where user_id = '$userId'");
     $row = mysqli_fetch_row($result);
     if(0 == $row[0]){
       if("@ok" == $message_text){
