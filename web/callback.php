@@ -235,21 +235,27 @@ function DoActionWaiting($message_text){
       }
     } else if ("@start" == $message_text) {
       // 参加者一覧を表示してからゲーム開始
-      $GAMEMODE_NIGHT = mysqli_real_escape_string($link, $GAMEMODE_NIGHT);
-      $result = mysqli_query($link, "update game_room set game_mode = '$GAMEMODE_NIGHT' where game_room_id = '$gameRoomId'");
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ゲーム開始]\nワオーーーーン・・・\n\n\n狼の遠吠えが聞こえてくる。\n夜時間です。各自、個人チャットで行動してください");
-      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-      // 逃亡者生成
-      $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
+      $result = mysqli_query($link, "select num_of_people from game_room where game_room_id = '$gameRoomId'");
       $row = mysqli_fetch_row($result);
-      if(null != $row){
-        $room_num = $row[1];
-        $room_num = mysqli_real_escape_string($link, $room_num);
-        $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya1', '逃亡者', '$room_num', '無し', 0, 'false', 'false');");
-        $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya2', '逃亡者', '$room_num', '無し', 0, 'false', 'false');");
+      if(3 <= $row[0] && 5 >= $row[0]){
+        $GAMEMODE_NIGHT = mysqli_real_escape_string($link, $GAMEMODE_NIGHT);
+        $result = mysqli_query($link, "update game_room set game_mode = '$GAMEMODE_NIGHT' where game_room_id = '$gameRoomId'");
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ゲーム開始]\nワオーーーーン・・・\n\n\n狼の遠吠えが聞こえてくる。\n夜時間です。各自、個人チャットで行動してください");
+        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+        // 逃亡者生成
+        $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
+        $row = mysqli_fetch_row($result);
+        if(null != $row){
+          $room_num = $row[1];
+          $room_num = mysqli_real_escape_string($link, $room_num);
+          $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya1', '逃亡者', '$room_num', '無し', 0, 'false', 'false');");
+          $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('toubosya2', '逃亡者', '$room_num', '無し', 0, 'false', 'false');");
+        }
+        Cast();
+      } else {
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("わたしは3~5人しか対応していません。\nゲームを始められません");
+        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
       }
-
-      Cast();
     }
   }
 }
@@ -461,15 +467,6 @@ function DoActionLeave(){
   $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ばいばーい！\nまたやりたくなったら入れてねー！");
   $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 }
-//DoActionNightで役職行動のPostBack来たらこれを使う
-function ProcessRoling(){
-  //誰かが役職行動とるとカウント＋１とtrueにする、役職のカウントと参加人数を照合して同数になったらgameMode+1と全体チャットにその旨しを伝える
-}
-//DoActionNoonで投票のPostBack来たらこれを使う
-function ProcessVoting(){
-  //誰かが投票するとカウント＋１とtrueと投票された人に＋１にする、投票のカウントと参加人数を照合して同数になったらgameMode+1と投票結果開示する
-}
-
 function Cast(){
   global $link, $gameRoomId;
   $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId';");
