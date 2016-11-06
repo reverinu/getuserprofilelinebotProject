@@ -262,10 +262,6 @@ function DoActionNight($message_text){
   if("user" == $event->source->type) {
     $userId = $event->source->userId;
     $userId = mysqli_real_escape_string($link, $userId);
-    // $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
-    // $row = mysqli_fetch_row($result);
-    // $game_room_num = $row[0];
-    // $game_room_num = mysqli_real_escape_string($link, $game_room_num);
 
     $result = mysqli_query($link, "select is_roling from user where user_id = '$userId'");
     $row = mysqli_fetch_row($result);

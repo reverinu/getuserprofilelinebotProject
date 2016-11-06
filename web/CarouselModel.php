@@ -10,7 +10,7 @@
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder;
 use LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder;
-use LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder;
+use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
 
 class CarouselModel
@@ -60,8 +60,8 @@ class CarouselModel
                     $imgurl = $bot->getProfile($userid)->getJSONDecodedBody()["pictureUrl"];
 //$imgurl."jpeg"
                     $senderlist[] = $userid;
-                    $col = new CarouselColumnTemplateBuilder('投票してください', $username,"https://pbs.twimg.com/profile_images/459921170251264000/ax4FMwXA.jpeg", [
-                        new PostbackTemplateActionBuilder('投票', 'action=buy&itemid=123')
+                    $col = new CarouselColumnTemplateBuilder('投票してください(投票@投票したい人の名前)', $username,"https://pbs.twimg.com/profile_images/459921170251264000/ax4FMwXA.jpeg", [
+                        new MessageTemplateActionBuilder('投票', '投票@' . $username)
                     ]);
                     $CarouselColumnTemplates[] = $col;
                 }
