@@ -150,9 +150,17 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    $result = mysqli_query($link, "select user_name, role from user where game_room_num = '$game_room_num' order by voted_num");
+    $result = mysqli_query($link, "select voted_num from user where game_room_num = '$game_room_num' order by voted_num desc");
     $row = mysqli_fetch_row($result);
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[0] . ":" . $row[1]);
+    $max_voted = $row[0];
+    $max_voted = mysqli_real_escape_string($link, $max_voted);
+    $result = mysqli_query($link, "select user_name, role from user where game_room_num = '$game_room_num' and voted_num = '$max_voted'");
+
+    $text = "吊られた人\n";
+    while($row = mysqli_fetch_row($result)){
+      $text .= $user_name . ":" . $role . "\n";
+    }
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@del" == $message_text) {// デバッグ用
