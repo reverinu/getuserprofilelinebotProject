@@ -410,6 +410,8 @@ function HandOut($num_of_people){
       $user_id[4] = mysqli_real_escape_string($link, $user_id[4]);
       $result = mysqli_query($link, "update user set role = '$role[4]' where user_id = '$user_id[4]'");
 
+      $result = mysqli_query($link, "insert into user_temp select * from user");
+
       //これがボタンに置き換わる
       $button_message = CreateButtons($PEOPLE3[0]);
       $response = $bot->pushMessage($user_id[0], $button_message);
@@ -419,7 +421,7 @@ function HandOut($num_of_people){
       $response = $bot->pushMessage($user_id[2], $button_message);
       //ここまで
 
-      $result = mysqli_query($link, "insert into user_temp select * from user");
+
 
     } else if(4 == $num_of_people){
       shuffle($PEOPLE4);
