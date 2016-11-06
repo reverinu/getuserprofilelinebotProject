@@ -413,15 +413,16 @@ function CreateButtons($role){
 }
 function CreateUranaiButton($userId){
   global $bot, $event, $link, $gameRoomId;
-  $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
-  $row = mysqli_fetch_row($result);
-  $game_room_num = $row[1];
-  $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+  // $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
   $user_id = mysqli_real_escape_string($link, $userId);
-  $result = mysqli_query($link, "select * from user where user_id != '$user_id' and game_room_num = '$game_room_num'");
+  $result = mysqli_query($link, "select game_room_num from user where user_id = '$user_id'");
+  $row = mysqli_fetch_row($result);
+  $game_room_num = $row[0];
+  $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+  $result = mysqli_query($link, "select user_name from user where user_id != '$user_id' and game_room_num = '$game_room_num'");
   $i = 0;
   while($row = mysqli_fetch_row($result)){
-    $user_name = $row[2];
+    $user_name = $row[0];
     $user_names[$i] = $user_name;
     $action[$i] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($user_name, "占い@" . $user_name);
     $i++;
