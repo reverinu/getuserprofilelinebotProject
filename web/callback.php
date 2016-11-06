@@ -141,7 +141,7 @@ function DoActionAll($message_text){
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   } else if ("@debug" == $message_text) {//デバッグ用
-    $result = mysqli_query($link, "select user_id from user where game_room_num = '$game_room_num'");
+    $result = mysqli_query($link, "select is_roling from user where game_room_num = '$game_room_num'");
     while($row = mysqli_fetch_row($result)){
       $text .= "区切り" . $row[0] . "\n";
     }
@@ -149,8 +149,6 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    // $button_message = CreateButtons('占い師');
-    // $response = $bot->replyMessage($event->replyToken, $button_message);
     $button_message = CreateUranaiButton($event->source->userId);
     $response = $bot->pushMessage($event->source->userId, $button_message);
   } else if ("@del" == $message_text) {// デバッグ用
