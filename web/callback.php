@@ -269,7 +269,7 @@ function DoActionNight($message_text){
       } else {
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[0] . "行動完了。しばらくお待ちください。");
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-        $result = mysqli_query($link, "update user set is_roling = 'true' where user_id = '$userId'");
+        $result = mysqli_query($link, "update user set is_roling = 1 where user_id = '$userId'");
       }
     }
   }
