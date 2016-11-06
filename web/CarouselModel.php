@@ -60,7 +60,7 @@ class CarouselModel
                     $imgurl = $bot->getProfile($userid)->getJSONDecodedBody()["pictureUrl"];
 //$imgurl."jpeg"
                     $senderlist[] = $userid;
-                    $col = new CarouselColumnTemplateBuilder('投票先指定', $username,"https://pbs.twimg.com/profile_images/459921170251264000/ax4FMwXA.jpeg", [
+                    $col = new CarouselColumnTemplateBuilder('投票先指定', $username,"https://" . $_SERVER['SERVER_NAME'] . "/vote.jpg", [
                         new MessageTemplateActionBuilder('投票', '投票@' . $username)
                     ]);
                     $CarouselColumnTemplates[] = $col;
