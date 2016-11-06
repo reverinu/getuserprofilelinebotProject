@@ -151,7 +151,7 @@ function DoActionAll($message_text){
   } else if ("@debug2" == $message_text) {
     // $button_message = CreateButtons('占い師');
     // $response = $bot->replyMessage($event->replyToken, $button_message);
-    $button_message = CreateUranaiButton($event->source->userId);
+    $button_message = CreateKaitoButton($event->source->userId);
     $response = $bot->pushMessage($event->source->userId, $button_message);
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
@@ -267,7 +267,8 @@ function DoActionNight($message_text){
         $button_message = CreateUranaiButton($userId);
         $response = $bot->pushMessage($userId, $button_message);
       } else if ("怪盗" == $row[0]){
-        CreateKaitoButton();
+        $button_message = CreateKaitoButton($userId);
+        $response = $bot->pushMessage($userId, $button_message);
       } else {
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[0] . "行動完了。しばらくお待ちください。");
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
@@ -413,7 +414,6 @@ function CreateButtons($role){
 }
 function CreateUranaiButton($userId){
   global $bot, $event, $link, $gameRoomId;
-  // $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
   $user_id = mysqli_real_escape_string($link, $userId);
   $result = mysqli_query($link, "select game_room_num from user where user_id = '$user_id'");
   $row = mysqli_fetch_row($result);
@@ -431,8 +431,23 @@ function CreateUranaiButton($userId){
   return $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[0] . "/占い@" . $user_names[1] . "/占い@" . $user_names[2] . ")", $button);
 }
 
-function CreateKaitoButton(){
-
+function CreateKaitoButton($userId){
+  global $bot, $event, $link, $gameRoomId;
+  $user_id = mysqli_real_escape_string($link, $userId);
+  $result = mysqli_query($link, "select game_room_num from user where user_id = '$user_id'");
+  $row = mysqli_fetch_row($result);
+  $game_room_num = $row[0];
+  $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+  $result = mysqli_query($link, "select user_name from user where user_id != '$user_id' and game_room_num = '$game_room_num'");
+  $i = 0;
+  while($row = mysqli_fetch_row($result)){
+    $user_name = $row[0];
+    $user_names[$i] = $user_name;
+    $action[$i] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($user_name, "怪盗@" . $user_name);
+    $i++;
+  }
+  $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1]]);
+  return $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[0] . "/怪盗@" . $user_names[1] . ")", $button);
 }
 
 
