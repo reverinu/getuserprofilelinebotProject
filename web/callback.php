@@ -381,9 +381,9 @@ function DoActionNoon($message_text){
       while($row = mysqli_fetch_row($result)){
         if("投票@" . $row[0] == $message_text){
           $user_name = $row[0];
-          $user_name = mysqli_real_escape_string($link, $user_name);
         }
       }
+      $user_name = mysqli_real_escape_string($link, $user_name);
       $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
       $row = mysqli_fetch_row($result);
       $game_room_num = $row[0];
