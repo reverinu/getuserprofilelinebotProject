@@ -149,18 +149,8 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    $result = mysqli_query($link, "select voted_num from user where game_room_num = '$game_room_num' order by voted_num desc");
-    $row = mysqli_fetch_row($result);
-    $max_voted = $row[0];
-    $max_voted = mysqli_real_escape_string($link, $max_voted);
-    $result = mysqli_query($link, "select user_name, role from user where game_room_num = '$game_room_num' and voted_num = '$max_voted'");
-
-    $text = "吊られた人\n";
-    while($row = mysqli_fetch_row($result)){
-      $text .= $row[0] . ":" . $row[1] . "\n";
-    }
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
-    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    $message = CreateUranaiButton($event->source->userId);
+    $response = $bot->replyMessage($event->replyToken, $message);
 
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
@@ -630,8 +620,23 @@ function CreateUranaiButton($userId){
     $action[$i] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($user_name, "占い@" . $user_name);
     $i++;
   }
-  $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1], $action[2]]);
-  return $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[0] . "/占い@" . $user_names[1] . "/占い@" . $user_names[2] . ")", $button);
+  if(5 == $i){
+    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1], $action[2]]);
+    return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[0] . "/占い@" . $user_names[1] . "/占い@" . $user_names[2] . ")", $button);
+  } else if(6 == $i){
+    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1], $action[2], $action[3]]);
+    return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[0] . "/占い@" . $user_names[1] . "/占い@" . $user_names[2] . "/占い@" . $user_names[3] . ")", $button);
+  } else if(7 == $i){
+    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1], $action[2], $action[3]]);
+    $button2 = new  \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[4]]);
+    $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+    $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[0] . "/占い@" . $user_names[1] . "/占い@" . $user_names[2] . "/占い@" . $user_names[3] . ")", $button);
+    $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[4] . ")", $button2);
+    $message->add($button_message);
+    $message->add($button_message2);
+    return $message;
+  }
+
 }
 
 function CreateKaitoButton($userId){
@@ -649,8 +654,17 @@ function CreateKaitoButton($userId){
     $action[$i] = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder($user_name, "怪盗@" . $user_name);
     $i++;
   }
-  $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1]]);
-  return $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[0] . "/怪盗@" . $user_names[1] . ")", $button);
+  if(5 == $i){
+    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1]]);
+    return $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[0] . "/怪盗@" . $user_names[1] . ")", $button);
+  } else if (6 == $i) {
+    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1], $action[2]]);
+    return $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[0] . "/怪盗@" . $user_names[1] . "/怪盗@" . $user_names[2] . ")", $button);
+  } else if (7 == $i) {
+    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action[0], $action[1], $action[2], $action[3]]);
+    return $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[0] . "/怪盗@" . $user_names[1] . "/怪盗@" . $user_names[2] . "/怪盗@" . $user_names[3] . ")", $button);
+  }
+
 }
 
 
