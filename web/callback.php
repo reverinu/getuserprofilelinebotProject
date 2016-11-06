@@ -346,23 +346,26 @@ function DoActionNight($message_text){
 
           }
         }
+      }
+      $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
+      $row = mysqli_fetch_row($result);
+      $game_room_num = $row[0];
+      $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+      $result = mysqli_query($link, "select num_of_people from game_room where game_room_num = '$game_room_num'");
+      $row = mysqli_fetch_row($result);
+      $num_of_people = $row[0];
+      $result = mysqli_query($link, "select num_of_roles from game_room where game_room_num = '$game_room_num'");
+      $row = mysqli_fetch_row($result);
+      $num_of_roles = $row[0];
 
-        $result = mysqli_query($link, "select num_of_people from game_room where game_room_num = '$game_room_num'");
+      if($num_of_people == $num_of_roles){
+        $result = mysqli_query($link, "update game_room set gameMode = 'NOON' where game_room_num = '$game_room_num'");
+
+        $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
         $row = mysqli_fetch_row($result);
-        $num_of_people = $row[0];
-        $result = mysqli_query($link, "select num_of_roles from game_room where game_room_num = '$game_room_num'");
-        $row = mysqli_fetch_row($result);
-        $num_of_roles = $row[0];
-
-        if($num_of_people <= $num_of_roles){
-          $result = mysqli_query($link, "update game_room set gameMode = 'NOON' where game_room_num = '$game_room_num'");
-
-          $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
-          $row = mysqli_fetch_row($result);
-          $game_room_id = $row[0];
-          $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[議論開始]\n朝になりました\n\n\nこの中に狼が潜んでいるかもしれません。\n議論を始めてください。");
-          $response = $bot->pushMessage($game_room_id, $textMessageBuilder);
-        }
+        $game_room_id = $row[0];
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[議論開始]\n朝になりました\n\n\nこの中に狼が潜んでいるかもしれません。\n議論を始めてください。");
+        $response = $bot->pushMessage($game_room_id, $textMessageBuilder);
       }
     }
 
