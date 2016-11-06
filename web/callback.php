@@ -347,7 +347,7 @@ function DoActionNight($message_text){
 
       if($num_of_people == $num_of_roles){
         $GAMEMODE_NOON = mysqli_real_escape_string($link, $GAMEMODE_NOON);
-        $result = mysqli_query($link, "update game_room set gameMode = '$GAMEMODE_NOON' where game_room_num = '$game_room_num'");
+        $result = mysqli_query($link, "update game_room set gameMode = 'NOON' where game_room_num = '$game_room_num'");
 
         $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
         $row = mysqli_fetch_row($result);
