@@ -260,13 +260,13 @@ function DoActionNight($message_text){
   global $bot, $event, $link;
   //messageでif分けする（役職行動）
   if("user" == $event->source->type) {
+    $userId = $event->source->userId;
+    $userId = mysqli_real_escape_string($link, $userId);
     $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
     $row = mysqli_fetch_row($result);
     $game_room_num = $row[0];
     $game_room_num = mysqli_real_escape_string($link, $game_room_num);
 
-    $userId = $event->source->userId;
-    $userId = mysqli_real_escape_string($link, $userId);
     $result = mysqli_query($link, "select is_roling from user where user_id = '$userId'");
     $row = mysqli_fetch_row($result);
     if(0 == $row[0]){
@@ -287,10 +287,10 @@ function DoActionNight($message_text){
           $result = mysqli_query($link, "update game_room set num_of_roles = num_of_roles+1 where game_room_num = '$game_room_num'");
         }
       } else {
-        $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
-        $row = mysqli_fetch_row($result);
-        $game_room_num = $row[0];
-        $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+        // $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
+        // $row = mysqli_fetch_row($result);
+        // $game_room_num = $row[0];
+        // $game_room_num = mysqli_real_escape_string($link, $game_room_num);
         $result = mysqli_query($link, "select user_name from user where game_room_num = '$game_room_num'");
 
         $uranai = "";
@@ -347,10 +347,10 @@ function DoActionNight($message_text){
           }
         }
       }
-      $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
-      $row = mysqli_fetch_row($result);
-      $game_room_num = $row[0];
-      $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+      // $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
+      // $row = mysqli_fetch_row($result);
+      // $game_room_num = $row[0];
+      // $game_room_num = mysqli_real_escape_string($link, $game_room_num);
       $result = mysqli_query($link, "select num_of_people from game_room where game_room_num = '$game_room_num'");
       $row = mysqli_fetch_row($result);
       $num_of_people = $row[0];
