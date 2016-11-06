@@ -150,7 +150,7 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    $result = mysqli_query($link, "select user_name, role from user where game_room_num = '$game_room_num' and user_name != '逃亡者' and all(select voted_num from (select * from user)))");
+    $result = mysqli_query($link, "select user_name, role from user where game_room_num = '$game_room_num' and user_name != '逃亡者' and voted_num <= all(select voted_num from (select * from user)))");
     $row = mysqli_fetch_row($result);
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[0] . ":" . $row[1]);
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
