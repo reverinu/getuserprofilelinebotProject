@@ -141,7 +141,7 @@ function DoActionAll($message_text){
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   } else if ("@debug" == $message_text) {//デバッグ用
-    $result = mysqli_query($link, "select role from user where game_room_num = '$game_room_num'");
+    $result = mysqli_query($link, "select is_roling from user where game_room_num = '$game_room_num'");
     while($row = mysqli_fetch_row($result)){
       $text .= "区切り" . $row[0] . "\n";
     }
