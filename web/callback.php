@@ -133,7 +133,7 @@ return;
 ////////////////////////////
 //全てに共通するDoAction,メッセージを見てアクションする
 function DoActionAll($message_text){
-  global $bot, $event, $link, $gameMode, $gameRoomId, $PEOPLE3, $game_room_num;
+  global $bot, $event, $link, $gameMode, $gameRoomId, $PEOPLE3, $game_room_num, $GAMEMODE_NOON;
   if ("@help" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ヘルプ]\n@gameをグループチャットでコメントすることでゲーム開始前待機時間に移行します。そしてグループチャットがゲームルームとして認識され、ルームナンバーが発行されます。\nルームナンバーをそのままコピーして個人チャットで私にコメントすれば参加者として認識されます。\nゲーム開始前待機時間では、@memberをコメントすることで現在の参加者を見ることが出来ます。参加者が揃ったら@startしてください。ゲームが始まり夜時間へと移行します。\n夜時間では個人チャットに送られる私のコメントに従って行動してください。村人、狂人、人狼、吊人も了解ボタンを押してください。全員の行動が終われば自動的に議論時間へと移行します。\n議論時間の初めに個人チャットに投票ボタンをコメントします。ゲームルームで議論をし、投票する相手を決め投票してください。全員の投票が終われば自動的に投票結果、勝敗が開示され、ゲームが終了します。\nもう一度同じメンバーでやりたい場合は@newgameを、終わりたい、メンバーを追加したい場合は@endをゲームルームでコメントしてください。\n\n※ゲーム中に私をゲームルームから削除するとゲームがリセットされます");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
@@ -154,8 +154,23 @@ function DoActionAll($message_text){
     // $game_room_id = $row[0];
     // $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[議論開始]\n朝になりました\n\n\nこの中に狼が潜んでいるかもしれません。\n議論を始めてください。");
     // $response = $bot->pushMessage($game_room_id, $textMessageBuilder);
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($gameMode);
-    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    $result = mysqli_query($link, "select num_of_people from game_room where game_room_num = '$game_room_num'");
+    $row = mysqli_fetch_row($result);
+    $num_of_people = $row[0];
+    $result = mysqli_query($link, "select num_of_roles from game_room where game_room_num = '$game_room_num'");
+    $row = mysqli_fetch_row($result);
+    $num_of_roles = $row[0];
+
+    if($num_of_people == $num_of_roles){
+      $GAMEMODE_NOON = mysqli_real_escape_string($link, $GAMEMODE_NOON);
+      $result = mysqli_query($link, "update game_room set gameMode = '$GAMEMODE_NOON' where game_room_num = '$game_room_num'");
+
+      $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
+      $row = mysqli_fetch_row($result);
+      $game_room_id = $row[0];
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[議論開始]\n朝になりました\n\n\nこの中に狼が潜んでいるかもしれません。\n議論を始めてください。");
+      $response = $bot->pushMessage($game_room_id, $textMessageBuilder);
+    }
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
     $result = mysqli_query($link,"TRUNCATE TABLE user");
@@ -259,15 +274,15 @@ function DoActionWaiting($message_text){
 }
 //NightのDoAction,メッセージを見てアクションする
 function DoActionNight($message_text){
-  global $bot, $event, $link, $GAMEMODE_NOON;
+  global $bot, $event, $link, $GAMEMODE_NOON, $game_room_num;
   //messageでif分けする（役職行動）
   if("user" == $event->source->type) {
     $userId = $event->source->userId;
     $userId = mysqli_real_escape_string($link, $userId);
-    $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
-    $row = mysqli_fetch_row($result);
-    $game_room_num = $row[0];
-    $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+    // $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
+    // $row = mysqli_fetch_row($result);
+    // $game_room_num = $row[0];
+    // $game_room_num = mysqli_real_escape_string($link, $game_room_num);
 
     $result = mysqli_query($link, "select is_roling from user where user_id = '$userId'");
     $row = mysqli_fetch_row($result);
