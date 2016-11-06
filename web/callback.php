@@ -308,6 +308,20 @@ function DoActionNight($message_text){
 
         }
         if("怪盗@" . $kaito == $message_text){
+          $result = mysqli_query($link, "select role from user where user_id = '$userId'");
+          $row = mysqli_fetch_row($result);
+          $myself = $row[0];
+          $myself = mysqli_real_escape_string($link, $myself);
+          $kaito = mysqli_real_escape_string($link, $kaito);
+          $result = mysqli_query($link, "select role from user where user_name = '$kaito'");
+          $row = mysqli_fetch_row($result);
+          $yourself = $row[0];
+          $yourself = mysqli_real_escape_string($link, $yourself);
+          $result = mysqli_query($link, "update user set role = '$yourself' where user_id = '$userId'");
+          $result = mysqli_query($link, "update user set role = '$myself' where user_name = '$kaito'");
+
+          $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($kaito . "と入れ替わったよ\n" . "あなたは" . $yourself . "になりました");
+          $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
         }
       }
