@@ -368,8 +368,34 @@ function DoActionNight($message_text){
 }
 //NoonのDoAction,メッセージを見てアクションする
 function DoActionNoon($message_text){
-  global $bot, $event;
+  global $bot, $event, $link;
   //messageでif分けする(投票)
+  if("user" == $event->source->type){
+    $userId = $event->source->userId;
+    $userId = mysqli_real_escape_string($link, $userId);
+    $result = mysqli_query($link, "select is_voting from user where user_id = '$userId'");
+    $row = mysqli_fetch_row($result);
+    $is_voting = $row[0];
+    if(0 == $is_voting){
+      $result = mysqli_query($link, "select user_name from user where user_id != '$userId' and user_name != '逃亡者'");
+      while($row = mysqli_fetch_row($result)){
+        if("投票@" . $row[0] == $message_text){
+          $user_name = $row[0];
+          $user_name = mysqli_real_escape_string($link, $user_name);
+        }
+      }
+      $result = mysqli_query($link, "select game_room_num from user where user_id = '$userId'");
+      $row = mysqli_fetch_row($result);
+      $game_room_num = $row[0];
+      $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+      $result = mysqli_query($link, "update user set is_voting = 1 where user_id = '$userId'");
+      $result = mysqli_query($link, "update user set voted_num = voted_num+1 where user_name = '$user_name'");
+      $result = mysqli_query($link, "update game_room set num_of_votes = num_of_votes+1 where game_room_num = '$game_room_num'");
+
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($user_name . "に投票しました。");
+      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    }
+  }
 }
 //EndのDoAction,メッセージを見てアクションする
 function DoActionEnd($message_text){
