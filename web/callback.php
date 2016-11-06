@@ -150,10 +150,9 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    $result = mysqli_query($link, "select game_room_num from user order by id desc limit 1");
-    $row = mysqli_fetch_row($result);
-    error_log(print_r($row,true));
-    CarouselModel::sendCarousel($row[0],$link,$bot);
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($gameMode);
+    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
     $result = mysqli_query($link,"TRUNCATE TABLE user");
