@@ -28,7 +28,7 @@ class CarouselModel
     {
         //$result = mysqli_query($link, "select user_id from user where game_room_num = '$game_room_id'");
         $userdata = array();
-        $result1 = mysqli_query($link, "select user_id,user_name from user where game_room_num = '$game_room_id'");
+        $result1 = mysqli_query($link, "select user_id,user_name from user where game_room_num = '$game_room_id' and user_name != '逃亡者'");
         while ($userlistrow = mysqli_fetch_row($result1)) {
             $data = array($userlistrow[0] => $userlistrow[1]);
             $userdata[] = $data;
