@@ -419,6 +419,26 @@ function DoActionNoon($message_text){
       while($row = mysqli_fetch_row($result)){
         $text .= $row[0] . "は" . $row[1] . "(" . $row[2] . "票)\n";
       }
+      $result = mysqli_query($link, "select voted_num from user where game_room_num = '$game_room_num' order by voted_num desc");
+      $row = mysqli_fetch_row($result);
+      $max_voted = $row[0];
+      $max_voted = mysqli_real_escape_string($link, $max_voted);
+      $result = mysqli_query($link, "select user_name, role from user where game_room_num = '$game_room_num' and voted_num = '$max_voted'");
+
+      $text .= "吊られた人\n";
+      $i = 0;
+      while($row = mysqli_fetch_row($result)){
+        $text .= $row[0] . "\n";
+        $role_temp[$i] = $row[1];
+        $i++;
+      }
+      $issue = "狼陣営";
+      for($k = 0; $k < $i; $k++){
+        if("人狼" == $role_temp[$k]){
+          $issue = "村陣営";
+        }
+      }
+      $text .= $issue . "の勝利！\n";
 
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
 
