@@ -150,10 +150,10 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    // $result = mysqli_query($link, "select user_name, role from user where game_room_num = '$game_room_num' and voted_num = (select max(voted_num) from (select * from user))");
-    // $row = mysqli_fetch_row($result);
-    // $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[0] . ":" . $row[1]);
-    // $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    $result = mysqli_query($link, "select user_name, role from user where game_room_num = '$game_room_num' order by voted_num");
+    $row = mysqli_fetch_row($result);
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[0] . ":" . $row[1]);
+    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
