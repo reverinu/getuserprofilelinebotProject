@@ -259,7 +259,7 @@ function DoActionWaiting($message_text){
 }
 //NightのDoAction,メッセージを見てアクションする
 function DoActionNight($message_text){
-  global $bot, $event, $link;
+  global $bot, $event, $link, $GAMEMODE_NOON;
   //messageでif分けする（役職行動）
   if("user" == $event->source->type) {
     $userId = $event->source->userId;
@@ -361,7 +361,8 @@ function DoActionNight($message_text){
       $num_of_roles = $row[0];
 
       if($num_of_people == $num_of_roles){
-        $result = mysqli_query($link, "update game_room set gameMode = 'NOON' where game_room_num = '$game_room_num'");
+        $GAMEMODE_NOON = mysqli_real_escape_string($link, $GAMEMODE_NOON);
+        $result = mysqli_query($link, "update game_room set gameMode = '$GAMEMODE_NOON' where game_room_num = '$game_room_num'");
 
         $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
         $row = mysqli_fetch_row($result);
