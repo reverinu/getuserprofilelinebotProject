@@ -149,8 +149,10 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    $button_message = CreateButtons('占い師');
-    $response = $bot->replyMessage($event->replyToken, $button_message);
+    // $button_message = CreateButtons('占い師');
+    // $response = $bot->replyMessage($event->replyToken, $button_message);
+    $button_message = CreateUranaiButton($event->source->userId);
+    $response = $bot->pushMessage($userId, $button_message);
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
     $result = mysqli_query($link,"TRUNCATE TABLE user");
