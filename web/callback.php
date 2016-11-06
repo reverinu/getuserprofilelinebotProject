@@ -150,7 +150,9 @@ function DoActionAll($message_text){
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@debug2" == $message_text) {
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($gameMode);
+    $result = mysqli_query($link, "select user_name, role from user where game_room_num = '$game_room_num' and user_name != '逃亡者' and all(select voted_num from user)");
+    $row = mysqli_fetch_row($result);
+    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[0] . ":" . $row[1]);
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
   } else if ("@del" == $message_text) {// デバッグ用
@@ -403,7 +405,7 @@ function DoActionNoon($message_text){
       $result = mysqli_query($link, "update game_room set game_mode = '$GAMEMODE_END' where game_room_num = '$game_room_num'");
 
 
-      $result = mysqli_query($link, "select user_name , role , voted_num from user where game_room_num = '$game_room_num'");
+      $result = mysqli_query($link, "select user_name , role , voted_num from user where game_room_num = '$game_room_num' and user_name != '逃亡者'");
 
       $text = "投票結果開示\n";
       while($row = mysqli_fetch_row($result)){
