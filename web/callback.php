@@ -3,44 +3,10 @@
 
 // データベース
 // ・game_room
-// game_room_num(Int) game_room_id(String) game_mode(String) num_of_people(Int) num_of_roles(Int) num_of_votes(Int)
+// id game_room_num(Int) game_room_id(String) game_mode(String) num_of_people(Int) num_of_roles(Int) num_of_votes(Int)
 // ・user
-// user_id(String) user_name(String) game_room_num(Int) role(String) voted_num(Int) is_roling(Bool) is_voting(Bool)
-//
-// 初期値
-// ・グループ
-// gameRoomNum = null
-// gameRoomId = null
-// gameMode = "BEFORE_THE_START"
-// numOfPeople = 0
-// numOfRoles = 0
-// numOfVotes = 0
-//
-// ・個人
-// userId = null
-// userName = null
-// role = "無し"
-// votedNum = 0
-// isRoleing = false
-// isVoting = false
-//
-// ・ゲームモード
-// modeName
-// BEFORE_THE_START
-// WAITING
-// NIGHT
-// NOON
-// END
-//
-// ・役職
-// role
-// 無し
-// 村人
-// 占い師
-// 怪盗
-// 人狼
-// 狂人
-// 吊人
+// id user_id(String) user_name(String) game_room_num(Int) role(String) voted_num(Int) is_roling(Bool) is_voting(Bool)
+
 
 
 require('../vendor/autoload.php');
@@ -140,22 +106,22 @@ function DoActionAll($message_text){
   } else if ("@rule" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明だよ");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-  } else if ("@debug" == $message_text) {//デバッグ用
-    $result = mysqli_query($link, "select is_voting from user where game_room_num = '$game_room_num'");
-    while($row = mysqli_fetch_row($result)){
-      $text .= "区切り" . $row[0] . "\n";
-    }
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
-    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-
-  } else if ("@debug2" == $message_text) {
-    $message = CreateUranaiButton($event->source->userId);
-    $response = $bot->replyMessage($event->replyToken, $message);
-
-  } else if ("@del" == $message_text) {// デバッグ用
-    $result = mysqli_query($link,"TRUNCATE TABLE game_room");
-    $result = mysqli_query($link,"TRUNCATE TABLE user");
-    $result = mysqli_query($link,"TRUNCATE TABLE user_temp");
+  // } else if ("@debug" == $message_text) {//デバッグ用
+  //   $result = mysqli_query($link, "select is_voting from user where game_room_num = '$game_room_num'");
+  //   while($row = mysqli_fetch_row($result)){
+  //     $text .= "区切り" . $row[0] . "\n";
+  //   }
+  //   $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
+  //   $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+  //
+  // } else if ("@debug2" == $message_text) {
+  //   $message = CreateUranaiButton($event->source->userId);
+  //   $response = $bot->replyMessage($event->replyToken, $message);
+  //
+  // } else if ("@del" == $message_text) {// デバッグ用
+  //   $result = mysqli_query($link,"TRUNCATE TABLE game_room");
+  //   $result = mysqli_query($link,"TRUNCATE TABLE user");
+  //   $result = mysqli_query($link,"TRUNCATE TABLE user_temp");
   } else if ("user" == $event->source->type) {// 一時的にこっち。最終的にはuser情報からテーブル持ってきて以下略（これだとゲーム中に途中参加できてしまう）
     $gameRoomNum = mysqli_real_escape_string($link, $message_text);
     $userId = mysqli_real_escape_string($link, $event->source->userId);
@@ -433,7 +399,7 @@ function DoActionNoon($message_text){
           $issue = "村陣営";
         }
       }
-      $text .= $issue . "の勝利！\n";
+      $text .= $issue . "の勝利！\n\nもう一度遊びたいときは「@newgame」、もう終わるときは「@end」をコメントしてね！";
 
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
 
@@ -448,11 +414,43 @@ function DoActionNoon($message_text){
 }
 //EndのDoAction,メッセージを見てアクションする
 function DoActionEnd($message_text){
-  global $bot, $event;
-  if ("@newgame" == $message_text) {
+  global $bot, $event, $link, $gameRoomId;
+  if("group" == $event->source->type || "room" == $event->source->type){
+    $result = mysqli_query($link, "select game_room_num from game_room where game_room_id = '$gameRoomId'");
+    $row = mysqli_fetch_row($result);
+    $game_room_num = $row[0];
+    if ("@newgame" == $message_text) {
+      $result = mysqli_query($link, "delete from game_room where game_room_num = '$game_room_num'");
+      $result = mysqli_query($link, "delete from user where game_room_num = '$game_room_num'");
+      $result = mysqli_query($link, "delete from user_temp where game_room_num = '$game_room_num'");
+      // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
+      while(true){
+        $gameRoomNum = mt_rand(100,999);
+        $gameRoomNum = mysqli_real_escape_string($link, $gameRoomNum);
+        $rnj = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum'");
+        $row = mysqli_fetch_row($rnj);
+        if(null == $row){
+          break;
+        }
+      }
+      $roomNumber = mysqli_real_escape_string($link, $gameRoomNum);
+      if ("group" == $event->source->type){
+        $gameRoomId = $event->source->groupId;
+      } else if ("room" == $event->source->type) {
+        $gameRoomId = $event->source->roomId;
+      }
+      $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
+      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0);");
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームナンバーを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！\n個人チャットでこの数字をコメントすればゲームに参加できるよ！");
+      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    } else if ("@end" == $message_text) {
+      $result = mysqli_query($link, "delete from game_room where game_room_num = '$game_room_num'");
+      $result = mysqli_query($link, "delete from user where game_room_num = '$game_room_num'");
+      $result = mysqli_query($link, "delete from user_temp where game_room_num = '$game_room_num'");
 
-  } else if ("@end" == $message_text) {
-
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("お疲れ様！\n飽きたら退出させてね！");
+      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    }
   }
 }
 //部屋に入ったときに諸々発言
