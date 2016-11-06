@@ -156,6 +156,7 @@ function DoActionAll($message_text){
   } else if ("@del" == $message_text) {// デバッグ用
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
     $result = mysqli_query($link,"TRUNCATE TABLE user");
+    $result = mysqli_query($link,"TRUNCATE TABLE user_temp");
   } else if ("user" == $event->source->type) {// 一時的にこっち。最終的にはuser情報からテーブル持ってきて以下略（これだとゲーム中に途中参加できてしまう）
     $gameRoomNum = mysqli_real_escape_string($link, $message_text);
     $userId = mysqli_real_escape_string($link, $event->source->userId);
@@ -298,7 +299,7 @@ function DoActionNight($message_text){
       if($isExist){
         if("占い@" . $uranai == $message_text){
           $uranai = mysqli_real_escape_string($link, $uranai);
-          $result = mysqli_query($link, "select role from user where user_name = '$uranai'");
+          $result = mysqli_query($link, "select role from user_temp where user_name = '$uranai'");
           $text = "占い結果\n";
           while($row = mysqli_fetch_row($result)){
             $text .= $uranai . "の役職は" . $row[0] . "\n";
@@ -417,6 +418,8 @@ function HandOut($num_of_people){
       $button_message = CreateButtons($PEOPLE3[2]);
       $response = $bot->pushMessage($user_id[2], $button_message);
       //ここまで
+
+      $result = mysqli_query($link, "insert into user_temp select * from user");
 
     } else if(4 == $num_of_people){
       shuffle($PEOPLE4);
