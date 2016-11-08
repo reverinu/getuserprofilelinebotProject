@@ -338,7 +338,7 @@ function DoActionNight($message_text){
 }
 //NoonのDoAction,メッセージを見てアクションする
 function DoActionNoon($message_text){
-  global $bot, $event, $link, $game_room_num;
+  global $bot, $event, $link, $game_room_num, $GAMEMODE_END;
   //messageでif分けする(投票)
   if("user" == $event->source->type){
     $userId = $event->source->userId;
