@@ -238,7 +238,7 @@ function DoActionNight($message_text){
     if(0 == $row[0]){
       if("@ok" == $message_text){
 
-        $result = mysqli_query($link, "select role from user where user_id = '$userId';");
+        $result = mysqli_query($link, "select role from user_temp where user_id = '$userId';");
         $row = mysqli_fetch_row($result);
         if("占い師" == $row[0]){
           $button_message = CreateUranaiButton($userId);
