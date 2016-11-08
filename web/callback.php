@@ -353,13 +353,18 @@ function DoActionNoon($message_text){
           $user_name = $row[0];
         }
       }
-      $user_name = mysqli_real_escape_string($link, $user_name);
-      $result = mysqli_query($link, "update user set is_voting = 1 where user_id = '$userId'");
-      $result = mysqli_query($link, "update user set voted_num = voted_num+1 where user_name = '$user_name'");
-      $result = mysqli_query($link, "update game_room set num_of_votes = num_of_votes+1 where game_room_num = '$game_room_num'");
+      if(null != $user_name){// 投票先が存在する人であるかどうかの確認
+        $user_name = mysqli_real_escape_string($link, $user_name);
+        $result = mysqli_query($link, "update user set is_voting = 1 where user_id = '$userId'");
+        $result = mysqli_query($link, "update user set voted_num = voted_num+1 where user_name = '$user_name'");
+        $result = mysqli_query($link, "update game_room set num_of_votes = num_of_votes+1 where game_room_num = '$game_room_num'");
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($user_name . "に投票しました。");
+        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+      } else {
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("投票失敗。正しく投票してね");
+        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+      }
 
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($user_name . "に投票しました。");
-      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     }
 
     $result = mysqli_query($link, "select num_of_people from game_room where game_room_num = '$game_room_num'");
@@ -523,7 +528,7 @@ function HandOut($num_of_people){
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
       $i = 0;
       while($row = mysqli_fetch_row($result)){
-        $role[$i] = $PEOPLE3[$i];
+        $role[$i] = $PEOPLE4[$i];
         $user_id[$i] = $row[1];
         $i++;
       }
@@ -537,13 +542,13 @@ function HandOut($num_of_people){
       $result = mysqli_query($link, "insert into user_temp select * from user");
 
       //これがボタンに置き換わる
-      $button_message = CreateButtons($PEOPLE3[0]);
+      $button_message = CreateButtons($PEOPLE4[0]);
       $response = $bot->pushMessage($user_id[0], $button_message);
-      $button_message = CreateButtons($PEOPLE3[1]);
+      $button_message = CreateButtons($PEOPLE4[1]);
       $response = $bot->pushMessage($user_id[1], $button_message);
-      $button_message = CreateButtons($PEOPLE3[2]);
+      $button_message = CreateButtons($PEOPLE4[2]);
       $response = $bot->pushMessage($user_id[2], $button_message);
-      $button_message = CreateButtons($PEOPLE3[3]);
+      $button_message = CreateButtons($PEOPLE4[3]);
       $response = $bot->pushMessage($user_id[3], $button_message);
       //ここまで
     } else if(5 == $num_of_people){
@@ -551,7 +556,7 @@ function HandOut($num_of_people){
       $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
       $i = 0;
       while($row = mysqli_fetch_row($result)){
-        $role[$i] = $PEOPLE3[$i];
+        $role[$i] = $PEOPLE5[$i];
         $user_id[$i] = $row[1];
         $i++;
       }
@@ -566,15 +571,15 @@ function HandOut($num_of_people){
       $result = mysqli_query($link, "insert into user_temp select * from user");
 
       //これがボタンに置き換わる
-      $button_message = CreateButtons($PEOPLE3[0]);
+      $button_message = CreateButtons($PEOPLE5[0]);
       $response = $bot->pushMessage($user_id[0], $button_message);
-      $button_message = CreateButtons($PEOPLE3[1]);
+      $button_message = CreateButtons($PEOPLE5[1]);
       $response = $bot->pushMessage($user_id[1], $button_message);
-      $button_message = CreateButtons($PEOPLE3[2]);
+      $button_message = CreateButtons($PEOPLE5[2]);
       $response = $bot->pushMessage($user_id[2], $button_message);
-      $button_message = CreateButtons($PEOPLE3[3]);
+      $button_message = CreateButtons($PEOPLE5[3]);
       $response = $bot->pushMessage($user_id[3], $button_message);
-      $button_message = CreateButtons($PEOPLE3[4]);
+      $button_message = CreateButtons($PEOPLE5[4]);
       $response = $bot->pushMessage($user_id[4], $button_message);
       //ここまで
     }
