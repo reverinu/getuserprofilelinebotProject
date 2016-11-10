@@ -119,7 +119,7 @@ function DoActionAll($message_text){
   //   $response = $bot->replyMessage($event->replyToken, $message);
   //
   } else if ("@del" == $message_text) {// デバッグ用
-    $result = mysqli_query($link, "select game_room_num from game_room where game_room_num = '$gameRoomId'");
+    $result = mysqli_query($link, "select game_room_num from game_room where game_room_id = '$gameRoomId'");
     $row = mysqli_fetch_row($result);
     $game_room_num = $row[0];
     $game_room_num = mysqli_real_escape_string($link, $game_room_num);
