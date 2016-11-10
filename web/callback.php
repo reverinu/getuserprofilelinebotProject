@@ -119,15 +119,13 @@ function DoActionAll($message_text){
   //   $response = $bot->replyMessage($event->replyToken, $message);
   //
   } else if ("@del" == $message_text) {// デバッグ用
-    // $result = mysqli_query($link,"TRUNCATE TABLE game_room");
-    // $result = mysqli_query($link,"TRUNCATE TABLE user");
-    // $result = mysqli_query($link,"TRUNCATE TABLE user_temp");
     $result = mysqli_query($link, "select game_room_num from game_room where game_room_num = '$gameRoomId'");
     $row = mysqli_fetch_row($result);
     $game_room_num = $row[0];
-    $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
-    $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
-    $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
+    $result = mysqli_query($link, "delete game_room, user, user_temp from game_room inner join user on game_room.game_room_num = '$game_room_num';");
+    // $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
+    // $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
+    // $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
   } else if ("user" == $event->source->type) {// 一時的にこっち。最終的にはuser情報からテーブル持ってきて以下略（これだとゲーム中に途中参加できてしまう）
     $gameRoomNum = mysqli_real_escape_string($link, $message_text);
     $userId = mysqli_real_escape_string($link, $event->source->userId);
