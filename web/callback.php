@@ -123,7 +123,6 @@ function DoActionAll($message_text){
     $row = mysqli_fetch_row($result);
     $game_room_num = $row[0];
     $game_room_num = mysqli_real_escape_string($link, $game_room_num);
-    // $result = mysqli_query($link, "delete game_room, user, user_temp from game_room inner join user on game_room.game_room_num = '$game_room_num';");
     $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
     $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
     $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
@@ -433,39 +432,25 @@ function DoActionEnd($message_text){
     $result = mysqli_query($link, "select game_room_num from game_room where game_room_id = '$gameRoomId'");
     $row = mysqli_fetch_row($result);
     $game_room_num = $row[0];
-    // if ("@newgame" == $message_text) {
-    //   $result = mysqli_query($link, "delete from game_room where game_room_num = '$game_room_num'");
-    //   $result = mysqli_query($link, "delete from user where game_room_num = '$game_room_num'");
-    //   $result = mysqli_query($link, "delete from user_temp where game_room_num = '$game_room_num'");
-    //   // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
-    //   while(true){
-    //     $gameRoomNum = mt_rand(100,999);
-    //     $gameRoomNum = mysqli_real_escape_string($link, $gameRoomNum);
-    //     $rnj = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum'");
-    //     $row = mysqli_fetch_row($rnj);
-    //     if(null == $row){
-    //       break;
-    //     }
-    //   }
-    //   $roomNumber = mysqli_real_escape_string($link, $gameRoomNum);
-    //   if ("group" == $event->source->type){
-    //     $gameRoomId = $event->source->groupId;
-    //   } else if ("room" == $event->source->type) {
-    //     $gameRoomId = $event->source->roomId;
-    //   }
-    //   $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
-    //   $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0);");
-    //   $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームナンバーを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！\n個人チャットでこの数字をコメントすればゲームに参加できるよ！");
-    //   $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-    // } else
-    if ("@end" == $message_text) {
-      // // $result = mysqli_query($link, "delete from game_room where game_room_num = '$game_room_num'");
-      // // $result = mysqli_query($link, "delete from user where game_room_num = '$game_room_num'");
-      // // $result = mysqli_query($link, "delete from user_temp where game_room_num = '$game_room_num'");
-      // $result = mysqli_query($link,"TRUNCATE TABLE game_room");
-      // $result = mysqli_query($link,"TRUNCATE TABLE user");
-      // $result = mysqli_query($link,"TRUNCATE TABLE user_temp");
-
+    if ("@newgame" == $message_text) {
+      $result = mysqli_query($link, "delete from game_room where game_room_num = '$game_room_num'");
+      $result = mysqli_query($link, "delete from user where game_room_num = '$game_room_num'");
+      $result = mysqli_query($link, "delete from user_temp where game_room_num = '$game_room_num'");
+      // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
+      while(true){
+        $gameRoomNum = mt_rand(100,999);
+        $gameRoomNum = mysqli_real_escape_string($link, $gameRoomNum);
+        $rnj = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum'");
+        $row = mysqli_fetch_row($rnj);
+        if(null == $row){
+          break;
+        }
+      }
+      $roomNumber = mysqli_real_escape_string($link, $gameRoomNum);
+      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0);");
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームナンバーを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！\n個人チャットでこの数字をコメントすればゲームに参加できるよ！");
+      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    } else if ("@end" == $message_text) {
       $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
       $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
       $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
@@ -484,16 +469,13 @@ function DoActionJoin(){
 //部屋から退出させられるときの処理
 function DoActionLeave(){
   global $bot, $event, $link, $gameRoomId;
-  // $result = mysqli_query($link,"TRUNCATE TABLE game_room");
-  // $result = mysqli_query($link,"TRUNCATE TABLE user");
-  // $result = mysqli_query($link,"TRUNCATE TABLE user_temp");
-  $result = mysqli_query($link, "select game_room_num from game_room where game_room_num = '$gameRoomId'");
-  $row = mysqli_fetch_row($result);
-  $game_room_num = $row[0];
-  $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
-  $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
-  $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
-  //delete game_room, user from game_room inner join user on game_room.game_room_num = user.game_room_num;
+      $result = mysqli_query($link, "select game_room_num from game_room where game_room_id = '$gameRoomId'");
+      $row = mysqli_fetch_row($result);
+      $game_room_num = $row[0];
+      $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+      $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
+      $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
+      $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
 }
 function Cast(){
   global $link, $gameRoomId;
