@@ -603,7 +603,29 @@ function CreateButtons($role){
   } else if('人狼' == $role){
     $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "人狼", "https://" . $_SERVER['SERVER_NAME'] . "/jinro.jpeg", [$action0]);
-    return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は人狼\n(「@ok」とコメントしてください)", $button);
+    $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は人狼\n(「@ok」とコメントしてください)", $button);
+
+    $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+    $message->add($button_message);
+
+    $result = mysqli_query($link, "select game_room_num from game_room where game_room_id = '$gameRoomId'");
+    $row = mysqli_fetch_row($result);
+    $game_room_num = $row[0];
+    $result = mysqli_query($link, "select role from user where game_room_num = '$game_room_num' and role = '人狼'");
+    werewolfCount = 0;
+    while($row = mysqli_fetch_row($result)){
+      werewolfCount++;
+    }
+    if(2 <= werewolfCount){
+      $text = "今回の人狼は\n";
+      $result = mysqli_query($link, "select user_name from user where game_room_num = '$game_room_num' and role = '人狼'");
+      while($row = mysqli_fetch_row($result)){
+        $text .= row[0] . "\n";
+      }
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
+      $message->add($textMessageBuilder);
+    }
+    return $message;
   } else if('狂人' == $role){
     $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "狂人", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
