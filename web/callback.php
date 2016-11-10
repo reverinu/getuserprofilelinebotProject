@@ -412,7 +412,7 @@ function DoActionNoon($message_text){
           $issue = "村陣営";
         }
       }
-      $text .= $issue . "の勝利！\n\n「@end」をコメントしてね！";
+      $text .= $issue . "の勝利！\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
 
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
 
