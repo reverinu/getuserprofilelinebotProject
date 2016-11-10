@@ -612,15 +612,15 @@ function CreateButtons($role){
     $row = mysqli_fetch_row($result);
     $game_room_num = $row[0];
     $result = mysqli_query($link, "select role from user where game_room_num = '$game_room_num' and role = '人狼'");
-    werewolfCount = 0;
+    $werewolfCount = 0;
     while($row = mysqli_fetch_row($result)){
-      werewolfCount++;
+      $werewolfCount++;
     }
-    if(2 <= werewolfCount){
+    if(2 <= $werewolfCount){
       $text = "今回の人狼は\n";
       $result = mysqli_query($link, "select user_name from user where game_room_num = '$game_room_num' and role = '人狼'");
       while($row = mysqli_fetch_row($result)){
-        $text .= row[0] . "\n";
+        $text .= $row[0] . "\n";
       }
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
       $message->add($textMessageBuilder);
