@@ -123,10 +123,10 @@ function DoActionAll($message_text){
     $row = mysqli_fetch_row($result);
     $game_room_num = $row[0];
     $game_room_num = mysqli_real_escape_string($link, $game_room_num);
-    $result = mysqli_query($link, "delete game_room, user, user_temp from game_room inner join user on game_room.game_room_num = '$game_room_num';");
-    // $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
-    // $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
-    // $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
+    // $result = mysqli_query($link, "delete game_room, user, user_temp from game_room inner join user on game_room.game_room_num = '$game_room_num';");
+    $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
+    $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
+    $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
   } else if ("@del2" == $message_text) {
     $result = mysqli_query($link,"TRUNCATE TABLE game_room");
     $result = mysqli_query($link,"TRUNCATE TABLE user");
