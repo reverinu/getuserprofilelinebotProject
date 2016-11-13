@@ -197,7 +197,7 @@ function DoActionWaiting($message_text){
       $roles = str_split($message_text);
       $isRolesValue = true;
       foreach ($roles as $value) {
-        if(1 >= $value && 5 <= $value){
+        if(1 > $value || 5 < $value){
           $isRolesValue = false;
           break;
         }
