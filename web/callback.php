@@ -191,6 +191,10 @@ function DoActionBefore($message_text){
 function DoActionWaiting($message_text){
   global $bot, $event, $link, $gameRoomId, $GAMEMODE_NIGHT;
   if("group" == $event->source->type || "room" == $event->source->type){
+    if(preg_match("/^[0-9]+$/",$message_text)){
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ちゃんと数字のみになってるよ＾。＾");
+      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    }
     if ("@member" == $message_text) {
       // 現在参加者のみ表示
       $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
