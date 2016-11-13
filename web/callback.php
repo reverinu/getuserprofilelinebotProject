@@ -202,8 +202,17 @@ function DoActionWaiting($message_text){
           return;
         }
       }
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ちゃんと数字のみになってるよ＾。＾");
-      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+      $result = mysqli_query($link, "select num_of_people from game_room where game_room_id = '$gameRoomId'");
+      $row = mysqli_fetch_row($result);
+      $num_of_people = $row[0];
+      if(3 > $num_of_people || 5 < $num_of_people) {
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("参加人数が少ないか多いよ");
+        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+        return;
+      } else if(count($roles) == $num_of_people){
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("あってるよ");
+        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+      }
 
     }
     if ("@member" == $message_text) {
