@@ -192,8 +192,27 @@ function DoActionWaiting($message_text){
   global $bot, $event, $link, $gameRoomId, $GAMEMODE_NIGHT;
   if("group" == $event->source->type || "room" == $event->source->type){
     if(preg_match("/^[0-9]+$/",$message_text)){
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ちゃんと数字のみになってるよ＾。＾");
-      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+      // 配役設定
+
+      $roles = str_split($message_text);
+      $isRolesValue = true;
+      foreach ($roles as $value) {
+        if(1 >= $value && 5 <= $value){
+          $isRolesValue = false;
+          break;
+        }
+      }
+      if($isRolesValue){
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ちゃんと数字のみになってるよ＾。＾");
+        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+
+      }else{
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("間違ってるよそれ");
+        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+        break;
+      }
+
+
     }
     if ("@member" == $message_text) {
       // 現在参加者のみ表示
