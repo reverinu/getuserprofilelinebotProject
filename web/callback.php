@@ -194,24 +194,16 @@ function DoActionWaiting($message_text){
     if(preg_match("/^[0-9]+$/",$message_text)){
       // 配役設定
 
-      $roles = str_split($message_text);
-      $isRolesValue = true;
+      $roles = str_split((int)$message_text);
       foreach ($roles as $value) {
         if(1 > $value || 5 < $value){
-          $isRolesValue = false;
-          break;
+          $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("間違ってるよそれ");
+          $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+          return;
         }
       }
-      if($isRolesValue){
-        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ちゃんと数字のみになってるよ＾。＾");
-        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-
-      }else{
-        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("間違ってるよそれ");
-        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-        break;
-      }
-
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ちゃんと数字のみになってるよ＾。＾");
+      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
     }
     if ("@member" == $message_text) {
