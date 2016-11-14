@@ -406,22 +406,18 @@ function DoActionNoon($message_text){
         $role_temp[$i] = $row[1];
         $i++;
       }
-      $issue = "狼陣営";
+      $issue = "\n\n狼陣営";
       for($k = 0; $k < $i; $k++){
         if("人狼" == $role_temp[$k]){
-          $issue = "村陣営";
+          $issue = "\n\n村陣営";
         }
       }
       $text .= $issue . "の勝利！\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
-
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
-
-
       $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
       $row = mysqli_fetch_row($result);
       $game_room_id = $row[0];
       $response = $bot->pushMessage($game_room_id, $textMessageBuilder);
-
     }
   }
 }
