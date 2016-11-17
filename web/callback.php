@@ -248,7 +248,16 @@ function DoActionWaiting($message_text){
           $memberListText .= $row[2] . "\n";
         }
 
-        $result = mysqli_query($link, "select cast from game_room where game_room_id = '$gameRoomId'");
+        if(3 >= $num_of_people){
+          $result = mysqli_query($link, "select cast3 from game_room where game_room_id = '$gameRoomId'");
+        } else if(4 == $num_of_people){
+          $result = mysqli_query($link, "select cast4 from game_room where game_room_id = '$gameRoomId'");
+        } else if(5 == $num_of_people){
+          $result = mysqli_query($link, "select cast5 from game_room where game_room_id = '$gameRoomId'");
+        } else if(6 == $num_of_people){
+          $result = mysqli_query($link, "select cast6 from game_room where game_room_id = '$gameRoomId'");
+        }
+
         $row = mysqli_fetch_row($result);
         $roles = str_split((int)$row[0]);
         $text = "\n配役\n";
