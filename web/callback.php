@@ -108,14 +108,13 @@ function DoActionAll($message_text){
   } else if ("@rule" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明\nhttps://www.google.co.jp/search?q=%E3%83%AF%E3%83%B3%E3%83%8A%E3%82%A4%E3%83%88%E4%BA%BA%E7%8B%BC&ie=&oe=#q=%E3%83%AF%E3%83%B3%E3%83%8A%E3%82%A4%E3%83%88%E4%BA%BA%E7%8B%BC+%E3%81%A8%E3%81%AF");
     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-  // } else if ("@debug" == $message_text) {//デバッグ用
-  //   $result = mysqli_query($link, "select is_voting from user where game_room_num = '$game_room_num'");
-  //   while($row = mysqli_fetch_row($result)){
-  //     $text .= "区切り" . $row[0] . "\n";
-  //   }
-  //   $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
-  //   $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-  //
+  } else if ("@debug" == $message_text) {//デバッグ用
+    $result = mysqli_query($link, "insert into roles (role_num, role_name) values (1, '村人');");
+    $result = mysqli_query($link, "insert into roles (role_num, role_name) values (2, '占い師');");
+    $result = mysqli_query($link, "insert into roles (role_num, role_name) values (3, '怪盗');");
+    $result = mysqli_query($link, "insert into roles (role_num, role_name) values (4, '人狼');");
+    $result = mysqli_query($link, "insert into roles (role_num, role_name) values (5, '狂人');");
+
   // } else if ("@debug2" == $message_text) {
   //   $message = CreateUranaiButton($event->source->userId);
   //   $response = $bot->replyMessage($event->replyToken, $message);
@@ -247,8 +246,7 @@ function DoActionWaiting($message_text){
         $roles = str_split((int)$row[0]);
         $text = "\n配役\n";
         foreach ($roles as $value) {
-          $value = mysqli_real_escape_string($link, $value);
-          $role_id = (Int)$value;
+          $role_id = mysqli_real_escape_string($link, $value);
           $result = mysqli_query($link, "select role_name from roles where role_id = '$role_id'");
           $row = mysqli_fetch_row($result);
           $text .= $row[0] . " ";
