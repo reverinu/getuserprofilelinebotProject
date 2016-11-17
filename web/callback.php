@@ -254,7 +254,7 @@ function DoActionWaiting($message_text){
           $result = mysqli_query($link, "select cast4 from game_room where game_room_id = '$gameRoomId'");
         } else if(5 == $num_of_people){
           $result = mysqli_query($link, "select cast5 from game_room where game_room_id = '$gameRoomId'");
-        } else if(1 == $num_of_people){
+        } else if(6 == $num_of_people){
           $result = mysqli_query($link, "select cast6 from game_room where game_room_id = '$gameRoomId'");
         }
 
@@ -277,19 +277,6 @@ function DoActionWaiting($message_text){
       $row = mysqli_fetch_row($result);
       $num_of_people = $row[0];
 
-      // if(3 >= $num_of_people){
-      //   $result = mysqli_query($link, "select cast3 from game_room where game_room_id = '$gameRoomId'");
-      // } else if(4 == $num_of_people){
-      //   $result = mysqli_query($link, "select cast4 from game_room where game_room_id = '$gameRoomId'");
-      // } else if(5 == $num_of_people){
-      //   $result = mysqli_query($link, "select cast5 from game_room where game_room_id = '$gameRoomId'");
-      // } else if(6 == $num_of_people){
-      //   $result = mysqli_query($link, "select cast6 from game_room where game_room_id = '$gameRoomId'");
-      // }
-      //
-      ////////////////////////
-      /////////////////////////ここ途中。配役の数と参照してあっているかどうかの判定追加(いらないかも
-      //////////////////////////
       if(3 <= $num_of_people && 5 >= $num_of_people){
         $GAMEMODE_NIGHT = mysqli_real_escape_string($link, $GAMEMODE_NIGHT);
         $result = mysqli_query($link, "update game_room set game_mode = '$GAMEMODE_NIGHT' where game_room_id = '$gameRoomId'");
