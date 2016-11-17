@@ -182,7 +182,7 @@ function DoActionBefore($message_text){
         $gameRoomId = $event->source->roomId;
       }
       $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
-      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes, cast) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0, '12345');");
+      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes, cast3, cast4, cast5, cast6) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0, '12345', '112344', '1112344', '11223445');");
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームナンバーを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！\n個人チャットでこの数字をコメントすればゲームに参加できるよ！\n「@member」で現在参加者表示\n「数字列」で配役変更\n\n1 村人\n2 占い師\n3 怪盗\n4 人狼\n5 狂人\n\n例：「11234」で村２占１怪１狼１\n※参加者＋２の役職を設定してね");
       $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     }
@@ -210,7 +210,7 @@ function DoActionWaiting($message_text){
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("参加人数が少ないか多いからまず参加人数を合わせてね。「@member」で参加者リストを見れるよ");
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
         return;
-      } else if((count($roles)+2) == $num_of_people){// あっている場合ここ
+      } else if(($num_of_people+2) == count($roles)){// あっている場合ここ
 
         $text = "配役\n";
         foreach ($roles as $value) {
@@ -223,9 +223,16 @@ function DoActionWaiting($message_text){
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
         $message_text = mysqli_real_escape_string($link, $message_text);
-        $result = mysqli_query($link, "update game_room set cast = '$message_text' where game_room_id = '$gameRoomId'");
+        if(5 == count($roles)){
+          $result = mysqli_query($link, "update game_room set cast3 = '$message_text' where game_room_id = '$gameRoomId'");
+        } else if(6 == count($roles)){
+          $result = mysqli_query($link, "update game_room set cast4 = '$message_text' where game_room_id = '$gameRoomId'");
+        } else if(7 == count($roles)){
+          $result = mysqli_query($link, "update game_room set cast5 = '$message_text' where game_room_id = '$gameRoomId'");
+        } else if(8 == count($roles)){
+          $result = mysqli_query($link, "update game_room set cast6 = '$message_text' where game_room_id = '$gameRoomId'");
+        }
       }
-
     }
     if ("@member" == $message_text) {
       // 現在参加者のみ表示
@@ -497,7 +504,7 @@ function DoActionEnd($message_text){
         }
       }
       $roomNumber = mysqli_real_escape_string($link, $gameRoomNum);
-      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes, cast) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0, '12345');");
+      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes, cast3, cast4, cast5, cast6) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0, '12345', '112344', '1112344', '11223445');");
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームナンバーを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！\n個人チャットでこの数字をコメントすればゲームに参加できるよ！");
       $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     } else if ("@end" == $message_text) {
