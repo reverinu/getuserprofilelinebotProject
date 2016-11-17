@@ -248,13 +248,13 @@ function DoActionWaiting($message_text){
           $memberListText .= $row[2] . "\n";
         }
 
-        if(3 >= $num_of_people){
+        if(3 == $num_of_people){
           $result = mysqli_query($link, "select cast3 from game_room where game_room_id = '$gameRoomId'");
         } else if(4 == $num_of_people){
           $result = mysqli_query($link, "select cast4 from game_room where game_room_id = '$gameRoomId'");
         } else if(5 == $num_of_people){
           $result = mysqli_query($link, "select cast5 from game_room where game_room_id = '$gameRoomId'");
-        } else if(6 == $num_of_people){
+        } else if(1 == $num_of_people){
           $result = mysqli_query($link, "select cast6 from game_room where game_room_id = '$gameRoomId'");
         }
 
