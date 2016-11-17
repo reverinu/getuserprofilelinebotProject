@@ -211,8 +211,16 @@ function DoActionWaiting($message_text){
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("参加人数が少ないか多いからまず参加人数を合わせてね。「@member」で参加者リストを見れるよ");
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
         return;
-      } else if(count($roles) == $num_of_people){
-        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("あってるよ");
+      } else if(count($roles) == $num_of_people){// あっている場合ここ
+
+        $text = "配役\n";
+        foreach ($roles as $value) {
+          $value = mysqli_real_escape_string($link, $value);
+          $result = mysqli_query($link, "select role_name from roles where role_id = '$value'");
+          $row = mysqli_fetch_row($result);
+          $text .= $row[0] . " ";
+        }
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
         $message_text = mysqli_real_escape_string($link, $message_text);
         $result = mysqli_query($link, "update game_room set cast = '$message_text' where game_room_id = '$gameRoomId'");
