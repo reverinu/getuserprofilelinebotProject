@@ -223,13 +223,13 @@ function DoActionWaiting($message_text){
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
         $message_text = mysqli_real_escape_string($link, $message_text);
-        if(5 == count($roles)){
+        if(3 == $num_of_people){
           $result = mysqli_query($link, "update game_room set cast3 = '$message_text' where game_room_id = '$gameRoomId'");
-        } else if(6 == count($roles)){
+        } else if(4 == $num_of_people){
           $result = mysqli_query($link, "update game_room set cast4 = '$message_text' where game_room_id = '$gameRoomId'");
-        } else if(7 == count($roles)){
+        } else if(5 == $num_of_people){
           $result = mysqli_query($link, "update game_room set cast5 = '$message_text' where game_room_id = '$gameRoomId'");
-        } else if(8 == count($roles)){
+        } else if(6 == $num_of_people){
           $result = mysqli_query($link, "update game_room set cast6 = '$message_text' where game_room_id = '$gameRoomId'");
         }
       }
@@ -268,7 +268,6 @@ function DoActionWaiting($message_text){
           $text .= $row[0] . " ";
         }
 
-
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧(" . $num_of_people . ")\n" . $memberListText . $text);
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
       }
@@ -277,9 +276,19 @@ function DoActionWaiting($message_text){
       $result = mysqli_query($link, "select num_of_people from game_room where game_room_id = '$gameRoomId'");
       $row = mysqli_fetch_row($result);
       $num_of_people = $row[0];
-      $result = mysqli_query($link, "select cast from game_room where game_room_id = '$gameRoomId'");
+
+      // if(3 >= $num_of_people){
+      //   $result = mysqli_query($link, "select cast3 from game_room where game_room_id = '$gameRoomId'");
+      // } else if(4 == $num_of_people){
+      //   $result = mysqli_query($link, "select cast4 from game_room where game_room_id = '$gameRoomId'");
+      // } else if(5 == $num_of_people){
+      //   $result = mysqli_query($link, "select cast5 from game_room where game_room_id = '$gameRoomId'");
+      // } else if(6 == $num_of_people){
+      //   $result = mysqli_query($link, "select cast6 from game_room where game_room_id = '$gameRoomId'");
+      // }
+      //
       ////////////////////////
-      /////////////////////////ここ途中。配役の数と参照してあっているかどうかの判定追加
+      /////////////////////////ここ途中。配役の数と参照してあっているかどうかの判定追加(いらないかも
       //////////////////////////
       if(3 <= $num_of_people && 5 >= $num_of_people){
         $GAMEMODE_NIGHT = mysqli_real_escape_string($link, $GAMEMODE_NIGHT);
