@@ -183,7 +183,7 @@ function DoActionBefore($message_text){
         $gameRoomId = $event->source->roomId;
       }
       $gameRoomId = mysqli_real_escape_string($link, $gameRoomId);
-      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0);");
+      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes, cast) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0, '12345');");
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームナンバーを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！\n個人チャットでこの数字をコメントすればゲームに参加できるよ！\n「@member」で現在参加者表示\n「数字列」で配役変更\n\n1 村人\n2 占い師\n3 怪盗\n4 人狼\n5 狂人\n\n例：「11234」で村２占１怪１狼１\n※参加者＋２の役職を設定してね");
       $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     }
