@@ -499,7 +499,7 @@ function DoActionEnd($message_text){
         }
       }
       $roomNumber = mysqli_real_escape_string($link, $gameRoomNum);
-      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0);");
+      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes, cast) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0, '12345');");
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームナンバーを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！\n個人チャットでこの数字をコメントすればゲームに参加できるよ！");
       $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
     } else if ("@end" == $message_text) {
@@ -754,3 +754,6 @@ function CreateKaitoButton($userId){
 ////////////////////////////
 mysqli_free_result($result);
 mysqli_close($link);
+
+
+// TODO : 配役文字化け問題直す、cast3,cast4,cast5の追加、配るときにcastから参照して直すようにする、createbutton関数のifを数値に
