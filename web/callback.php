@@ -242,7 +242,9 @@ function DoActionWaiting($message_text){
           $memberListText .= $row[2] . "\n";
         }
 
-        $roles = str_split((int)$message_text);
+        $result = mysqli_query($link, "select cast from game_room where game_room_id = '$gameRoomId'");
+        $row = mysqli_fetch_row($result);
+        $roles = str_split((int)$row[0]);
         $text = "\n配役\n";
         foreach ($roles as $value) {
           $value = mysqli_real_escape_string($link, $value);
