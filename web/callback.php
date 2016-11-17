@@ -211,12 +211,13 @@ function DoActionWaiting($message_text){
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("参加人数が少ないか多いからまず参加人数を合わせてね。「@member」で参加者リストを見れるよ");
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
         return;
-      } else if(count($roles) == $num_of_people){// あっている場合ここ
+      } else if((count($roles)+2) == $num_of_people){// あっている場合ここ
 
         $text = "配役\n";
         foreach ($roles as $value) {
           $value = mysqli_real_escape_string($link, $value);
-          $result = mysqli_query($link, "select role_name from roles where role_id = '$value'");
+          $role_id = (Int)$value;
+          $result = mysqli_query($link, "select role_name from roles where role_id = '$role_id'");
           $row = mysqli_fetch_row($result);
           $text .= $row[0] . " ";
         }
@@ -240,14 +241,31 @@ function DoActionWaiting($message_text){
         while($row = mysqli_fetch_row($result)){
           $memberListText .= $row[2] . "\n";
         }
-        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧(" . $num_of_people . ")\n" . $memberListText);
+
+        $roles = str_split((int)$message_text);
+        $text = "\n配役\n";
+        foreach ($roles as $value) {
+          $value = mysqli_real_escape_string($link, $value);
+          $role_id = (Int)$value;
+          $result = mysqli_query($link, "select role_name from roles where role_id = '$role_id'");
+          $row = mysqli_fetch_row($result);
+          $text .= $row[0] . " ";
+        }
+
+
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧(" . $num_of_people . ")\n" . $memberListText . $text);
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
       }
     } else if ("@start" == $message_text) {
       // 参加者一覧を表示してからゲーム開始
       $result = mysqli_query($link, "select num_of_people from game_room where game_room_id = '$gameRoomId'");
       $row = mysqli_fetch_row($result);
-      if(3 <= $row[0] && 5 >= $row[0]){
+      $num_of_people = $row[0];
+      $result = mysqli_query($link, "select cast from game_room where game_room_id = '$gameRoomId'");
+      ////////////////////////
+      /////////////////////////ここ途中。配役の数と参照してあっているかどうかの判定追加
+      //////////////////////////
+      if(3 <= $num_of_people && 5 >= $num_of_people){
         $GAMEMODE_NIGHT = mysqli_real_escape_string($link, $GAMEMODE_NIGHT);
         $result = mysqli_query($link, "update game_room set game_mode = '$GAMEMODE_NIGHT' where game_room_id = '$gameRoomId'");
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ゲーム開始]\nワオーーーーン・・・\n\n\n狼の遠吠えが聞こえてくる。\n夜時間です。各自、個人チャットで行動してください");
