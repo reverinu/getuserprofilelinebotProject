@@ -535,11 +535,10 @@ function DoActionNoon($message_text){
       $max_voted = mysqli_real_escape_string($link, $max_voted);
 //////////////////////////////////////////////////
       $result = mysqli_query($link, "select voted_num from user where user_name != '逃亡者'");
-      $voted_num = mysqli_fetch_row($result);
       $isAllOneVote = false;
       $people = 0;
-      foreach ($voted_num as $value) {// 全員１票ずつ入ってるかどうか
-        if(1 == $value){
+      while ($voted_num = mysqli_fetch_row($result);) {// 全員１票ずつ入ってるかどうか
+        if(1 == $voted_num[0]){
           $people++;
           if($num_of_people == $people){
             $isAllOneVote = true;
@@ -559,10 +558,10 @@ function DoActionNoon($message_text){
       }
 
       $result = mysqli_query($link, "select role from user where user_name != '逃亡者'");
-      $role = mysqli_fetch_row($result);
+
       $isWolf = false;
-      foreach ($role as $value) {// そもそも参加者の中に人狼が含まれているか
-        if('人狼' == $value){
+      while ($role = mysqli_fetch_row($result);) {// そもそも参加者の中に人狼が含まれているか
+        if('人狼' == $role[0]){
           $isWolf = true;
         }
       }
