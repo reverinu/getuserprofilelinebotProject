@@ -546,10 +546,25 @@ function DoActionNoon($message_text){
       }
       $text .= $issue . "の勝利！\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
+      $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+      $message->add($textMessageBuilder);
+      //$areaはイベント範囲の指定です。
+      $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,520,520);
+      $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,0,520,520);
+      $area3 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,520,520,520);
+      //$actionはイベント内容,$areaを指定してください。
+      $action1 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@newgame",$area1);
+      $action2 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@end",$area2);
+      $action3 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@leave",$area3);
+      //$basesizeは固定値です。
+      $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
+      //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
+      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3]);
+      $message->add($imagemap);
       $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
       $row = mysqli_fetch_row($result);
       $game_room_id = $row[0];
-      $response = $bot->pushMessage($game_room_id, $textMessageBuilder);
+      $response = $bot->pushMessage($game_room_id, $message);
     }
   }
 }
