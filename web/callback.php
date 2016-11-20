@@ -533,8 +533,7 @@ function DoActionNoon($message_text){
       $row = mysqli_fetch_row($result);
       $max_voted = $row[0];
       $max_voted = mysqli_real_escape_string($link, $max_voted);
-      $result = mysqli_query($link, "select user_name, role from user where game_room_num = '$game_room_num' and voted_num = '$max_voted'");
-
+//////////////////////////////////////////////////
       $result = mysqli_query($link, "select voted_num from user where user_name != '逃亡者'");
       $voted_num = mysqli_fetch_row($result);
       $isAllOneVote = false;
@@ -547,7 +546,8 @@ function DoActionNoon($message_text){
           }
         }
       }
-
+//////////////////////////////////////////////////
+      $result = mysqli_query($link, "select user_name, role from user where game_room_num = '$game_room_num' and voted_num = '$max_voted'");
       $text .= "\n\n吊られた人\n";
       $i = 0;
       while($row = mysqli_fetch_row($result)){
