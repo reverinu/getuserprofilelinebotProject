@@ -231,13 +231,15 @@ function DoActionBefore($message_text){
       $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
       $message->add($textMessageBuilder);
       //$areaはイベント範囲の指定です。
-      $area = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,1040,1040);
+      $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,1040,520);
+      $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,520,1040,520);
       //$actionはイベント内容,$areaを指定してください。
-      $action = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@member",$area);
+      $action1 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@member",$area1);
+      $action2 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@start",$area2);
       //$basesizeは固定値です。
       $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
       //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapWaiting","選択肢が表示されてるよ",$basesize,[$action]);
+      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapWaiting","選択肢が表示されてるよ",$basesize,[$action1, $action2]);
       $message->add($imagemap);
       $response = $bot->replyMessage($event->replyToken, $message);
     }
@@ -327,13 +329,15 @@ function DoActionWaiting($message_text){
         $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
         $message->add($textMessageBuilder);
         //$areaはイベント範囲の指定です。
-        $area = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,1040,1040);
+        $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,1040,520);
+        $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,520,1040,520);
         //$actionはイベント内容,$areaを指定してください。
-        $action = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@member",$area);
+        $action1 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@member",$area1);
+        $action2 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@start",$area2);
         //$basesizeは固定値です。
         $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
         //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-        $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapWaiting","選択肢が表示されてるよ",$basesize,[$action]);
+        $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapWaiting","選択肢が表示されてるよ",$basesize,[$action1, $action2]);
         $message->add($imagemap);
         $response = $bot->replyMessage($event->replyToken, $message);
       }
@@ -559,7 +563,7 @@ function DoActionNoon($message_text){
       //$basesizeは固定値です。
       $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
       //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3]);
+      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapEnd","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3]);
       $message->add($imagemap);
       $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
       $row = mysqli_fetch_row($result);
@@ -591,8 +595,21 @@ function DoActionEnd($message_text){
       }
       $roomNumber = mysqli_real_escape_string($link, $gameRoomNum);
       $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes, cast3, cast4, cast5, cast6) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0, '12345', '112344', '1112344', '11223445');");
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームナンバーを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！\n個人チャットでこの数字をコメントすればゲームに参加できるよ！");
-      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧(" . $num_of_people . ")\n" . $memberListText . $text);
+      $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+      $message->add($textMessageBuilder);
+      //$areaはイベント範囲の指定です。
+      $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,1040,520);
+      $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,520,1040,520);
+      //$actionはイベント内容,$areaを指定してください。
+      $action1 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@member",$area1);
+      $action2 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@start",$area2);
+      //$basesizeは固定値です。
+      $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
+      //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
+      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapWaiting","選択肢が表示されてるよ",$basesize,[$action1, $action2]);
+      $message->add($imagemap);
+      $response = $bot->replyMessage($event->replyToken, $message);
     } else if ("@end" == $message_text) {
       $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
       $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
