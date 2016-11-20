@@ -525,14 +525,14 @@ function DoActionEnd($message_text){
 //部屋に入ったときに諸々発言
 function DoActionJoin(){
   global $bot, $event;
-  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！(３～５人対応)\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]ワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n\nってコメントしてね！");
+  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！(３～５人対応)\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n\nってコメントしてね！");
   $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
   $message->add($textMessageBuilder);
   //$areaはイベント範囲の指定です。
   $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,520,520);
-  $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,0,1040,520);
-  $area3 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,520,520,1040);
-  $area4 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,520,1040,1040);
+  $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,0,520,520);
+  $area3 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,520,520,520);
+  $area4 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,520,520,520);
   //$actionはイベント内容,$areaを指定してください。
   $action1 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@rule",$area1);
   $action2 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@help",$area2);
