@@ -528,13 +528,19 @@ function DoActionJoin(){
   // $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！(３～５人対応)\n\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n\nってコメントしてね！");
   // $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   //$areaはイベント範囲の指定です。
-  $area = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,1040,1040);
+  $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,520,520);
+  $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,0,1040,520);
+  $area3 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,520,520,1040);
+  $area4 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,520,1040,1040);
   //$actionはイベント内容,$areaを指定してください。
-  $action = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@member",$area);
+  $action1 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@rule",$area1);
+  $action2 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@help",$area2);
+  $action3 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@game",$area3);
+  $action4 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@leave",$area4);
   //$basesizeは固定値です。
   $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
   //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-  $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","@myjob",$basesize,[$action]);
+  $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","【エラー】\nLINEを最新版にしてね",$basesize,[$action1, $action2, $action3, $action4]);
   //いつもの
   $response = $bot->replyMessage($event->replyToken, $imagemap);
 }
