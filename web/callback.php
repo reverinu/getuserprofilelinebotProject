@@ -324,7 +324,18 @@ function DoActionWaiting($message_text){
         }
 
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧(" . $num_of_people . ")\n" . $memberListText . $text);
-        $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+        $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+        $message->add($textMessageBuilder);
+        //$areaはイベント範囲の指定です。
+        $area = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,1040,1040);
+        //$actionはイベント内容,$areaを指定してください。
+        $action = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@member",$area);
+        //$basesizeは固定値です。
+        $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
+        //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
+        $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapWaiting","選択肢が表示されてるよ",$basesize,[$action]);
+        $message->add($imagemap);
+        $response = $bot->replyMessage($event->replyToken, $message);
       }
     } else if ("@start" == $message_text) {
       // 参加者一覧を表示してからゲーム開始
