@@ -534,7 +534,7 @@ function DoActionJoin(){
   //$basesizeは固定値です。
   $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1024,1024);
   //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-  $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin/1024","@myjob",$basesize,[$action]);
+  $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","@myjob",$basesize,[$action]);
   //いつもの
   $response = $bot->replyMessage($event->replyToken, $imagemap);
 }
