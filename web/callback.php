@@ -127,10 +127,14 @@ function DoActionAll($message_text){
     $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
     $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
     $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
-  } else if ("@del2" == $message_text) {
-    $result = mysqli_query($link,"TRUNCATE TABLE game_room");
-    $result = mysqli_query($link,"TRUNCATE TABLE user");
-    $result = mysqli_query($link,"TRUNCATE TABLE user_temp");
+  } else if ("@leave" == $message_text) {
+    if ("group" == $event->source->type) {
+      $gameRoomId = $event->source->groupId;
+      $response = $bot->leaveGroup($gameRoomId);
+    } else if ("room" == $event->source->type) {
+      $gameRoomId = $event->source->roomId;
+      $response = $bot->leaveRoom($gameRoomId);
+    }
   } else if ("user" == $event->source->type) {// 一時的にこっち。最終的にはuser情報からテーブル持ってきて以下略（これだとゲーム中に途中参加できてしまう）
     $gameRoomNum = mysqli_real_escape_string($link, $message_text);
     $userId = mysqli_real_escape_string($link, $event->source->userId);
