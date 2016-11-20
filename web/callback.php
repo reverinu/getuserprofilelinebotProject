@@ -129,9 +129,13 @@ function DoActionAll($message_text){
     $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
   } else if ("@leave" == $message_text) {
     if ("group" == $event->source->type) {
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ばいばーい！！！！");
+      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
       $gameRoomId = $event->source->groupId;
       $response = $bot->leaveGroup($gameRoomId);
     } else if ("room" == $event->source->type) {
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ばいばーい！！！！");
+      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
       $gameRoomId = $event->source->roomId;
       $response = $bot->leaveRoom($gameRoomId);
     }
