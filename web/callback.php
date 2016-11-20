@@ -535,20 +535,51 @@ function DoActionNoon($message_text){
       $max_voted = mysqli_real_escape_string($link, $max_voted);
       $result = mysqli_query($link, "select user_name, role from user where game_room_num = '$game_room_num' and voted_num = '$max_voted'");
 
+      $result = mysqli_query($link, "select voted_num from user where user_name != '逃亡者'");
+      $voted_num = mysqli_fetch_row($result);
+      $isAllOneVote = false;
+      $people = 0;
+      foreach ($voted_num as $value) {// 全員１票ずつ入ってるかどうか
+        if("1" == $value){
+          $people++;
+          if($num_of_people == $people){
+            $isAllOneVote = true;
+          }
+        }
+      }
+
       $text .= "\n\n吊られた人\n";
       $i = 0;
       while($row = mysqli_fetch_row($result)){
-        $text .= $row[0] . "\n";
-        $role_temp[$i] = $row[1];
-        $i++;
-      }
-      $issue = "\n\n狼陣営";
-      for($k = 0; $k < $i; $k++){
-        if("人狼" == $role_temp[$k]){
-          $issue = "\n\n村陣営";
+        if(!($isAllOneVote)){
+          $text .= $row[0] . "\n";
+          $role_temp[$i] = $row[1];
+          $i++;
         }
       }
-      $text .= $issue . "の勝利！\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
+
+      $result = mysqli_query($link, "select role from user where user_name != '逃亡者'");
+      $role = mysqli_fetch_row($result);
+      $isWolf = false;
+      foreach ($role as $value) {// そもそも参加者の中に人狼が含まれているか
+        if('人狼' == $value){
+          $isWolf = true;
+        }
+      }
+
+      if($isWolf){
+        $issue = "\n\n狼陣営";
+        for($k = 0; $k < $i; $k++){
+          if("人狼" == $role_temp[$k]){
+            $issue = "\n\n村陣営";
+          }
+        }
+        $text .= $issue . "の勝利！\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
+      } else {
+        $text .= "平和村だったよ！\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
+      }
+
+
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
       $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
       $message->add($textMessageBuilder);
