@@ -104,10 +104,46 @@ function DoActionAll($message_text){
   global $bot, $event, $link, $gameMode, $gameRoomId, $PEOPLE3, $game_room_num, $GAMEMODE_NOON;
   if ("@help" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ヘルプ]\n@gameをグループチャットでコメントすることでゲーム開始前待機時間に移行します。そしてグループチャットがゲームルームとして認識され、ルームナンバーが発行されます。\nルームナンバーをそのままコピーして個人チャットで私にコメントすれば参加者として認識されます。\nゲーム開始前待機時間では、@memberをコメントすることで現在の参加者を見ることが出来ます。参加者が揃ったら@startしてください。ゲームが始まり夜時間へと移行します。\n夜時間では個人チャットに送られる私のコメントに従って行動してください。村人、狂人、人狼、吊人も了解ボタンを押してください。全員の行動が終われば自動的に議論時間へと移行します。\n議論時間の初めに個人チャットに投票ボタンをコメントします。ゲームルームで議論をし、投票する相手を決め投票してください。全員の投票が終われば自動的に投票結果、勝敗が開示され、ゲームが終了します。\n最後に@endをゲームルームでコメントしてください。\n\n※ゲーム中に私をゲームルームから削除するとゲームがリセットされます");
-    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+    $message->add($textMessageBuilder);
+    //$areaはイベント範囲の指定です。
+    $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,520,520);
+    $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,0,520,520);
+    $area3 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,520,520,520);
+    $area4 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,520,520,520);
+    //$actionはイベント内容,$areaを指定してください。
+    $action1 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@rule",$area1);
+    $action2 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@help",$area2);
+    $action3 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@game",$area3);
+    $action4 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@leave",$area4);
+    //$basesizeは固定値です。
+    $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
+    //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
+    $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3, $action4]);
+
+    $message->add($imagemap);
+    $response = $bot->replyMessage($event->replyToken, $message);
   } else if ("@rule" == $message_text) {
     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルール説明\nhttps://www.google.co.jp/search?q=%E3%83%AF%E3%83%B3%E3%83%8A%E3%82%A4%E3%83%88%E4%BA%BA%E7%8B%BC&ie=&oe=#q=%E3%83%AF%E3%83%B3%E3%83%8A%E3%82%A4%E3%83%88%E4%BA%BA%E7%8B%BC+%E3%81%A8%E3%81%AF");
-    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+    $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+    $message->add($textMessageBuilder);
+    //$areaはイベント範囲の指定です。
+    $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,520,520);
+    $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,0,520,520);
+    $area3 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,520,520,520);
+    $area4 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,520,520,520);
+    //$actionはイベント内容,$areaを指定してください。
+    $action1 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@rule",$area1);
+    $action2 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@help",$area2);
+    $action3 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@game",$area3);
+    $action4 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@leave",$area4);
+    //$basesizeは固定値です。
+    $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
+    //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
+    $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3, $action4]);
+
+    $message->add($imagemap);
+    $response = $bot->replyMessage($event->replyToken, $message);
   } else if ("@debug" == $message_text) {//デバッグ用
     // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (1, '村人');");
     // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (2, '占い師');");
