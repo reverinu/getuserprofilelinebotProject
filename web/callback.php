@@ -539,7 +539,7 @@ function DoActionNoon($message_text){
       $isAllOneVote = false;
       $people = 0;
       foreach ($voted_num as $value) {// 全員１票ずつ入ってるかどうか
-        if("1" == $value){
+        if(1 == $value){
           $people++;
           if($num_of_people == $people){
             $isAllOneVote = true;
