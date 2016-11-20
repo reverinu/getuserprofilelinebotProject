@@ -528,11 +528,11 @@ function DoActionJoin(){
   // $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！(３～５人対応)\n\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n\nってコメントしてね！");
   // $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
   //$areaはイベント範囲の指定です。
-  $area = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,1024,1024);
+  $area = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,1040,1040);
   //$actionはイベント内容,$areaを指定してください。
   $action = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@member",$area);
   //$basesizeは固定値です。
-  $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1024,1024);
+  $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
   //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
   $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","@myjob",$basesize,[$action]);
   //いつもの
