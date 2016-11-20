@@ -525,8 +525,7 @@ function DoActionEnd($message_text){
 //部屋に入ったときに諸々発言
 function DoActionJoin(){
   global $bot, $event;
-  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！(３～５人対応)\n\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n\nってコメントしてね！");
-  // $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！(３～５人対応)\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]ワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n\nってコメントしてね！");
   $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
   $message->add($textMessageBuilder);
   //$areaはイベント範囲の指定です。
@@ -542,7 +541,7 @@ function DoActionJoin(){
   //$basesizeは固定値です。
   $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
   //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-  $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","【エラー】\nLINEを最新版にしてね",$basesize,[$action1, $action2, $action3, $action4]);
+  $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","",$basesize,[$action1, $action2, $action3, $action4]);
 
   $message->add($imagemap);
   //いつもの
