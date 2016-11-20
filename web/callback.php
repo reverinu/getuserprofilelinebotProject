@@ -625,7 +625,7 @@ function DoActionEnd($message_text){
       }
       $roomNumber = mysqli_real_escape_string($link, $gameRoomNum);
       $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes, cast3, cast4, cast5, cast6) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0, '12345', '112344', '1112344', '11223445');");
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧(" . $num_of_people . ")\n" . $memberListText . $text);
+      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームナンバーを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！\n個人チャットでこの数字をコメントすればゲームに参加できるよ！\n「@member」で現在参加者表示\n「数字列」で配役変更\n\n1 村人\n2 占い師\n3 怪盗\n4 人狼\n5 狂人\n\n例：「11234」で村２占１怪１狼１\n※参加者＋２の役職を設定してね");
       $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
       $message->add($textMessageBuilder);
       //$areaはイベント範囲の指定です。
