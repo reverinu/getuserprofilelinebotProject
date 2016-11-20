@@ -537,7 +537,7 @@ function DoActionNoon($message_text){
       $result = mysqli_query($link, "select voted_num from user where user_name != '逃亡者'");
       $isAllOneVote = false;
       $people = 0;
-      while ($voted_num = mysqli_fetch_row($result);) {// 全員１票ずつ入ってるかどうか
+      while ($voted_num = mysqli_fetch_row($result)) {// 全員１票ずつ入ってるかどうか
         if(1 == $voted_num[0]){
           $people++;
           if($num_of_people == $people){
@@ -560,7 +560,7 @@ function DoActionNoon($message_text){
       $result = mysqli_query($link, "select role from user where user_name != '逃亡者'");
 
       $isWolf = false;
-      while ($role = mysqli_fetch_row($result);) {// そもそも参加者の中に人狼が含まれているか
+      while ($role = mysqli_fetch_row($result)) {// そもそも参加者の中に人狼が含まれているか
         if('人狼' == $role[0]){
           $isWolf = true;
         }
