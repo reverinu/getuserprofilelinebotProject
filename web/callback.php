@@ -164,6 +164,13 @@ function DoActionAll($message_text){
     $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
     $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
   } else if ("@leave" == $message_text) {
+    $result = mysqli_query($link, "select game_room_num from game_room where game_room_id = '$gameRoomId'");
+    $row = mysqli_fetch_row($result);
+    $game_room_num = $row[0];
+    $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+    $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
+    $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
+    $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
     if ("group" == $event->source->type) {
       $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ばいばーい！！！！");
       $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
