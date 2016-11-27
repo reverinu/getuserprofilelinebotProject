@@ -579,6 +579,10 @@ function DoActionNoon($message_text){
           if("人狼" == $role_temp[$k]){
             $issue = "\n\n村陣営";
           }
+          if("吊人" == $role_temp[$k]){
+            $issue = "\n\n吊人";
+            break;
+          }
         }
         $text .= $issue . "の勝利！\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
       } else {
