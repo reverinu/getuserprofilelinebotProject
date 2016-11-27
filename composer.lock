@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e00840072caae455c0c7f533910b5e58",
-    "content-hash": "c83af5cb51af380f3e124bb2c550c0b4",
+    "hash": "2f25ff1a96694d783385045bb9c46b72",
+    "content-hash": "10cd34547bbfb458b721070b1d873f64",
     "packages": [
         {
             "name": "linecorp/line-bot-sdk",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/line/line-bot-sdk-php.git",
-                "reference": "439e09646de7725e7703fcb153eb805222c4f0d7"
+                "reference": "19e58d0971f703735bb931828752f73fb91c878f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/line/line-bot-sdk-php/zipball/439e09646de7725e7703fcb153eb805222c4f0d7",
-                "reference": "439e09646de7725e7703fcb153eb805222c4f0d7",
+                "url": "https://api.github.com/repos/line/line-bot-sdk-php/zipball/19e58d0971f703735bb931828752f73fb91c878f",
+                "reference": "19e58d0971f703735bb931828752f73fb91c878f",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 "line",
                 "sdk"
             ],
-            "time": "2016-10-19 07:19:32"
+            "time": "2016-11-17 06:30:12"
         }
     ],
     "packages-dev": [
