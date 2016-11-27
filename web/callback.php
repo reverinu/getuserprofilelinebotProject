@@ -766,4 +766,4 @@ mysqli_free_result($result);
 mysqli_close($link);
 
 
-// TODO : 配役文字化け問題直す、cast3,cast4,cast5の追加、配るときにcastから参照して直すようにする、createbutton関数のifを数値に
+// TODO : 配るときにcastから参照して直すようにする、createbutton関数のifを数値に
