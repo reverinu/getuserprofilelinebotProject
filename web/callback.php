@@ -261,7 +261,7 @@ function DoActionWaiting($message_text){
 
       $roles = str_split((int)$message_text);
       foreach ($roles as $value) {
-        if(1 > $value || 5 < $value){
+        if(1 > $value || 6 < $value){
           $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("間違ってるよそれ");
           $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
           return;
@@ -735,6 +735,8 @@ function HandOut($num_of_people){
           $role[$i] = "人狼";
         } else if(5 == $cast[$i]){
           $role[$i] = "狂人";
+        } else if(6 == $cast[$i]){
+          $role[$i] = "吊人";
         }
         $user_id[$i] = $row[1];
         $i++;
@@ -776,6 +778,8 @@ function HandOut($num_of_people){
           $role[$i] = "人狼";
         } else if(5 == $cast[$i]){
           $role[$i] = "狂人";
+        } else if(6 == $cast[$i]){
+          $role[$i] = "吊人";
         }
         $user_id[$i] = $row[1];
         $i++;
@@ -817,6 +821,8 @@ function HandOut($num_of_people){
           $role[$i] = "人狼";
         } else if(5 == $cast[$i]){
           $role[$i] = "狂人";
+        } else if(6 == $cast[$i]){
+          $role[$i] = "吊人";
         }
         $user_id[$i] = $row[1];
         $i++;
@@ -891,6 +897,10 @@ function CreateButtons($role){
     $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "狂人", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
     return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は狂人\n(「@ok」とコメントしてください)", $button);
+  } else if(6 == $role){// 吊人
+    $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
+    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "吊人", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
+    return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は吊人\n(「@ok」とコメントしてください)", $button);
   }
 }
 function CreateUranaiButton($userId){
