@@ -573,18 +573,34 @@ function DoActionNoon($message_text){
         }
       }
 
+      $isTeruteru = false;
+      while ($role = mysqli_fetch_row($result)) {// そもそも参加者の中に吊人が含まれているか
+        if('吊人' == $role[0]){
+          $isTeruteru = true;
+        }
+      }
+
       if($isWolf){
-        $issue = "\n\n狼陣営";
+        $issue = "\n\n狼陣営の勝利！";
         for($k = 0; $k < $i; $k++){
           if("人狼" == $role_temp[$k]){
-            $issue = "\n\n村陣営";
+            $issue = "\n\n村陣営の勝利！";
           }
           if("吊人" == $role_temp[$k]){
-            $issue = "\n\n吊人";
+            $issue = "\n\n吊人の勝利！";
             break;
           }
         }
-        $text .= $issue . "の勝利！\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
+        $text .= $issue . "\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
+      } else if($isTeruteru){
+        $issue = "\n\n平和村だったよ！";
+        for($k = 0; $k < $i; $k++){
+          if("吊人" == $role_temp[$k]){
+            $issue = "\n\n吊人の勝利！";
+            break;
+          }
+        }
+        $text .= $issue . "\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
       } else {
         $text .= "平和村だったよ！\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
       }
