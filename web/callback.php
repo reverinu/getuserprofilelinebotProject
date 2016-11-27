@@ -150,6 +150,7 @@ function DoActionAll($message_text){
     // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (3, '怪盗');");
     // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (4, '人狼');");
     // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (5, '狂人');");
+      $result = mysqli_query($link, "insert into roles (role_id, role_name) values (6, '吊人');");
 
   // } else if ("@debug2" == $message_text) {
   //   $message = CreateUranaiButton($event->source->userId);
