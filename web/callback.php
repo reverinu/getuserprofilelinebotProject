@@ -591,7 +591,7 @@ function DoActionNoon($message_text){
             break;
           }
         }
-        $text .= $issue . "\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
+        $text .= $issue . "\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！";
       } else if($isTeruteru){
         $issue = "\n\n平和村だったよ！";
         for($k = 0; $k < $i; $k++){
@@ -600,9 +600,9 @@ function DoActionNoon($message_text){
             break;
           }
         }
-        $text .= $issue . "\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
+        $text .= $issue . "\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！";
       } else {
-        $text .= "平和村だったよ！\n\nまたやりたい時は「@newgame」\nもう終わりたい時は「@end」\nをコメントしてね！";
+        $text .= "平和村だったよ！\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！";
       }
 
 
@@ -613,74 +613,81 @@ function DoActionNoon($message_text){
       $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,520,520);
       $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,0,520,520);
       $area3 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,520,520,520);
+      $area4 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,520,520,520);
       //$actionはイベント内容,$areaを指定してください。
-      $action1 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@newgame",$area1);
-      $action2 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@end",$area2);
-      $action3 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@leave",$area3);
+      $action1 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@rule",$area1);
+      $action2 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@help",$area2);
+      $action3 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@game",$area3);
+      $action4 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@leave",$area4);
       //$basesizeは固定値です。
       $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
       //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapEnd","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3]);
+      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3, $action4]);
+
       $message->add($imagemap);
       $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
       $row = mysqli_fetch_row($result);
       $game_room_id = $row[0];
       $response = $bot->pushMessage($game_room_id, $message);
+
+      $result = mysqli_query($link, "delete from game_room where game_room_num = '$game_room_num'");
+      $result = mysqli_query($link, "delete from user where game_room_num = '$game_room_num'");
+      $result = mysqli_query($link, "delete from user_temp where game_room_num = '$game_room_num'");
     }
   }
 }
 //EndのDoAction,メッセージを見てアクションする
 function DoActionEnd($message_text){
   global $bot, $event, $link, $gameRoomId;
-  if("group" == $event->source->type || "room" == $event->source->type){
-    $result = mysqli_query($link, "select game_room_num from game_room where game_room_id = '$gameRoomId'");
-    $row = mysqli_fetch_row($result);
-    $game_room_num = $row[0];
-    if ("@newgame" == $message_text) {
-      $result = mysqli_query($link, "delete from game_room where game_room_num = '$game_room_num'");
-      $result = mysqli_query($link, "delete from user where game_room_num = '$game_room_num'");
-      $result = mysqli_query($link, "delete from user_temp where game_room_num = '$game_room_num'");
-      // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
-      while(true){
-        $gameRoomNum = mt_rand(100,999);
-        $gameRoomNum = mysqli_real_escape_string($link, $gameRoomNum);
-        $rnj = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum'");
-        $row = mysqli_fetch_row($rnj);
-        if(null == $row){
-          break;
-        }
-      }
-      $roomNumber = mysqli_real_escape_string($link, $gameRoomNum);
-      $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes, cast3, cast4, cast5, cast6) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0, '12345', '112344', '1112344', '11223445');");
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームナンバーを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！\n個人チャットでこの数字をコメントすればゲームに参加できるよ！\n「@member」で現在参加者表示\n「数字列」で配役変更\n\n1 村人\n2 占い師\n3 怪盗\n4 人狼\n5 狂人\n\n例：「11234」で村２占１怪１狼１\n※参加者＋２の役職を設定してね");
-      $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
-      $message->add($textMessageBuilder);
-      //$areaはイベント範囲の指定です。
-      $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,1040,520);
-      $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,520,1040,520);
-      //$actionはイベント内容,$areaを指定してください。
-      $action1 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@member",$area1);
-      $action2 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@start",$area2);
-      //$basesizeは固定値です。
-      $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
-      //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapWaiting2","選択肢が表示されてるよ",$basesize,[$action1, $action2]);
-      $message->add($imagemap);
-      $response = $bot->replyMessage($event->replyToken, $message);
-    } else if ("@end" == $message_text) {
-      $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
-      $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
-      $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
-
-      $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("お疲れ様！\n飽きたら退出させてね！");
-      $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-    }
-  }
+  // if("group" == $event->source->type || "room" == $event->source->type){
+  //   $result = mysqli_query($link, "select game_room_num from game_room where game_room_id = '$gameRoomId'");
+  //   $row = mysqli_fetch_row($result);
+  //   $game_room_num = $row[0];
+  //   if ("@newgame" == $message_text) {
+  //     $result = mysqli_query($link, "delete from game_room where game_room_num = '$game_room_num'");
+  //     $result = mysqli_query($link, "delete from user where game_room_num = '$game_room_num'");
+  //     $result = mysqli_query($link, "delete from user_temp where game_room_num = '$game_room_num'");
+  //     // ルームナンバー発行、テーブルにレコードを生成する、gameModeを移行する
+  //     while(true){
+  //       $gameRoomNum = mt_rand(100,999);
+  //       $gameRoomNum = mysqli_real_escape_string($link, $gameRoomNum);
+  //       $rnj = mysqli_query($link, "select * from game_room where game_room_num = '$gameRoomNum'");
+  //       $row = mysqli_fetch_row($rnj);
+  //       if(null == $row){
+  //         break;
+  //       }
+  //     }
+  //     $roomNumber = mysqli_real_escape_string($link, $gameRoomNum);
+  //     $result = mysqli_query($link, "insert into game_room (game_room_num, game_room_id, game_mode, num_of_people, num_of_roles, num_of_votes, cast3, cast4, cast5, cast6) values ('$roomNumber', '$gameRoomId', 'WAITING', 0, 0, 0, '12345', '112344', '1112344', '11223445');");
+  //     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("ルームナンバーを発行したよ！\nルームナンバーは「" . $roomNumber . "」だよ！\n個人チャットでこの数字をコメントすればゲームに参加できるよ！\n「@member」で現在参加者表示\n「数字列」で配役変更\n\n1 村人\n2 占い師\n3 怪盗\n4 人狼\n5 狂人\n\n例：「11234」で村２占１怪１狼１\n※参加者＋２の役職を設定してね");
+  //     $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+  //     $message->add($textMessageBuilder);
+  //     //$areaはイベント範囲の指定です。
+  //     $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,1040,520);
+  //     $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,520,1040,520);
+  //     //$actionはイベント内容,$areaを指定してください。
+  //     $action1 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@member",$area1);
+  //     $action2 = new \LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder("@start",$area2);
+  //     //$basesizeは固定値です。
+  //     $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
+  //     //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
+  //     $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapWaiting2","選択肢が表示されてるよ",$basesize,[$action1, $action2]);
+  //     $message->add($imagemap);
+  //     $response = $bot->replyMessage($event->replyToken, $message);
+  //   } else if ("@end" == $message_text) {
+  //     $result = mysqli_query($link,"delete from game_room where game_room_num = '$game_room_num'");
+  //     $result = mysqli_query($link,"delete from user where game_room_num = '$game_room_num'");
+  //     $result = mysqli_query($link,"delete from user_temp where game_room_num = '$game_room_num'");
+  //
+  //     $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("お疲れ様！\n飽きたら退出させてね！");
+  //     $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+  //   }
+  // }
 }
 //部屋に入ったときに諸々発言
 function DoActionJoin(){
   global $bot, $event;
-  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！(３～５人対応)\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n\nってコメントしてね！");
+  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！(３～５人対応)\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！");
   $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
   $message->add($textMessageBuilder);
   //$areaはイベント範囲の指定です。
