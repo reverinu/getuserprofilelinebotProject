@@ -29,7 +29,8 @@ $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716
 ////////////////////////////
 $server = 'us-cdbr-iron-east-04.cleardb.net';
 $username = 'b8613072c41507';
-$password = 'a207894a';
+//$password = 'a207894a';
+$password = '292adfe501970bb';
 $db = 'heroku_e0a333c38f14545';
 $link = mysqli_connect($server, $username, $password, $db);
 
