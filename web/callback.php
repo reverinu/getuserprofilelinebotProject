@@ -924,7 +924,7 @@ function CreateButtons($role){
     return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は狂人\n(「@ok」とコメントしてください)", $button);
   } else if(6 == $role){// 吊人
     $action0 = new \LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder("了解", "@ok");
-    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "吊人", "https://" . $_SERVER['SERVER_NAME'] . "/kyojin.jpeg", [$action0]);
+    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("あなたの役職", "吊人", "https://" . $_SERVER['SERVER_NAME'] . "/turibito.jpg", [$action0]);
     return $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("あなたの役職は吊人\n(「@ok」とコメントしてください)", $button);
   }
 }
