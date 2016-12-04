@@ -120,7 +120,7 @@ function DoActionAll($message_text){
     //$basesizeは固定値です。
     $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
     //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-    $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3, $action4]);
+    $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin2","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3, $action4]);
 
     $message->add($imagemap);
     $response = $bot->replyMessage($event->replyToken, $message);
@@ -141,7 +141,7 @@ function DoActionAll($message_text){
     //$basesizeは固定値です。
     $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
     //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-    $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3, $action4]);
+    $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin2","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3, $action4]);
 
     $message->add($imagemap);
     $response = $bot->replyMessage($event->replyToken, $message);
@@ -248,7 +248,7 @@ function DoActionBefore($message_text){
       //$basesizeは固定値です。
       $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
       //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapWaiting2","選択肢が表示されてるよ",$basesize,[$action1, $action2]);
+      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapWaiting3","選択肢が表示されてるよ",$basesize,[$action1, $action2]);
       $message->add($imagemap);
       $response = $bot->replyMessage($event->replyToken, $message);
     }
@@ -346,7 +346,7 @@ function DoActionWaiting($message_text){
         //$basesizeは固定値です。
         $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
         //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-        $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapWaiting2","選択肢が表示されてるよ",$basesize,[$action1, $action2]);
+        $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapWaiting3","選択肢が表示されてるよ",$basesize,[$action1, $action2]);
         $message->add($imagemap);
         $response = $bot->replyMessage($event->replyToken, $message);
       }
@@ -624,7 +624,7 @@ function DoActionNoon($message_text){
       //$basesizeは固定値です。
       $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
       //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3, $action4]);
+      $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin2","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3, $action4]);
 
       $message->add($imagemap);
       $result = mysqli_query($link, "select game_room_id from game_room where game_room_num = '$game_room_num'");
@@ -705,7 +705,7 @@ function DoActionJoin(){
   //$basesizeは固定値です。
   $basesize = new \LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder(1040,1040);
   //$imagemapは画像保存先の階層,表示されないときの文字列,$basesize,[$action]で投げてください。
-  $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3, $action4]);
+  $imagemap = new \LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder("https://" . $_SERVER['SERVER_NAME'] . "/imageMapJoin2","選択肢が表示されてるよ",$basesize,[$action1, $action2, $action3, $action4]);
 
   $message->add($imagemap);
   //いつもの
