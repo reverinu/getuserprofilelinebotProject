@@ -198,16 +198,26 @@ function DoActionAll($message_text){
           if(null != $row){
             $response = $bot->getProfile($event->source->userId);
             if ($response->isSucceeded()) {
+              $result = mysqli_query($link, "select num_of_people from game_room where game_room_num = '$gameRoomNum';");
+              $row = mysqli_fetch_row($result);
+              $num_of_people = $row[0];
+              if(2 < $num_of_people){
+                    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder(“僕は3〜5人対応のワンナイト人狼botだよ。\nもう参加人数がいっぱいです。”);
+                    $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+              } else {
+                $result = mysqli_query($link, "update game_room set num_of_people = num_of_people+1 where game_room_num = '$gameRoomNum';");
 
-              $result = mysqli_query($link, "update game_room set num_of_people = num_of_people+1 where game_room_num = '$gameRoomNum';");
+                $profile = $response->getJSONDecodedBody();
+                $user_name = mysqli_real_escape_string($link, $profile['displayName']);
+                $user_id = mysqli_real_escape_string($link, $event->source->userId);
+                $room_num = mysqli_real_escape_string($link, $row[1]);
+                $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('$user_id', '$user_name', '$room_num', '無し', 0, 'false', 'false');");
+                $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($user_name . "はゲームに参加したよ！");
+                $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+              }
 
-              $profile = $response->getJSONDecodedBody();
-              $user_name = mysqli_real_escape_string($link, $profile['displayName']);
-              $user_id = mysqli_real_escape_string($link, $event->source->userId);
-              $room_num = mysqli_real_escape_string($link, $row[1]);
-              $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('$user_id', '$user_name', '$room_num', '無し', 0, 'false', 'false');");
-              $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($user_name . "はゲームに参加したよ！");
-              $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+
+
             }
           }
         }
