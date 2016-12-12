@@ -201,7 +201,7 @@ function DoActionAll($message_text){
               $result = mysqli_query($link, "select num_of_people from game_room where game_room_num = '$gameRoomNum';");
               $row = mysqli_fetch_row($result);
               $num_of_people = $row[0];
-              if(2 > $num_of_people){
+              if(5 > $num_of_people){
                 $result = mysqli_query($link, "update game_room set num_of_people = num_of_people+1 where game_room_num = '$gameRoomNum';");
 
                 $profile = $response->getJSONDecodedBody();
