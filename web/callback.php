@@ -20,10 +20,10 @@ require('../web/CarouselModel.php');
 $input = file_get_contents('php://input');
 $json = json_decode($input);
 $event = $json->events[0];
-$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('+uSPrKUcIKMaO6DbktMGgTA4F1+xy+nV4QkAWL5cHeLpR3hR7IHRjFP/d4KiHiu/QdRS+C74JIjyX9MQtq+PSmycC1fFsT3lXVFQWItOAYnsQj5gnfbnZ+pUEDJXaMkfLyS7WNUXGKQ61JAkjKwfzwdB04t89/1O/w1cDnyilFU=');
-$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '250c4658f5bee572d3658c35f825c2d9']);
-// $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('w9SmZJ6zm2ln3DRx5gw6lxNgLi5Ayjx7ftGGpyEsKhM0sGStTEdwNeu7UdSe7H3Mj7ayGjRubK0xHN7onGWxEwL6K8lHyukidy2my3LQT02u+EsRK+Mqsvj4fe0OVCIEYzFMAC+VzUTNjINaAQiRbwdB04t89/1O/w1cDnyilFU=');
-// $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716fb770f3f326']);
+// $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('+uSPrKUcIKMaO6DbktMGgTA4F1+xy+nV4QkAWL5cHeLpR3hR7IHRjFP/d4KiHiu/QdRS+C74JIjyX9MQtq+PSmycC1fFsT3lXVFQWItOAYnsQj5gnfbnZ+pUEDJXaMkfLyS7WNUXGKQ61JAkjKwfzwdB04t89/1O/w1cDnyilFU=');
+// $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '250c4658f5bee572d3658c35f825c2d9']);
+$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('w9SmZJ6zm2ln3DRx5gw6lxNgLi5Ayjx7ftGGpyEsKhM0sGStTEdwNeu7UdSe7H3Mj7ayGjRubK0xHN7onGWxEwL6K8lHyukidy2my3LQT02u+EsRK+Mqsvj4fe0OVCIEYzFMAC+VzUTNjINaAQiRbwdB04t89/1O/w1cDnyilFU=');
+$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716fb770f3f326']);
 
 
 ////////////////////////////
