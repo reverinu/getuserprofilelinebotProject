@@ -154,7 +154,7 @@ function DoActionAll($message_text){
     // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (3, '怪盗');");
     // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (4, '人狼');");
     // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (5, '狂人');");
-      // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (6, '吊人');");
+    // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (6, '吊人');");
 
   // } else if ("@debug2" == $message_text) {
   //   $message = CreateUranaiButton($event->source->userId);
@@ -607,18 +607,16 @@ function DoActionNoon($message_text){
       $result = mysqli_query($link, "select role from user where user_name != '逃亡者'");
 
       $isWolf = false;
-      while ($role = mysqli_fetch_row($result)) {// そもそも参加者の中に人狼が含まれているか
+      $isTeruteru = false;
+      while ($role = mysqli_fetch_row($result)) {// そもそも参加者の中に人狼,吊人が含まれているか
         if("人狼" == $role[0]){
           $isWolf = true;
         }
-      }
-
-      $isTeruteru = false;
-      while ($role = mysqli_fetch_row($result)) {// そもそも参加者の中に吊人が含まれているか
         if("吊人" == $role[0]){
           $isTeruteru = true;
         }
       }
+
 
       if($isWolf){
         $issue = "\n\n狼陣営の勝利！";
