@@ -362,7 +362,42 @@ function DoActionWaiting($message_text){
       if(3 <= $num_of_people && 5 >= $num_of_people){
         $GAMEMODE_NIGHT = mysqli_real_escape_string($link, $GAMEMODE_NIGHT);
         $result = mysqli_query($link, "update game_room set game_mode = '$GAMEMODE_NIGHT' where game_room_id = '$gameRoomId'");
-        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ゲーム開始]\nワオーーーーン・・・\n\n\n狼の遠吠えが聞こえてくる。\n夜時間です。各自、個人チャットで行動してください");
+
+        // 現在参加者のみ表示
+        $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
+        $row = mysqli_fetch_row($result);
+        if(null != $row){
+          $num_of_people = $row[4];
+          $game_room_num = $row[1];
+          $game_room_num = mysqli_real_escape_string($link, $game_room_num);
+          $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
+          $memberListText = "";
+          while($row = mysqli_fetch_row($result)){
+            $memberListText .= $row[2] . "\n";
+          }
+
+          if(3 == $num_of_people){
+            $result = mysqli_query($link, "select cast3 from game_room where game_room_id = '$gameRoomId'");
+          } else if(4 == $num_of_people){
+            $result = mysqli_query($link, "select cast4 from game_room where game_room_id = '$gameRoomId'");
+          } else if(5 == $num_of_people){
+            $result = mysqli_query($link, "select cast5 from game_room where game_room_id = '$gameRoomId'");
+          } else if(6 == $num_of_people){
+            $result = mysqli_query($link, "select cast6 from game_room where game_room_id = '$gameRoomId'");
+          }
+
+          $row = mysqli_fetch_row($result);
+          $roles = str_split((int)$row[0]);
+          $text = "\n配役\n";
+          foreach ($roles as $value) {
+            $role_id = mysqli_real_escape_string($link, $value);
+            $result = mysqli_query($link, "select role_name from roles where role_id = '$role_id'");
+            $row = mysqli_fetch_row($result);
+            $text .= $row[0] . " ";
+          }
+        }
+        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧(" . $num_of_people . ")\n" . $memberListText . $text . "\n\n[ゲーム開始]\nワオーーーーン・・・\n\n\n狼の遠吠えが聞こえてくる。\n夜時間です。各自、個人チャットで行動してください");
+        //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ゲーム開始]\nワオーーーーン・・・\n\n\n狼の遠吠えが聞こえてくる。\n夜時間です。各自、個人チャットで行動してください");
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
         // 逃亡者生成
         $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
