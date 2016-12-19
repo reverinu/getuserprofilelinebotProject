@@ -608,14 +608,14 @@ function DoActionNoon($message_text){
 
       $isWolf = false;
       while ($role = mysqli_fetch_row($result)) {// そもそも参加者の中に人狼が含まれているか
-        if('人狼' == $role[0]){
+        if("人狼" == $role[0]){
           $isWolf = true;
         }
       }
 
       $isTeruteru = false;
       while ($role = mysqli_fetch_row($result)) {// そもそも参加者の中に吊人が含まれているか
-        if('吊人' == $role[0]){
+        if("吊人" == $role[0]){
           $isTeruteru = true;
         }
       }
