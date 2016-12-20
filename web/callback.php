@@ -460,11 +460,11 @@ function DoActionNight($message_text){
           }
         }
         if($isExist){
-          $result = mysqli_query($link, "select user_id from user_temp where role = '占い師'");
+          $result = mysqli_query($link, "select user_id from user_temp where role = '占い師'");//TODO:げーむるーむなむ
           $row = mysqli_fetch_row($result);
           if("占い@" . $uranai == $message_text && $userId == $row[0]){
             $uranai = mysqli_real_escape_string($link, $uranai);
-            $result = mysqli_query($link, "select role from user_temp where user_name = '$uranai'");
+            $result = mysqli_query($link, "select role from user_temp where user_name = '$uranai'");//TODO:げーむるーむなむ
             $text = "占い結果\n";
             while($row = mysqli_fetch_row($result)){
               $text .= $uranai . "の役職は" . $row[0] . "\n";
@@ -476,7 +476,7 @@ function DoActionNight($message_text){
             $result = mysqli_query($link, "update game_room set num_of_roles = num_of_roles+1 where game_room_num = '$game_room_num'");
           }
 
-          $result = mysqli_query($link, "select user_id from user_temp where role = '怪盗'");
+          $result = mysqli_query($link, "select user_id from user_temp where role = '怪盗'");//TODO:げーむるーむなむ
           $row = mysqli_fetch_row($result);
           if("怪盗@" . $kaito == $message_text && $userId == $row[0]){
             $result = mysqli_query($link, "select role from user where user_id = '$userId'");
@@ -489,7 +489,7 @@ function DoActionNight($message_text){
             $yourself = $row[0];
             $yourself = mysqli_real_escape_string($link, $yourself);
             $result = mysqli_query($link, "update user set role = '$yourself' where user_id = '$userId'");
-            $result = mysqli_query($link, "update user set role = '$myself' where user_name = '$kaito'");
+            $result = mysqli_query($link, "update user set role = '$myself' where user_name = '$kaito'");//TODO:げーむるーむなむ
 
             $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($kaito . "と入れ替わったよ\n" . "あなたは" . $yourself . "になりました");
             $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
@@ -1033,6 +1033,3 @@ function CreateKaitoButton($userId){
 ////////////////////////////
 mysqli_free_result($result);
 mysqli_close($link);
-
-
-// TODO : 配るときにcastから参照して直すようにする、createbutton関数のifを数値に
