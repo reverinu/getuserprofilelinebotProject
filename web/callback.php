@@ -215,9 +215,6 @@ function DoActionAll($message_text){
                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕は3〜5人対応のワンナイト人狼botだよ。\nもう参加人数がいっぱいです。");
                 $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
               }
-
-
-
             }
           }
         }
