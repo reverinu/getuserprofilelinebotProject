@@ -20,10 +20,12 @@ require('../web/CarouselModel.php');
 $input = file_get_contents('php://input');
 $json = json_decode($input);
 $event = $json->events[0];
-// $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('+uSPrKUcIKMaO6DbktMGgTA4F1+xy+nV4QkAWL5cHeLpR3hR7IHRjFP/d4KiHiu/QdRS+C74JIjyX9MQtq+PSmycC1fFsT3lXVFQWItOAYnsQj5gnfbnZ+pUEDJXaMkfLyS7WNUXGKQ61JAkjKwfzwdB04t89/1O/w1cDnyilFU=');
-// $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '250c4658f5bee572d3658c35f825c2d9']);
-$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('w9SmZJ6zm2ln3DRx5gw6lxNgLi5Ayjx7ftGGpyEsKhM0sGStTEdwNeu7UdSe7H3Mj7ayGjRubK0xHN7onGWxEwL6K8lHyukidy2my3LQT02u+EsRK+Mqsvj4fe0OVCIEYzFMAC+VzUTNjINaAQiRbwdB04t89/1O/w1cDnyilFU=');
-$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716fb770f3f326']);
+//テスト
+// $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('w9SmZJ6zm2ln3DRx5gw6lxNgLi5Ayjx7ftGGpyEsKhM0sGStTEdwNeu7UdSe7H3Mj7ayGjRubK0xHN7onGWxEwL6K8lHyukidy2my3LQT02u+EsRK+Mqsvj4fe0OVCIEYzFMAC+VzUTNjINaAQiRbwdB04t89/1O/w1cDnyilFU=');
+// $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716fb770f3f326']);
+//本番
+$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('+uSPrKUcIKMaO6DbktMGgTA4F1+xy+nV4QkAWL5cHeLpR3hR7IHRjFP/d4KiHiu/QdRS+C74JIjyX9MQtq+PSmycC1fFsT3lXVFQWItOAYnsQj5gnfbnZ+pUEDJXaMkfLyS7WNUXGKQ61JAkjKwfzwdB04t89/1O/w1cDnyilFU=');
+$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '250c4658f5bee572d3658c35f825c2d9']);
 
 
 ////////////////////////////
@@ -31,7 +33,6 @@ $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '3095c84a53d38913b6716
 ////////////////////////////
 $server = 'us-cdbr-iron-east-04.cleardb.net';
 $username = 'b8613072c41507';
-//$password = 'a207894a';
 $password = '292adfe501970bb';
 $db = 'heroku_e0a333c38f14545';
 $link = mysqli_connect($server, $username, $password, $db);
@@ -153,7 +154,7 @@ function DoActionAll($message_text){
     // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (3, '怪盗');");
     // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (4, '人狼');");
     // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (5, '狂人');");
-      // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (6, '吊人');");
+    // $result = mysqli_query($link, "insert into roles (role_id, role_name) values (6, '吊人');");
 
   // } else if ("@debug2" == $message_text) {
   //   $message = CreateUranaiButton($event->source->userId);
@@ -198,6 +199,7 @@ function DoActionAll($message_text){
           if(null != $row){
             $response = $bot->getProfile($event->source->userId);
             if ($response->isSucceeded()) {
+<<<<<<< HEAD
               $result = mysqli_query($link, "select num_of_people from game_room where game_room_num = '$gameRoomNum';");
               $row = mysqli_fetch_row($result);
               $num_of_people = $row[0];
@@ -215,6 +217,18 @@ function DoActionAll($message_text){
                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕は3〜5人対応のワンナイト人狼botだよ。\nもう参加人数がいっぱいです。");
                 $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
               }
+=======
+
+              $result = mysqli_query($link, "update game_room set num_of_people = num_of_people+1 where game_room_num = '$gameRoomNum';");
+
+              $profile = $response->getJSONDecodedBody();
+              $user_name = mysqli_real_escape_string($link, $profile['displayName']);
+              $user_id = mysqli_real_escape_string($link, $event->source->userId);
+              $room_num = mysqli_real_escape_string($link, $row[1]);
+              $result = mysqli_query($link, "insert into user (user_id, user_name, game_room_num, role, voted_num, is_roling, is_voting) values ('$user_id', '$user_name', '$room_num', '無し', 0, 'false', 'false');");
+              $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($user_name . "はゲームに参加したよ！");
+              $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+>>>>>>> origin/master
             }
           }
         }
@@ -403,6 +417,7 @@ function DoActionWaiting($message_text){
           }
         }
         $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("メンバー一覧(" . $num_of_people . ")\n" . $memberListText . $text . "\n\n[ゲーム開始]\nワオーーーーン・・・\n\n\n狼の遠吠えが聞こえてくる。\n夜時間です。各自、個人チャットで行動してください");
+        //$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("[ゲーム開始]\nワオーーーーン・・・\n\n\n狼の遠吠えが聞こえてくる。\n夜時間です。各自、個人チャットで行動してください");
         $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
         // 逃亡者生成
         $result = mysqli_query($link, "select * from game_room where game_room_id = '$gameRoomId'");
@@ -612,18 +627,16 @@ function DoActionNoon($message_text){
       $result = mysqli_query($link, "select role from user where user_name != '逃亡者'");
 
       $isWolf = false;
-      while ($role = mysqli_fetch_row($result)) {// そもそも参加者の中に人狼が含まれているか
-        if('人狼' == $role[0]){
+      $isTeruteru = false;
+      while ($role = mysqli_fetch_row($result)) {// そもそも参加者の中に人狼,吊人が含まれているか
+        if("人狼" == $role[0]){
           $isWolf = true;
         }
-      }
-
-      $isTeruteru = false;
-      while ($role = mysqli_fetch_row($result)) {// そもそも参加者の中に吊人が含まれているか
-        if('吊人' == $role[0]){
+        if("吊人" == $role[0]){
           $isTeruteru = true;
         }
       }
+
 
       if($isWolf){
         $issue = "\n\n狼陣営の勝利！";
@@ -732,9 +745,10 @@ function DoActionEnd($message_text){
 //部屋に入ったときに諸々発言
 function DoActionJoin(){
   global $bot, $event;
-  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！(３～５人対応)\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！");
+  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！(３～５人対応)\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！\n\nQ&Aはホームを見てね！\n\n何かあればここへ ⇒ https://twitter.com/LINE1NightJinro\n\n© 2016 TEAM 451 Lab\n© 2012 Akihisa Okui");
   $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
   $message->add($textMessageBuilder);
+
   //$areaはイベント範囲の指定です。
   $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,520,520);
   $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,0,520,520);
@@ -809,13 +823,13 @@ function HandOut($num_of_people){
         $user_id[$i] = $row[1];
         $i++;
       }
-      $result = mysqli_query($link, "update user set role = '$role[0]' where user_id = '$user_id[0]'");
-      $result = mysqli_query($link, "update user set role = '$role[1]' where user_id = '$user_id[1]'");
-      $result = mysqli_query($link, "update user set role = '$role[2]' where user_id = '$user_id[2]'");
-      $result = mysqli_query($link, "update user set role = '$role[3]' where user_id = '$user_id[3]'");
-      $result = mysqli_query($link, "update user set role = '$role[4]' where user_id = '$user_id[4]'");
+      $result = mysqli_query($link, "update user set role = '$role[0]' where game_room_num = '$game_room_num' and user_id = '$user_id[0]'");
+      $result = mysqli_query($link, "update user set role = '$role[1]' where game_room_num = '$game_room_num' and user_id = '$user_id[1]'");
+      $result = mysqli_query($link, "update user set role = '$role[2]' where game_room_num = '$game_room_num' and user_id = '$user_id[2]'");
+      $result = mysqli_query($link, "update user set role = '$role[3]' where game_room_num = '$game_room_num' and user_id = '$user_id[3]'");
+      $result = mysqli_query($link, "update user set role = '$role[4]' where game_room_num = '$game_room_num' and user_id = '$user_id[4]'");
 
-      $result = mysqli_query($link, "insert into user_temp select * from user");
+      $result = mysqli_query($link, "insert into user_temp select * from user where game_room_num = '$game_room_num'");// TODO:全部変わるの良くない。ゲームルームのやつだけ変えなきゃ
 
       //これがボタンに置き換わる
       $button_message = CreateButtons($cast[0]);
@@ -852,14 +866,14 @@ function HandOut($num_of_people){
         $user_id[$i] = $row[1];
         $i++;
       }
-      $result = mysqli_query($link, "update user set role = '$role[0]' where user_id = '$user_id[0]'");
-      $result = mysqli_query($link, "update user set role = '$role[1]' where user_id = '$user_id[1]'");
-      $result = mysqli_query($link, "update user set role = '$role[2]' where user_id = '$user_id[2]'");
-      $result = mysqli_query($link, "update user set role = '$role[3]' where user_id = '$user_id[3]'");
-      $result = mysqli_query($link, "update user set role = '$role[4]' where user_id = '$user_id[4]'");
-      $result = mysqli_query($link, "update user set role = '$role[5]' where user_id = '$user_id[5]'");
+      $result = mysqli_query($link, "update user set role = '$role[0]' where game_room_num = '$game_room_num' and user_id = '$user_id[0]'");
+      $result = mysqli_query($link, "update user set role = '$role[1]' where game_room_num = '$game_room_num' and user_id = '$user_id[1]'");
+      $result = mysqli_query($link, "update user set role = '$role[2]' where game_room_num = '$game_room_num' and user_id = '$user_id[2]'");
+      $result = mysqli_query($link, "update user set role = '$role[3]' where game_room_num = '$game_room_num' and user_id = '$user_id[3]'");
+      $result = mysqli_query($link, "update user set role = '$role[4]' where game_room_num = '$game_room_num' and user_id = '$user_id[4]'");
+      $result = mysqli_query($link, "update user set role = '$role[5]' where game_room_num = '$game_room_num' and user_id = '$user_id[5]'");
 
-      $result = mysqli_query($link, "insert into user_temp select * from user");
+      $result = mysqli_query($link, "insert into user_temp select * from user where game_room_num = '$game_room_num'");
 
       //これがボタンに置き換わる
       $button_message = CreateButtons($cast[0]);
@@ -895,15 +909,15 @@ function HandOut($num_of_people){
         $user_id[$i] = $row[1];
         $i++;
       }
-      $result = mysqli_query($link, "update user set role = '$role[0]' where user_id = '$user_id[0]'");
-      $result = mysqli_query($link, "update user set role = '$role[1]' where user_id = '$user_id[1]'");
-      $result = mysqli_query($link, "update user set role = '$role[2]' where user_id = '$user_id[2]'");
-      $result = mysqli_query($link, "update user set role = '$role[3]' where user_id = '$user_id[3]'");
-      $result = mysqli_query($link, "update user set role = '$role[4]' where user_id = '$user_id[4]'");
-      $result = mysqli_query($link, "update user set role = '$role[5]' where user_id = '$user_id[5]'");
-      $result = mysqli_query($link, "update user set role = '$role[6]' where user_id = '$user_id[6]'");
+      $result = mysqli_query($link, "update user set role = '$role[0]' where game_room_num = '$game_room_num' and user_id = '$user_id[0]'");
+      $result = mysqli_query($link, "update user set role = '$role[1]' where game_room_num = '$game_room_num' and user_id = '$user_id[1]'");
+      $result = mysqli_query($link, "update user set role = '$role[2]' where game_room_num = '$game_room_num' and user_id = '$user_id[2]'");
+      $result = mysqli_query($link, "update user set role = '$role[3]' where game_room_num = '$game_room_num' and user_id = '$user_id[3]'");
+      $result = mysqli_query($link, "update user set role = '$role[4]' where game_room_num = '$game_room_num' and user_id = '$user_id[4]'");
+      $result = mysqli_query($link, "update user set role = '$role[5]' where game_room_num = '$game_room_num' and user_id = '$user_id[5]'");
+      $result = mysqli_query($link, "update user set role = '$role[6]' where game_room_num = '$game_room_num' and user_id = '$user_id[6]'");
 
-      $result = mysqli_query($link, "insert into user_temp select * from user");
+      $result = mysqli_query($link, "insert into user_temp select * from user where game_room_num = '$game_room_num'");
 
       //これがボタンに置き換わる
       $button_message = CreateButtons($cast[0]);
