@@ -803,13 +803,13 @@ function HandOut($num_of_people){
         $user_id[$i] = $row[1];
         $i++;
       }
-      $result = mysqli_query($link, "update user set role = '$role[0]' where user_id = '$user_id[0]'");
-      $result = mysqli_query($link, "update user set role = '$role[1]' where user_id = '$user_id[1]'");
-      $result = mysqli_query($link, "update user set role = '$role[2]' where user_id = '$user_id[2]'");
-      $result = mysqli_query($link, "update user set role = '$role[3]' where user_id = '$user_id[3]'");
-      $result = mysqli_query($link, "update user set role = '$role[4]' where user_id = '$user_id[4]'");
+      $result = mysqli_query($link, "update user set role = '$role[0]' where game_room_num = '$game_room_num' and user_id = '$user_id[0]'");
+      $result = mysqli_query($link, "update user set role = '$role[1]' where game_room_num = '$game_room_num' and user_id = '$user_id[1]'");
+      $result = mysqli_query($link, "update user set role = '$role[2]' where game_room_num = '$game_room_num' and user_id = '$user_id[2]'");
+      $result = mysqli_query($link, "update user set role = '$role[3]' where game_room_num = '$game_room_num' and user_id = '$user_id[3]'");
+      $result = mysqli_query($link, "update user set role = '$role[4]' where game_room_num = '$game_room_num' and user_id = '$user_id[4]'");
 
-      $result = mysqli_query($link, "insert into user_temp select * from user");
+      $result = mysqli_query($link, "insert into user_temp select * from user");// TODO:全部変わるの良くない。ゲームルームのやつだけ変えなきゃ
 
       //これがボタンに置き換わる
       $button_message = CreateButtons($cast[0]);
@@ -846,12 +846,12 @@ function HandOut($num_of_people){
         $user_id[$i] = $row[1];
         $i++;
       }
-      $result = mysqli_query($link, "update user set role = '$role[0]' where user_id = '$user_id[0]'");
-      $result = mysqli_query($link, "update user set role = '$role[1]' where user_id = '$user_id[1]'");
-      $result = mysqli_query($link, "update user set role = '$role[2]' where user_id = '$user_id[2]'");
-      $result = mysqli_query($link, "update user set role = '$role[3]' where user_id = '$user_id[3]'");
-      $result = mysqli_query($link, "update user set role = '$role[4]' where user_id = '$user_id[4]'");
-      $result = mysqli_query($link, "update user set role = '$role[5]' where user_id = '$user_id[5]'");
+      $result = mysqli_query($link, "update user set role = '$role[0]' where game_room_num = '$game_room_num' and user_id = '$user_id[0]'");
+      $result = mysqli_query($link, "update user set role = '$role[1]' where game_room_num = '$game_room_num' and user_id = '$user_id[1]'");
+      $result = mysqli_query($link, "update user set role = '$role[2]' where game_room_num = '$game_room_num' and user_id = '$user_id[2]'");
+      $result = mysqli_query($link, "update user set role = '$role[3]' where game_room_num = '$game_room_num' and user_id = '$user_id[3]'");
+      $result = mysqli_query($link, "update user set role = '$role[4]' where game_room_num = '$game_room_num' and user_id = '$user_id[4]'");
+      $result = mysqli_query($link, "update user set role = '$role[5]' where game_room_num = '$game_room_num' and user_id = '$user_id[5]'");
 
       $result = mysqli_query($link, "insert into user_temp select * from user");
 
@@ -889,13 +889,13 @@ function HandOut($num_of_people){
         $user_id[$i] = $row[1];
         $i++;
       }
-      $result = mysqli_query($link, "update user set role = '$role[0]' where user_id = '$user_id[0]'");
-      $result = mysqli_query($link, "update user set role = '$role[1]' where user_id = '$user_id[1]'");
-      $result = mysqli_query($link, "update user set role = '$role[2]' where user_id = '$user_id[2]'");
-      $result = mysqli_query($link, "update user set role = '$role[3]' where user_id = '$user_id[3]'");
-      $result = mysqli_query($link, "update user set role = '$role[4]' where user_id = '$user_id[4]'");
-      $result = mysqli_query($link, "update user set role = '$role[5]' where user_id = '$user_id[5]'");
-      $result = mysqli_query($link, "update user set role = '$role[6]' where user_id = '$user_id[6]'");
+      $result = mysqli_query($link, "update user set role = '$role[0]' where game_room_num = '$game_room_num' and user_id = '$user_id[0]'");
+      $result = mysqli_query($link, "update user set role = '$role[1]' where game_room_num = '$game_room_num' and user_id = '$user_id[1]'");
+      $result = mysqli_query($link, "update user set role = '$role[2]' where game_room_num = '$game_room_num' and user_id = '$user_id[2]'");
+      $result = mysqli_query($link, "update user set role = '$role[3]' where game_room_num = '$game_room_num' and user_id = '$user_id[3]'");
+      $result = mysqli_query($link, "update user set role = '$role[4]' where game_room_num = '$game_room_num' and user_id = '$user_id[4]'");
+      $result = mysqli_query($link, "update user set role = '$role[5]' where game_room_num = '$game_room_num' and user_id = '$user_id[5]'");
+      $result = mysqli_query($link, "update user set role = '$role[6]' where game_room_num = '$game_room_num' and user_id = '$user_id[6]'");
 
       $result = mysqli_query($link, "insert into user_temp select * from user");
 
