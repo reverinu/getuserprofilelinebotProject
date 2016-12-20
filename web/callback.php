@@ -809,7 +809,7 @@ function HandOut($num_of_people){
       $result = mysqli_query($link, "update user set role = '$role[3]' where game_room_num = '$game_room_num' and user_id = '$user_id[3]'");
       $result = mysqli_query($link, "update user set role = '$role[4]' where game_room_num = '$game_room_num' and user_id = '$user_id[4]'");
 
-      $result = mysqli_query($link, "insert into user_temp select * from user");// TODO:全部変わるの良くない。ゲームルームのやつだけ変えなきゃ
+      $result = mysqli_query($link, "insert into user_temp select * from user where game_room_num = '$game_room_num'");// TODO:全部変わるの良くない。ゲームルームのやつだけ変えなきゃ
 
       //これがボタンに置き換わる
       $button_message = CreateButtons($cast[0]);
@@ -853,7 +853,7 @@ function HandOut($num_of_people){
       $result = mysqli_query($link, "update user set role = '$role[4]' where game_room_num = '$game_room_num' and user_id = '$user_id[4]'");
       $result = mysqli_query($link, "update user set role = '$role[5]' where game_room_num = '$game_room_num' and user_id = '$user_id[5]'");
 
-      $result = mysqli_query($link, "insert into user_temp select * from user");
+      $result = mysqli_query($link, "insert into user_temp select * from user where game_room_num = '$game_room_num'");
 
       //これがボタンに置き換わる
       $button_message = CreateButtons($cast[0]);
@@ -897,7 +897,7 @@ function HandOut($num_of_people){
       $result = mysqli_query($link, "update user set role = '$role[5]' where game_room_num = '$game_room_num' and user_id = '$user_id[5]'");
       $result = mysqli_query($link, "update user set role = '$role[6]' where game_room_num = '$game_room_num' and user_id = '$user_id[6]'");
 
-      $result = mysqli_query($link, "insert into user_temp select * from user");
+      $result = mysqli_query($link, "insert into user_temp select * from user where game_room_num = '$game_room_num'");
 
       //これがボタンに置き換わる
       $button_message = CreateButtons($cast[0]);
