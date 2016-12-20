@@ -728,6 +728,7 @@ function DoActionJoin(){
   $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("僕はワンナイト人狼Botだよ！(３～５人対応)\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！\n\n© 2016 TEAM 451 Lab\n© 2012 Akihisa Okui");
   $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
   $message->add($textMessageBuilder);
+  
   //$areaはイベント範囲の指定です。
   $area1 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(0,0,520,520);
   $area2 = new \LINE\LINEBot\ImagemapActionBuilder\AreaBuilder(520,0,520,520);
