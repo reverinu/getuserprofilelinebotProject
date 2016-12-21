@@ -631,7 +631,7 @@ function DoActionNoon($message_text){
         }
         $text .= $issue . "\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！";
       } else if($isTeruteru){
-        $issue = "\n\n平和村だったよ！";
+        $issue = "無し\n\n平和村だったよ！";
         for($k = 0; $k < $i; $k++){
           if("吊人" == $role_temp[$k]){
             $issue = "\n\n吊人の勝利！";
@@ -640,7 +640,7 @@ function DoActionNoon($message_text){
         }
         $text .= $issue . "\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！";
       } else {
-        $text .= "平和村だったよ！\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！";
+        $text .= "無し\n\n平和村だったよ！\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！";
       }
 
 
