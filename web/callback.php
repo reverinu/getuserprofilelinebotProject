@@ -725,7 +725,7 @@ function DoActionEnd($message_text){
 //部屋に入ったときに諸々発言
 function DoActionJoin(){
   global $bot, $event;
-  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("2016/12/21 13:02\n占えないバグ、入れ替われないバグを修正\n-----\n\n僕はワンナイト人狼Botだよ！(３～５人対応)\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！\n\nQ&Aはホームを見てね！\n\n何かあればここへ ⇒ https://twitter.com/LINE1NightJinro\n\n© 2016 TEAM 451 Lab\n© 2012 Akihisa Okui");
+  $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder("2016/12/21 13:02\n占えないバグ、入れ替われないバグを修正\n-----\n\n僕はワンナイト人狼 公認 Botだよ！(３～５人対応)\n\n[スマートフォンの方]\n下の選択肢をタップしてね\n\n[PCの方]\nワンナイト人狼のルールを知りたいときは「@rule」\nこのbotの使い方を知りたいときは「@help」\nゲームを始めたいときは「@game」\n退出させたいときは「@leave」\n\nってコメントしてね！\n\nQ&Aはホームを見てね！\n\n何かあればここへ ⇒ https://twitter.com/LINE1NightJinro\n\n© 2016 TEAM 451 Lab\n© 2012 Akihisa Okui");
   $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
   $message->add($textMessageBuilder);
 
