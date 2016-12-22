@@ -604,7 +604,7 @@ function DoActionNoon($message_text){
         }
       }
 
-      $result = mysqli_query($link, "select role from user where user_name != '逃亡者'");
+      $result = mysqli_query($link, "select role from user where game_room_num = '$game_room_num' and user_name != '逃亡者'");
 
       $isWolf = false;
       $isTeruteru = false;
