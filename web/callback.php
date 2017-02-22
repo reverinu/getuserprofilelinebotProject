@@ -910,56 +910,56 @@ function HandOut($num_of_people){
       $button_message = CreateButtons($cast[4]);
       $response = $bot->pushMessage($user_id[4], $button_message);
       //ここまで
-    }// else if(6 == $num_of_people){// ここに６人対応の記述
-    //   $result = mysqli_query($link, "select cast5 from game_room where game_room_id = '$gameRoomId'");
-    //   $row = mysqli_fetch_row($result);
-    //   $cast = str_split((int)$row[0]);
-    //   shuffle($cast);
-    //   $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
-    //   $i = 0;
-    //   while($row = mysqli_fetch_row($result)){
-    //     if(1 == $cast[$i]){
-    //       $role[$i] = "村人";
-    //     } else if(2 == $cast[$i]){
-    //       $role[$i] = "占い師";
-    //     } else if(3 == $cast[$i]){
-    //       $role[$i] = "怪盗";
-    //     } else if(4 == $cast[$i]){
-    //       $role[$i] = "人狼";
-    //     } else if(5 == $cast[$i]){
-    //       $role[$i] = "狂人";
-    //     } else if(6 == $cast[$i]){
-    //       $role[$i] = "吊人";
-    //     }
-    //     $user_id[$i] = $row[1];
-    //     $i++;
-    //   }
-    //   $result = mysqli_query($link, "update user set role = '$role[0]' where game_room_num = '$game_room_num' and user_id = '$user_id[0]'");
-    //   $result = mysqli_query($link, "update user set role = '$role[1]' where game_room_num = '$game_room_num' and user_id = '$user_id[1]'");
-    //   $result = mysqli_query($link, "update user set role = '$role[2]' where game_room_num = '$game_room_num' and user_id = '$user_id[2]'");
-    //   $result = mysqli_query($link, "update user set role = '$role[3]' where game_room_num = '$game_room_num' and user_id = '$user_id[3]'");
-    //   $result = mysqli_query($link, "update user set role = '$role[4]' where game_room_num = '$game_room_num' and user_id = '$user_id[4]'");
-    //   $result = mysqli_query($link, "update user set role = '$role[5]' where game_room_num = '$game_room_num' and user_id = '$user_id[5]'");
-    //   $result = mysqli_query($link, "update user set role = '$role[6]' where game_room_num = '$game_room_num' and user_id = '$user_id[6]'");
-    //   $result = mysqli_query($link, "update user set role = '$role[7]' where game_room_num = '$game_room_num' and user_id = '$user_id[7]'");
-    //
-    //   $result = mysqli_query($link, "insert into user_temp select * from user where game_room_num = '$game_room_num'");
-    //
-    //   //これがボタンに置き換わる
-    //   $button_message = CreateButtons($cast[0]);
-    //   $response = $bot->pushMessage($user_id[0], $button_message);
-    //   $button_message = CreateButtons($cast[1]);
-    //   $response = $bot->pushMessage($user_id[1], $button_message);
-    //   $button_message = CreateButtons($cast[2]);
-    //   $response = $bot->pushMessage($user_id[2], $button_message);
-    //   $button_message = CreateButtons($cast[3]);
-    //   $response = $bot->pushMessage($user_id[3], $button_message);
-    //   $button_message = CreateButtons($cast[4]);
-    //   $response = $bot->pushMessage($user_id[4], $button_message);
-    //   $button_message = CreateButtons($cast[5]);
-    //   $response = $bot->pushMessage($user_id[5], $button_message);
-    //   //ここまで
-    // }
+    } else if(6 == $num_of_people){// ここに６人対応の記述
+      $result = mysqli_query($link, "select cast6 from game_room where game_room_id = '$gameRoomId'");
+      $row = mysqli_fetch_row($result);
+      $cast = str_split((int)$row[0]);
+      shuffle($cast);
+      $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
+      $i = 0;
+      while($row = mysqli_fetch_row($result)){
+        if(1 == $cast[$i]){
+          $role[$i] = "村人";
+        } else if(2 == $cast[$i]){
+          $role[$i] = "占い師";
+        } else if(3 == $cast[$i]){
+          $role[$i] = "怪盗";
+        } else if(4 == $cast[$i]){
+          $role[$i] = "人狼";
+        } else if(5 == $cast[$i]){
+          $role[$i] = "狂人";
+        } else if(6 == $cast[$i]){
+          $role[$i] = "吊人";
+        }
+        $user_id[$i] = $row[1];
+        $i++;
+      }
+      $result = mysqli_query($link, "update user set role = '$role[0]' where game_room_num = '$game_room_num' and user_id = '$user_id[0]'");
+      $result = mysqli_query($link, "update user set role = '$role[1]' where game_room_num = '$game_room_num' and user_id = '$user_id[1]'");
+      $result = mysqli_query($link, "update user set role = '$role[2]' where game_room_num = '$game_room_num' and user_id = '$user_id[2]'");
+      $result = mysqli_query($link, "update user set role = '$role[3]' where game_room_num = '$game_room_num' and user_id = '$user_id[3]'");
+      $result = mysqli_query($link, "update user set role = '$role[4]' where game_room_num = '$game_room_num' and user_id = '$user_id[4]'");
+      $result = mysqli_query($link, "update user set role = '$role[5]' where game_room_num = '$game_room_num' and user_id = '$user_id[5]'");
+      $result = mysqli_query($link, "update user set role = '$role[6]' where game_room_num = '$game_room_num' and user_id = '$user_id[6]'");
+      $result = mysqli_query($link, "update user set role = '$role[7]' where game_room_num = '$game_room_num' and user_id = '$user_id[7]'");
+
+      $result = mysqli_query($link, "insert into user_temp select * from user where game_room_num = '$game_room_num'");
+
+      //これがボタンに置き換わる
+      $button_message = CreateButtons($cast[0]);
+      $response = $bot->pushMessage($user_id[0], $button_message);
+      $button_message = CreateButtons($cast[1]);
+      $response = $bot->pushMessage($user_id[1], $button_message);
+      $button_message = CreateButtons($cast[2]);
+      $response = $bot->pushMessage($user_id[2], $button_message);
+      $button_message = CreateButtons($cast[3]);
+      $response = $bot->pushMessage($user_id[3], $button_message);
+      $button_message = CreateButtons($cast[4]);
+      $response = $bot->pushMessage($user_id[4], $button_message);
+      $button_message = CreateButtons($cast[5]);
+      $response = $bot->pushMessage($user_id[5], $button_message);
+      //ここまで
+    }
   }
 }
 // 役職によってButtonの形状が異なる
@@ -1043,16 +1043,16 @@ function CreateUranaiButton($userId){
     $message->add($button_message);
     $message->add($button_message2);
     return $message;
-  }// else if (7 == $i){// ここに６人対応の記述
-  //   $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/uranai.jpg", [$action[0], $action[1], $action[2], $action[3]]);
-  //   $button2 = new  \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/uranai.jpg", [$action[4], $action[5]]);
-  //   $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
-  //   $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[0] . "/占い@" . $user_names[1] . "/占い@" . $user_names[2] . "/占い@" . $user_names[3] . ")", $button);
-  //   $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[4] . "/占い@" . $user_names[5] . ")", $button2);
-  //   $message->add($button_message);
-  //   $message->add($button_message2);
-  //   return $message;
-  // }
+  } else if (7 == $i){// ここに６人対応の記述
+    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/uranai.jpg", [$action[0], $action[1], $action[2], $action[3]]);
+    $button2 = new  \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/uranai.jpg", [$action[4], $action[5]]);
+    $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+    $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[0] . "/占い@" . $user_names[1] . "/占い@" . $user_names[2] . "/占い@" . $user_names[3] . ")", $button);
+    $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[4] . "/占い@" . $user_names[5] . ")", $button2);
+    $message->add($button_message);
+    $message->add($button_message2);
+    return $message;
+  }
 
 }
 
@@ -1080,16 +1080,16 @@ function CreateKaitoButton($userId){
   } else if (6 == $i) {
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kaito.jpg", [$action[0], $action[1], $action[2], $action[3]]);
     return $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[0] . "/怪盗@" . $user_names[1] . "/怪盗@" . $user_names[2] . "/怪盗@" . $user_names[3] . ")", $button);
-  } //else if (7 == $i){// ここに６人対応の記述
-  //   $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kaito.jpg", [$action[0], $action[1], $action[2], $action[3]]);
-  //   $button2 = new  \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kaito.jpg", [$action[4]);
-  //   $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
-  //   $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[0] . "/怪盗@" . $user_names[1] . "/怪盗@" . $user_names[2] . "/怪盗@" . $user_names[3] . ")", $button);
-  //   $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[4] . ")", $button2);
-  //   $message->add($button_message);
-  //   $message->add($button_message2);
-  //   return $message;
-  // }
+  } else if (7 == $i){// ここに６人対応の記述
+    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kaito.jpg", [$action[0], $action[1], $action[2], $action[3]]);
+    $button2 = new  \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kaito.jpg", [$action[4]);
+    $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+    $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[0] . "/怪盗@" . $user_names[1] . "/怪盗@" . $user_names[2] . "/怪盗@" . $user_names[3] . ")", $button);
+    $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[4] . ")", $button2);
+    $message->add($button_message);
+    $message->add($button_message2);
+    return $message;
+  }
 
 }
 
