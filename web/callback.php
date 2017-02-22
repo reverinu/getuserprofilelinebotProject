@@ -1044,7 +1044,14 @@ function CreateUranaiButton($userId){
     $message->add($button_message2);
     return $message;
   } else if (7 == $i){// ここに６人対応の記述
-
+    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/uranai.jpg", [$action[0], $action[1], $action[2], $action[3]]);
+    $button2 = new  \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("占い先指定", "誰を占う？", "https://" . $_SERVER['SERVER_NAME'] . "/uranai.jpg", [$action[4], $action[5]]);
+    $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+    $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[0] . "/占い@" . $user_names[1] . "/占い@" . $user_names[2] . "/占い@" . $user_names[3] . ")", $button);
+    $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰を占う？\n(占い@" . $user_names[4] . "/占い@" . $user_names[5] . ")", $button2);
+    $message->add($button_message);
+    $message->add($button_message2);
+    return $message;
   }
 
 }
@@ -1074,7 +1081,14 @@ function CreateKaitoButton($userId){
     $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kaito.jpg", [$action[0], $action[1], $action[2], $action[3]]);
     return $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[0] . "/怪盗@" . $user_names[1] . "/怪盗@" . $user_names[2] . "/怪盗@" . $user_names[3] . ")", $button);
   } else if (7 == $i){// ここに６人対応の記述
-
+    $button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kaito.jpg", [$action[0], $action[1], $action[2], $action[3]]);
+    $button2 = new  \LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder("入れ替わり先指定", "誰と入れ替わる？", "https://" . $_SERVER['SERVER_NAME'] . "/kaito.jpg", [$action[4]);
+    $message = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
+    $button_message = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[0] . "/怪盗@" . $user_names[1] . "/怪盗@" . $user_names[2] . "/怪盗@" . $user_names[3] . ")", $button);
+    $button_message2 = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("誰と入れ替わる？\n(怪盗@" . $user_names[4] . ")", $button2);
+    $message->add($button_message);
+    $message->add($button_message2);
+    return $message;
   }
 
 }
