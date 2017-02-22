@@ -459,43 +459,56 @@ function DoActionNight($message_text){
           }
         }
         if($isExist){
-          $result = mysqli_query($link, "select user_id from user_temp where game_room_num = '$game_room_num' and role = '占い師'");//TODO:げーむるーむなむ
+          $result = mysqli_query($link, "select count(user_id) from user_temp where game_room_num = '$game_room_num' and role = '占い師'");
           $row = mysqli_fetch_row($result);
-          if("占い@" . $uranai == $message_text && $userId == $row[0]){
-            $uranai = mysqli_real_escape_string($link, $uranai);
-            $result = mysqli_query($link, "select role from user_temp where game_room_num = '$game_room_num' and user_name = '$uranai'");//TODO:げーむるーむなむ
-            $text = "占い結果\n";
-            while($row = mysqli_fetch_row($result)){
-              $text .= $uranai . "の役職は" . $row[0] . "\n";
+          $loop = $row[0];// 占い師の人数
+
+          $result_uranai = mysqli_query($link, "select user_id from user_temp where game_room_num = '$game_room_num' and role = '占い師'");
+          for(0 < $loop){
+            $row_uranai = mysqli_fetch_row($result_uranai);
+            $loop--;
+            if("占い@" . $uranai == $message_text && $userId == $row_uranai[0]){
+              $uranai = mysqli_real_escape_string($link, $uranai);
+              $result = mysqli_query($link, "select role from user_temp where game_room_num = '$game_room_num' and user_name = '$uranai'");
+              $text = "占い結果\n";
+              while($row = mysqli_fetch_row($result)){
+                $text .= $uranai . "の役職は" . $row_uranai[0] . "\n";
+              }
+              $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
+              $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+
+              $result = mysqli_query($link, "update user set is_roling = 1 where user_id = '$userId'");
+              $result = mysqli_query($link, "update game_room set num_of_roles = num_of_roles+1 where game_room_num = '$game_room_num'");
             }
-            $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
-            $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
-
-            $result = mysqli_query($link, "update user set is_roling = 1 where user_id = '$userId'");
-            $result = mysqli_query($link, "update game_room set num_of_roles = num_of_roles+1 where game_room_num = '$game_room_num'");
           }
-
-          $result = mysqli_query($link, "select user_id from user_temp where game_room_num = '$game_room_num' and role = '怪盗'");//TODO:げーむるーむなむ
+          
+          $result = mysqli_query($link, "select count(user_id) from user_temp where game_room_num = '$game_room_num' and role = '怪盗'");
           $row = mysqli_fetch_row($result);
-          if("怪盗@" . $kaito == $message_text && $userId == $row[0]){
-            $result = mysqli_query($link, "select role from user where user_id = '$userId'");
-            $row = mysqli_fetch_row($result);
-            $myself = $row[0];
-            $myself = mysqli_real_escape_string($link, $myself);
-            $kaito = mysqli_real_escape_string($link, $kaito);
-            $result = mysqli_query($link, "select role from user where user_name = '$kaito'");
-            $row = mysqli_fetch_row($result);
-            $yourself = $row[0];
-            $yourself = mysqli_real_escape_string($link, $yourself);
-            $result = mysqli_query($link, "update user set role = '$yourself' where user_id = '$userId'");
-            $result = mysqli_query($link, "update user set role = '$myself' where game_room_num = '$game_room_num' and user_name = '$kaito'");//TODO:げーむるーむなむ
+          $loop = $row[0];// 怪盗の人数
+          $result_kaito = mysqli_query($link, "select user_id from user_temp where game_room_num = '$game_room_num' and role = '怪盗'");
+          for(0 < $loop){
+            $row_kaito = mysqli_fetch_row($result_kaito);
+            $loop--;
+            if("怪盗@" . $kaito == $message_text && $userId == $row_kaito[0]){
+              $result = mysqli_query($link, "select role from user where user_id = '$userId'");
+              $row = mysqli_fetch_row($result);
+              $myself = $row[0];
+              $myself = mysqli_real_escape_string($link, $myself);
+              $kaito = mysqli_real_escape_string($link, $kaito);
+              $result = mysqli_query($link, "select role from user where user_name = '$kaito'");
+              $row = mysqli_fetch_row($result);
+              $yourself = $row[0];
+              $yourself = mysqli_real_escape_string($link, $yourself);
+              $result = mysqli_query($link, "update user set role = '$yourself' where user_id = '$userId'");
+              $result = mysqli_query($link, "update user set role = '$myself' where game_room_num = '$game_room_num' and user_name = '$kaito'");
 
-            $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($kaito . "と入れ替わったよ\n" . "あなたは" . $yourself . "になりました");
-            $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
+              $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($kaito . "と入れ替わったよ\n" . "あなたは" . $yourself . "になりました");
+              $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
 
-            $result = mysqli_query($link, "update user set is_roling = 1 where user_id = '$userId'");
-            $result = mysqli_query($link, "update game_room set num_of_roles = num_of_roles+1 where game_room_num = '$game_room_num'");
+              $result = mysqli_query($link, "update user set is_roling = 1 where user_id = '$userId'");
+              $result = mysqli_query($link, "update game_room set num_of_roles = num_of_roles+1 where game_room_num = '$game_room_num'");
 
+            }
           }
         }
       }
