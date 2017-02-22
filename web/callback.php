@@ -910,56 +910,56 @@ function HandOut($num_of_people){
       $button_message = CreateButtons($cast[4]);
       $response = $bot->pushMessage($user_id[4], $button_message);
       //ここまで
-    } else if(6 == $num_of_people){// ここに６人対応の記述
-      $result = mysqli_query($link, "select cast6 from game_room where game_room_id = '$gameRoomId'");
-      $row = mysqli_fetch_row($result);
-      $cast = str_split((int)$row[0]);
-      shuffle($cast);
-      $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
-      $i = 0;
-      while($row = mysqli_fetch_row($result)){
-        if(1 == $cast[$i]){
-          $role[$i] = "村人";
-        } else if(2 == $cast[$i]){
-          $role[$i] = "占い師";
-        } else if(3 == $cast[$i]){
-          $role[$i] = "怪盗";
-        } else if(4 == $cast[$i]){
-          $role[$i] = "人狼";
-        } else if(5 == $cast[$i]){
-          $role[$i] = "狂人";
-        } else if(6 == $cast[$i]){
-          $role[$i] = "吊人";
-        }
-        $user_id[$i] = $row[1];
-        $i++;
-      }
-      $result = mysqli_query($link, "update user set role = '$role[0]' where game_room_num = '$game_room_num' and user_id = '$user_id[0]'");
-      $result = mysqli_query($link, "update user set role = '$role[1]' where game_room_num = '$game_room_num' and user_id = '$user_id[1]'");
-      $result = mysqli_query($link, "update user set role = '$role[2]' where game_room_num = '$game_room_num' and user_id = '$user_id[2]'");
-      $result = mysqli_query($link, "update user set role = '$role[3]' where game_room_num = '$game_room_num' and user_id = '$user_id[3]'");
-      $result = mysqli_query($link, "update user set role = '$role[4]' where game_room_num = '$game_room_num' and user_id = '$user_id[4]'");
-      $result = mysqli_query($link, "update user set role = '$role[5]' where game_room_num = '$game_room_num' and user_id = '$user_id[5]'");
-      $result = mysqli_query($link, "update user set role = '$role[6]' where game_room_num = '$game_room_num' and user_id = '$user_id[6]'");
-      $result = mysqli_query($link, "update user set role = '$role[7]' where game_room_num = '$game_room_num' and user_id = '$user_id[7]'");
-
-      $result = mysqli_query($link, "insert into user_temp select * from user where game_room_num = '$game_room_num'");
-
-      //これがボタンに置き換わる
-      $button_message = CreateButtons($cast[0]);
-      $response = $bot->pushMessage($user_id[0], $button_message);
-      $button_message = CreateButtons($cast[1]);
-      $response = $bot->pushMessage($user_id[1], $button_message);
-      $button_message = CreateButtons($cast[2]);
-      $response = $bot->pushMessage($user_id[2], $button_message);
-      $button_message = CreateButtons($cast[3]);
-      $response = $bot->pushMessage($user_id[3], $button_message);
-      $button_message = CreateButtons($cast[4]);
-      $response = $bot->pushMessage($user_id[4], $button_message);
-      $button_message = CreateButtons($cast[5]);
-      $response = $bot->pushMessage($user_id[5], $button_message);
-      //ここまで
-    }
+    }// else if(6 == $num_of_people){// ここに６人対応の記述
+    //   $result = mysqli_query($link, "select cast6 from game_room where game_room_id = '$gameRoomId'");
+    //   $row = mysqli_fetch_row($result);
+    //   $cast = str_split((int)$row[0]);
+    //   shuffle($cast);
+    //   $result = mysqli_query($link, "select * from user where game_room_num = '$game_room_num'");
+    //   $i = 0;
+    //   while($row = mysqli_fetch_row($result)){
+    //     if(1 == $cast[$i]){
+    //       $role[$i] = "村人";
+    //     } else if(2 == $cast[$i]){
+    //       $role[$i] = "占い師";
+    //     } else if(3 == $cast[$i]){
+    //       $role[$i] = "怪盗";
+    //     } else if(4 == $cast[$i]){
+    //       $role[$i] = "人狼";
+    //     } else if(5 == $cast[$i]){
+    //       $role[$i] = "狂人";
+    //     } else if(6 == $cast[$i]){
+    //       $role[$i] = "吊人";
+    //     }
+    //     $user_id[$i] = $row[1];
+    //     $i++;
+    //   }
+    //   $result = mysqli_query($link, "update user set role = '$role[0]' where game_room_num = '$game_room_num' and user_id = '$user_id[0]'");
+    //   $result = mysqli_query($link, "update user set role = '$role[1]' where game_room_num = '$game_room_num' and user_id = '$user_id[1]'");
+    //   $result = mysqli_query($link, "update user set role = '$role[2]' where game_room_num = '$game_room_num' and user_id = '$user_id[2]'");
+    //   $result = mysqli_query($link, "update user set role = '$role[3]' where game_room_num = '$game_room_num' and user_id = '$user_id[3]'");
+    //   $result = mysqli_query($link, "update user set role = '$role[4]' where game_room_num = '$game_room_num' and user_id = '$user_id[4]'");
+    //   $result = mysqli_query($link, "update user set role = '$role[5]' where game_room_num = '$game_room_num' and user_id = '$user_id[5]'");
+    //   $result = mysqli_query($link, "update user set role = '$role[6]' where game_room_num = '$game_room_num' and user_id = '$user_id[6]'");
+    //   $result = mysqli_query($link, "update user set role = '$role[7]' where game_room_num = '$game_room_num' and user_id = '$user_id[7]'");
+    //
+    //   $result = mysqli_query($link, "insert into user_temp select * from user where game_room_num = '$game_room_num'");
+    //
+    //   //これがボタンに置き換わる
+    //   $button_message = CreateButtons($cast[0]);
+    //   $response = $bot->pushMessage($user_id[0], $button_message);
+    //   $button_message = CreateButtons($cast[1]);
+    //   $response = $bot->pushMessage($user_id[1], $button_message);
+    //   $button_message = CreateButtons($cast[2]);
+    //   $response = $bot->pushMessage($user_id[2], $button_message);
+    //   $button_message = CreateButtons($cast[3]);
+    //   $response = $bot->pushMessage($user_id[3], $button_message);
+    //   $button_message = CreateButtons($cast[4]);
+    //   $response = $bot->pushMessage($user_id[4], $button_message);
+    //   $button_message = CreateButtons($cast[5]);
+    //   $response = $bot->pushMessage($user_id[5], $button_message);
+    //   //ここまで
+    // }
   }
 }
 // 役職によってButtonの形状が異なる
