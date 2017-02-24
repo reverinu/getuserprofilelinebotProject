@@ -472,7 +472,7 @@ function DoActionNight($message_text){
               $result = mysqli_query($link, "select role from user_temp where game_room_num = '$game_room_num' and user_name = '$uranai'");
               $text = "占い結果\n";
               while($row = mysqli_fetch_row($result)){
-                $text .= $uranai . "の役職は" . $row_uranai[0] . "\n";
+                $text .= $uranai . "の役職は" . $row[0] . "\n";
               }
               $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text);
               $response = $bot->replyMessage($event->replyToken, $textMessageBuilder);
