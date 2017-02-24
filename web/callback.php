@@ -459,14 +459,14 @@ function DoActionNight($message_text){
           }
         }
         if($isExist){
-          $result = mysqli_query($link, "select count(user_id) from user_temp where game_room_num = '$game_room_num' and role = '占い師'");
-          $row = mysqli_fetch_row($result);
-          $loop = $row[0];// 占い師の人数
+          //$result = mysqli_query($link, "select count(user_id) from user_temp where game_room_num = '$game_room_num' and role = '占い師'");
+          //$row = mysqli_fetch_row($result);
+          //$loop = $row[0];// 占い師の人数
 
           $result_uranai = mysqli_query($link, "select user_id from user_temp where game_room_num = '$game_room_num' and role = '占い師'");
-          for(0 < $loop){
-            $row_uranai = mysqli_fetch_row($result_uranai);
-            $loop--;
+          while($row_uranai = mysqli_fetch_row($result_uranai)){
+
+            //$loop--;
             if("占い@" . $uranai == $message_text && $userId == $row_uranai[0]){
               $uranai = mysqli_real_escape_string($link, $uranai);
               $result = mysqli_query($link, "select role from user_temp where game_room_num = '$game_room_num' and user_name = '$uranai'");
@@ -481,14 +481,14 @@ function DoActionNight($message_text){
               $result = mysqli_query($link, "update game_room set num_of_roles = num_of_roles+1 where game_room_num = '$game_room_num'");
             }
           }
-          
-          $result = mysqli_query($link, "select count(user_id) from user_temp where game_room_num = '$game_room_num' and role = '怪盗'");
-          $row = mysqli_fetch_row($result);
-          $loop = $row[0];// 怪盗の人数
+
+          //$result = mysqli_query($link, "select count(user_id) from user_temp where game_room_num = '$game_room_num' and role = '怪盗'");
+          //$row = mysqli_fetch_row($result);
+          //$loop = $row[0];// 怪盗の人数
           $result_kaito = mysqli_query($link, "select user_id from user_temp where game_room_num = '$game_room_num' and role = '怪盗'");
-          for(0 < $loop){
-            $row_kaito = mysqli_fetch_row($result_kaito);
-            $loop--;
+          while($row_kaito = mysqli_fetch_row($result_kaito)){
+
+            //$loop--;
             if("怪盗@" . $kaito == $message_text && $userId == $row_kaito[0]){
               $result = mysqli_query($link, "select role from user where user_id = '$userId'");
               $row = mysqli_fetch_row($result);
