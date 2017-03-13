@@ -599,7 +599,7 @@ function DoActionNoon($message_text){
       $max_voted = $row[0];
       $max_voted = mysqli_real_escape_string($link, $max_voted);
 //////////////////////////////////////////////////
-      $result = mysqli_query($link, "select voted_num from user where user_name != '逃亡者'");
+      $result = mysqli_query($link, "select voted_num from user where game_room_num = '$game_room_num' and user_name != '逃亡者'");
       $isAllOneVote = false;
       $people = 0;
       while ($voted_num = mysqli_fetch_row($result)) {// 全員１票ずつ入ってるかどうか
